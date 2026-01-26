@@ -1,15 +1,17 @@
 // Render the form for preview/testing
+// Phase 3.6.1: Added conditional visibility to field rendering:
 
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useFormStore } from '../../stores/formStore';
 import { FIELD_TYPES } from '../../types/formTypes';
+import { shouldFieldBeVisible, shouldFieldBeEnabled } from '../../utils/conditionalRules';
 import FormField from './FormField';
 import './FormPreview.css';
 
 export default function FormPreview() {
-    const { form, setPreviewData, clearPreviewData } = useFormStore();
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { form, previewData, setPreviewData, clearPreviewData } = useFormStore();
+    const { handleSubmit } = useForm({
         mode: 'onChange',
     });
 
@@ -37,14 +39,25 @@ export default function FormPreview() {
                     </div>
                 ) : (
                     <div className = "form-fields">
-                        {form.fields.map((field) => (
-                            <FormField
-                                key = {field.id}
-                                field = {field}
-                                control = {control}
-                                error = {errors[field.id]}
-                            />
-                        ))}
+                        {form.fields.map((field) => {
+                            // Check if field should be visible based on conditionals
+                            const isVisible = shouldFieldBeVisible(field, previewData, form.fields);
+                            const isEnabled = shouldFieldBeEnabled(field, previewData, form.fields);
+
+                            if (!isVisible) {
+                                return null; // Don't render hiddedn fields
+                            }
+
+                            return (
+                                <FormField
+                                    key = {field.id}
+                                    field = {field}
+                                    value = {previewData[field.id] || ''}
+                                    onChange = {(value) => setPreviewData({ ...previewData, [field.id]: value })}
+                                    disabled = {!isEnabled}
+                                />
+                            );
+                        })}
                     </div>
                 )}
 
