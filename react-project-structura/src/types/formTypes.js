@@ -48,6 +48,31 @@
  * @property {Object} [previewData] - Data entered in preview mode
  */
 
+/**
+ * @typedef {Object} ConditionalRule
+ * @property {string} id - Unique rule identifier
+ * @property {string} triggerFieldId - ID of field to watch
+ * @property {string} operator - Comparison operator (equals, contains, etc.)
+ * @property {*} value - Value to compare against
+ * @property {string} action - Action to perform (show, hide, enable, disable)
+ */
+
+/**
+ * @typedef {Object} ConditionalLogic
+ * @property {string} logicType - 'AND' or 'OR' for multiple rules
+ * @property {Array<ConditionalRule>} rules - Array of conditional rules
+ */
+
+/**
+ * @typedef {Object} FieldWithConditionals
+ * @property {string} id - Field ID
+ * @property {string} type - Field type
+ * @property {string} label - Field label
+ * @property {Array<ConditionalLogic>} conditionals - Array of conditional logic groups
+ * @property {boolean} isVisible - Calculated visibility (default: true)
+ * @property {boolean} isEnabled - Calculated enabled state (default: true)
+ */
+
 // Export field type constants
 export const FIELD_TYPES = {
   TEXT: 'text',
@@ -94,4 +119,37 @@ export const ACTIONS = {
   ENABLE: 'enable',
   DISABLE: 'disable',
   SET_VALUE: 'setValue',
+};
+
+// Phase 3 - 1.1 - Add existing exports
+export const CONDITIONAL_OPERATORS = {
+  EQUALS: 'equals',
+  NOT_EQUALS: 'notEquals',
+  CONTAINS: 'contains',
+  NOT_CONTAINS: 'notContains',
+  STARTS_WITH: 'startsWith',
+  ENDS_WITH: 'endsWith',
+  GREATER_THAN: 'greaterThan',
+  LESS_THAN: 'lessThan',
+  GREATER_EQUAL: 'greaterEqual',
+  LESS_EQUAL: 'lessEqual',
+  IN_ARRAY: 'inArray',
+  NOT_IN_ARRAY: 'notInArray',
+  IS_EMPTY: 'isEmpty',
+  IS_NOT_EMPTY: 'isNotEmpty',
+  MATCHES_REGEX: 'matchesRegex',
+};
+
+export const CONDITIONAL_ACTIONS = {
+  SHOW: 'show',
+  HIDE: 'hide',
+  ENABLE: 'enable',
+  DISABLE: 'disable',
+  SET_REQUIRED: 'setRequired',
+  SET_NOT_REQUIRED: 'setNotRequired',
+};
+
+export const CONDITIONAL_LOGIC_TYPES = {
+  AND: 'AND',
+  OR: 'OR',
 };
