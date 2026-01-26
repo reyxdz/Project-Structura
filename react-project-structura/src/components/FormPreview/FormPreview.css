@@ -1,0 +1,55 @@
+.form-preview {
+  background-color: white;
+  border-radius: 8px;
+  padding: 32px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.form-preview-header {
+  margin-bottom: 32px;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 16px;
+}
+
+.form-preview-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  color: #333;
+}
+
+.form-description {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.form-preview-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #eee;
+}
+
+.form-actions button {
+  flex: 1;
+}

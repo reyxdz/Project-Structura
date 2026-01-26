@@ -1,0 +1,121 @@
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.required-asterisk {
+  color: #f44336;
+  margin-left: 4px;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: white;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.form-field input.input-error,
+.form-field textarea.input-error,
+.form-field select.input-error {
+  border-color: #f44336;
+  background-color: #ffebee;
+}
+
+.form-field input.input-error:focus,
+.form-field textarea.input-error:focus,
+.form-field select.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+.field-help-text {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  padding-top: 2px;
+}
+
+.field-error-message {
+  font-size: 12px;
+  color: #f44336;
+  margin: 0;
+  padding-top: 4px;
+  font-weight: 500;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-field input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.checkbox-field label {
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.radio-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.radio-option label {
+  margin: 0;
+  cursor: pointer;
+}
+
+.error-message {
+  font-size: 12px;
+  color: #f44336;
+  margin: 0;
+  padding-top: 4px;
+  font-weight: 500;
+}
+
+.help-text {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  padding-top: 2px;
+}

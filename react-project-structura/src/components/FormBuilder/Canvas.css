@@ -1,0 +1,98 @@
+.canvas {
+  background-color: white;
+  border-radius: 8px;
+  border: 2px dashed #ccc;
+  min-height: 400px;
+  padding: 20px;
+}
+
+.canvas-content {
+  height: 100%;
+}
+
+.canvas-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #999;
+  font-size: 16px;
+}
+
+.fields-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field-item-placeholder {
+  height: 60px;
+  background-color: transparent;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-content {
+  color: transparent;
+  font-size: 13px;
+  font-weight: 500;
+  display: none;
+}
+
+@keyframes placeholderPulse {
+  0%, 100% {
+    background-color: rgba(33, 150, 243, 0.1);
+  }
+  50% {
+    background-color: rgba(33, 150, 243, 0.15);
+  }
+}
+
+.field-item {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.field-item:hover {
+  background-color: #f0f0f0;
+  border-color: #2196f3;
+}
+
+.field-item.selected {
+  background-color: #e3f2fd;
+  border-color: #2196f3;
+  border-width: 2px;
+}
+
+.field-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.field-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.field-type {
+  font-size: 12px;
+  color: #999;
+  background-color: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+
+.field-required {
+  font-size: 12px;
+  color: #f44336;
+  font-weight: 500;
+}

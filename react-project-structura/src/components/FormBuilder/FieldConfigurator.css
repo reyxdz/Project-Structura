@@ -1,0 +1,71 @@
+.field-configurator h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.config-section {
+  margin-bottom: 16px;
+}
+
+.config-section label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.config-section span {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+}
+
+.config-section input[type="text"],
+.config-section textarea {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+}
+
+.config-section input[type="text"]:focus,
+.config-section textarea:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.config-section input[type="text"]:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+}
+
+.config-section.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.config-section.checkbox label {
+  flex-direction: row;
+  gap: 8px;
+}
+
+.config-section.checkbox input[type="checkbox"] {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.config-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.config-actions button {
+  width: 100%;
+}
