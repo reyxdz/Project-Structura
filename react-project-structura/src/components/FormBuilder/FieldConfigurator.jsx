@@ -1,6 +1,8 @@
 // Configure selected field properties
+// Phase 3 Step 5.1: Added conditional builder to the field configurator
 
 import React, { useState } from 'react';
+import ConditionalRuleBuilder from './ConditionalRuleBuilder';
 import { useFormStore } from '../../stores/formStore';
 import {FIELD_TYPES, VALIDATION_TYPES } from '../../types/formTypes';
 import ValidationRulesList from './ValidationRulesList';
@@ -162,6 +164,10 @@ export default function FieldConfigurator() {
                     onRemoveValidation = {handleRemoveValidation}
                 />
             )}
+
+            <div className = "config-section">
+                <ConditionalRuleBuilder fieldId = {selectedFieldId} />
+            </div>
 
             <div className = "config-actions">
                 <button className = "btn btn-secondary" onClick = {handleDuplicate}>
