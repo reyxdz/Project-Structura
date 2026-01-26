@@ -30,6 +30,7 @@ export default function Canvas() {
     const [activeId, setActiveId] = useState(null);
     const [newFieldDragData, setNewFieldDragData] = useState(null);
     const fieldsListRef = useRef(null);
+    const canvasRef = useRef(null);
 
     // Configure sensors for drag detection
     const sensors = useSensors(
@@ -124,6 +125,13 @@ export default function Canvas() {
             setNewFieldDragData(null);
         }
     };
+
+    const handleCanvasClick = (e) => {
+        // Only deselect if clicking on the canvas background, not on a field
+        if (e.target === e.currentTarget) {
+            selectField(null);
+        }
+    };
     
     return (
         <DndContext
@@ -132,7 +140,7 @@ export default function Canvas() {
             onDragStart = {handleDragStart}
             onDragEnd = {handleDragEnd}
         >
-            <div className = "canvas" onDragOver = {handleCanvasDragOver} onDrop = {handleCanvasDrop} onDragLeave = {handleCanvasDragLeave}>
+            <div className = "canvas" onDragOver = {handleCanvasDragOver} onDrop = {handleCanvasDrop} onDragLeave = {handleCanvasDragLeave} onClick = {handleCanvasClick} ref = {canvasRef}>
                 <div className = "canvas-content">
                     {form.fields.length === 0 ? (
                         <div className = "canvas-empty-state">

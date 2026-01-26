@@ -119,3 +119,110 @@
   margin: 0;
   padding-top: 2px;
 }
+
+.full-name-field {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.full-name-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.full-name-input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: white;
+}
+
+.full-name-input:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.full-name-input.input-error {
+  border-color: #f44336;
+  background-color: #ffebee;
+}
+
+.full-name-input.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+.full-name-label {
+  font-size: 12px;
+  color: #2196f3;
+  font-weight: 500;
+  margin: 0;
+}
+
+.heading-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 2px solid #2196f3;
+  border-radius: 4px;
+}
+
+.heading-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+
+.heading-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #999;
+  line-height: 1.4;
+}
+
+/* Heading size variants */
+.heading-field.heading-small .heading-title {
+  font-size: 18px;
+}
+
+.heading-field.heading-small .heading-subtitle {
+  font-size: 12px;
+}
+
+.heading-field.heading-default .heading-title {
+  font-size: 28px;
+}
+
+.heading-field.heading-default .heading-subtitle {
+  font-size: 14px;
+}
+
+.heading-field.heading-large .heading-title {
+  font-size: 36px;
+}
+
+.heading-field.heading-large .heading-subtitle {
+  font-size: 16px;
+}
+
+/* Text alignment variants */
+.heading-field.heading-left {
+  text-align: left;
+}
+
+.heading-field.heading-center {
+  text-align: center;
+}
+
+.heading-field.heading-right {
+  text-align: right;
+}

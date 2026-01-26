@@ -11,7 +11,7 @@ import {FIELD_TYPES, VALIDATION_TYPES } from '../types/formTypes';
  */
 
 export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
-    return {
+    const field = {
         id: uuidv4(),
         type,
         label: `Field ${order + 1}`,
@@ -30,6 +30,21 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
             updatedAt: new Date().toISOString(),
         },
     };
+
+    // Initialize heading-specific metadata
+    if (type === FIELD_TYPES.HEADING) {
+        field.label = 'Heading';
+        field.placeholder = 'Type a subheader';
+        field.metadata.headingSize = 'default';
+        field.metadata.textAlignment = 'left';
+    }
+
+    // Initialize full name field
+    if (type === FIELD_TYPES.FULL_NAME) {
+        field.label = 'Name';
+    }
+
+    return field;
 };
 
 /**
@@ -85,18 +100,51 @@ export const getDefaultValidations = (type) => {
 
 export const getFieldTypeLabel = (type) => {
     const labels = {
-        [FIELD_TYPES.TEXT]: 'Text Input',
+        // Top section
+        [FIELD_TYPES.HEADING]: 'Heading',
+        [FIELD_TYPES.FULL_NAME]: 'Full Name',
         [FIELD_TYPES.EMAIL]: 'Email',
-        [FIELD_TYPES.NUMBER]: 'Number',
-        [FIELD_TYPES.CHECKBOX]: 'Checkbox',
-        [FIELD_TYPES.RADIO]: 'Radio Button',
-        [FIELD_TYPES.SELECT]: 'Select Dropdown',
-        [FIELD_TYPES.TEXTAREA]: 'Text Area',
+        [FIELD_TYPES.ADDRESS]: 'Address',
+        [FIELD_TYPES.PHONE]: 'Phone',
         [FIELD_TYPES.DATE]: 'Date Picker',
+        [FIELD_TYPES.APPOINTMENT]: 'Appointment',
+        [FIELD_TYPES.SIGNATURE]: 'Signature',
+        [FIELD_TYPES.FILL_IN_BLANK]: 'Fill in the Blank',
+        [FIELD_TYPES.PRODUCT_LIST]: 'Product List',
+        
+        // Basic Elements
+        [FIELD_TYPES.SHORT_TEXT]: 'Short Text',
+        [FIELD_TYPES.LONG_TEXT]: 'Long Text',
+        [FIELD_TYPES.PARAGRAPH]: 'Paragraph',
+        [FIELD_TYPES.TEXT]: 'Text Input',
+        [FIELD_TYPES.DROPDOWN]: 'Dropdown',
+        [FIELD_TYPES.SELECT]: 'Select Dropdown',
+        [FIELD_TYPES.SINGLE_CHOICE]: 'Single Choice',
+        [FIELD_TYPES.RADIO]: 'Radio Button',
+        [FIELD_TYPES.MULTIPLE_CHOICE]: 'Multiple Choice',
+        [FIELD_TYPES.CHECKBOX]: 'Checkbox',
+        [FIELD_TYPES.NUMBER]: 'Number',
+        [FIELD_TYPES.IMAGE]: 'Image',
         [FIELD_TYPES.FILE]: 'File Upload',
-        [FIELD_TYPES.PHONE]: 'Phone Number',
-        [FIELD_TYPES.URL]: 'Website URL',
+        [FIELD_TYPES.TIME]: 'Time',
+        [FIELD_TYPES.CAPTCHA]: 'Captcha',
+        [FIELD_TYPES.SPINNER]: 'Spinner',
+        [FIELD_TYPES.SUBMIT]: 'Submit',
+        
+        // Survey Elements
+        [FIELD_TYPES.INPUT_TABLE]: 'Input Table',
+        [FIELD_TYPES.STAR_RATING]: 'Star Rating',
+        [FIELD_TYPES.SCALE_RATING]: 'Scale Rating',
+        
+        // Page Elements
+        [FIELD_TYPES.DIVIDER]: 'Divider',
+        [FIELD_TYPES.SECTION_COLLAPSE]: 'Section Collapse',
+        [FIELD_TYPES.PAGE_BREAK]: 'Page Break',
+        
+        // Legacy
+        [FIELD_TYPES.TEXTAREA]: 'Text Area',
         [FIELD_TYPES.PASSWORD]: 'Password',
+        [FIELD_TYPES.URL]: 'Website URL',
     };
     return labels[type] || 'Unknown Field';
 }
@@ -186,6 +234,7 @@ export const updateFieldInArray = (fields, fieldId, updates) => {
                 ...updates,
                 metadata: {
                     ...field.metadata,
+                    ...(updates.metadata || {}),
                     updatedAt: new Date().toISOString(),
                 },
             }

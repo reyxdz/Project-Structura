@@ -81,6 +81,193 @@ export default function FieldConfigurator() {
         duplicateField(selectedFieldId);
     }
 
+    // Render heading-specific configuration
+    if (selectedField.type === FIELD_TYPES.HEADING) {
+        const headingSize = selectedField.metadata?.headingSize || 'default';
+        const textAlignment = selectedField.metadata?.textAlignment || 'left';
+
+        return (
+            <div className="field-configurator">
+                <h3>Heading Configuration</h3>
+
+                {/* Heading Text */}
+                <div className="config-section">
+                    <label>
+                        <span>Heading Text</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Enter heading text"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Subheading Text */}
+                <div className="config-section">
+                    <label>
+                        <span>Subheading Text</span>
+                        <input
+                            type="text"
+                            value={selectedField.placeholder}
+                            onChange={handlePlaceholderChange}
+                            placeholder="Enter subheading text"
+                        />
+                    </label>
+                    <p className="config-hint">Add smaller text below the heading</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Heading Size */}
+                <div className="config-section">
+                    <label>
+                        <span>Heading Size</span>
+                        <div className="alignment-buttons">
+                            <button
+                                type="button"
+                                className={`alignment-btn ${headingSize === 'small' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            headingSize: 'small',
+                                        },
+                                    })
+                                }
+                            >
+                                Small
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${headingSize === 'default' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            headingSize: 'default',
+                                        },
+                                    })
+                                }
+                            >
+                                Default
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${headingSize === 'large' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            headingSize: 'large',
+                                        },
+                                    })
+                                }
+                            >
+                                Large
+                            </button>
+                        </div>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Text Alignment */}
+                <div className="config-section">
+                    <label>
+                        <span>Text Alignment</span>
+                        <div className="alignment-buttons">
+                            <button
+                                type="button"
+                                className={`alignment-btn ${textAlignment === 'left' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            textAlignment: 'left',
+                                        },
+                                    })
+                                }
+                            >
+                                Left
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${textAlignment === 'center' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            textAlignment: 'center',
+                                        },
+                                    })
+                                }
+                            >
+                                Center
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${textAlignment === 'right' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            textAlignment: 'right',
+                                        },
+                                    })
+                                }
+                            >
+                                Right
+                            </button>
+                        </div>
+                    </label>
+                    <p className="config-hint">Select how the heading is aligned horizontally</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Hide Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block">
+                        Hide Field
+                    </button>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     return (
         <div className = "field-configurator">
             <h3>Field Configuration</h3>

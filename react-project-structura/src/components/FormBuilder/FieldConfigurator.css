@@ -27,6 +27,8 @@
   border-radius: 4px;
   font-size: 13px;
   font-family: inherit;
+  background-color: #fafafa;
+  color: #333;
 }
 
 .config-section input[type="text"]:focus,
@@ -68,4 +70,66 @@
 
 .config-actions button {
   width: 100%;
+}
+
+.config-divider {
+  height: 1px;
+  background-color: #eee;
+  margin: 16px 0;
+}
+
+.config-hint {
+  margin: 6px 0 0 0;
+  font-size: 12px;
+  color: #999;
+  line-height: 1.4;
+}
+
+.alignment-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.alignment-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.alignment-btn:hover {
+  border-color: #999;
+  background-color: #f9f9f9;
+}
+
+.alignment-btn.active {
+  background-color: #2196f3;
+  border-color: #2196f3;
+  color: white;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.config-section select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  background-color: white;
+  cursor: pointer;
+}
+
+.config-section select:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }

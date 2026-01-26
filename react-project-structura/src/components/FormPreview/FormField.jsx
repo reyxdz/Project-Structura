@@ -132,6 +132,40 @@ export default function FormField({ field, control, error }) {
                                 </select>
                             );
 
+                        case FIELD_TYPES.FULL_NAME:
+                            return (
+                                <div className="full-name-field">
+                                    <div className="full-name-input-group">
+                                        <input
+                                            type="text"
+                                            className={`full-name-input ${error ? 'input-error' : ''}`}
+                                            placeholder=""
+                                            defaultValue={field.value?.firstName || ''}
+                                        />
+                                        <label className="full-name-label">First Name</label>
+                                    </div>
+                                    <div className="full-name-input-group">
+                                        <input
+                                            type="text"
+                                            className={`full-name-input ${error ? 'input-error' : ''}`}
+                                            placeholder=""
+                                            defaultValue={field.value?.lastName || ''}
+                                        />
+                                        <label className="full-name-label">Last Name</label>
+                                    </div>
+                                </div>
+                            );
+
+                        case FIELD_TYPES.HEADING:
+                            const headingSize = field.metadata?.headingSize || 'default';
+                            const textAlignment = field.metadata?.textAlignment || 'left';
+                            return (
+                                <div className={`heading-field heading-${headingSize} heading-${textAlignment}`}>
+                                    <h2 className="heading-title">{field.label || 'Heading'}</h2>
+                                    <p className="heading-subtitle">{field.placeholder || 'Type a subheader'}</p>
+                                </div>
+                            );
+
                         default:
                             return null;
                     }

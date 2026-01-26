@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { FIELD_TYPES } from '../../types/formTypes';
 import './FieldItem.css';
 
 export default function SortableFieldItem({
@@ -39,15 +40,39 @@ export default function SortableFieldItem({
             }`}
             onClick = {handleClick}
             {...attributes}
+            {...(isSelected && listeners)}
         >
-            <div className = "field-item-drag-handle" {...listeners}>
-                <span className = "drag-icon">⋮</span>
-            </div>
-            <div className = "field-item-header">
-                <span className = "field-label">{field.label}</span>
-                <span className = "field-type">{field.type}</span>
-            </div>
-            {field.required && <span className = "field-required">*Required</span>}
+            {field.type === FIELD_TYPES.HEADING ? (
+                <div className="heading-field-builder">
+                    <div className={`heading-builder-content heading-${field.metadata?.headingSize || 'default'} heading-${field.metadata?.textAlignment || 'left'}`}>
+                        <h2 className="heading-builder-title">{field.label || 'Heading'}</h2>
+                        <p className="heading-builder-subtitle">{field.placeholder || 'Type a subheader'}</p>
+                    </div>
+                </div>
+            ) : field.type === FIELD_TYPES.FULL_NAME ? (
+                <div className="full-name-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">{field.label || 'Name'}</span>
+                    </div>
+                    <div className="full-name-inputs-preview">
+                        <div className="full-name-preview-group">
+                            <input type="text" disabled />
+                            <label>First Name</label>
+                        </div>
+                        <div className="full-name-preview-group">
+                            <input type="text" disabled />
+                            <label>Last Name</label>
+                        </div>
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <div className = "field-item-header">
+                        <span className = "field-label">{field.label}</span>
+                    </div>
+                    {field.required && <span className = "field-required">*Required</span>}
+                </>
+            )}
         </div>
     );
 }

@@ -75,18 +75,51 @@
 
 // Export field type constants
 export const FIELD_TYPES = {
-  TEXT: 'text',
+  // Top section
+  HEADING: 'heading',
+  FULL_NAME: 'fullName',
   EMAIL: 'email',
-  NUMBER: 'number',
-  CHECKBOX: 'checkbox',
-  RADIO: 'radio',
-  SELECT: 'select',
-  TEXTAREA: 'textarea',
-  DATE: 'date',
-  FILE: 'file',
+  ADDRESS: 'address',
   PHONE: 'phone',
-  URL: 'url',
+  DATE: 'date',
+  APPOINTMENT: 'appointment',
+  SIGNATURE: 'signature',
+  FILL_IN_BLANK: 'fillInBlank',
+  PRODUCT_LIST: 'productList',
+  
+  // Basic Elements
+  SHORT_TEXT: 'shortText',
+  LONG_TEXT: 'longText',
+  PARAGRAPH: 'paragraph',
+  TEXT: 'text',
+  DROPDOWN: 'dropdown',
+  SELECT: 'select',
+  SINGLE_CHOICE: 'singleChoice',
+  RADIO: 'radio',
+  MULTIPLE_CHOICE: 'multipleChoice',
+  CHECKBOX: 'checkbox',
+  NUMBER: 'number',
+  IMAGE: 'image',
+  FILE: 'file',
+  TIME: 'time',
+  CAPTCHA: 'captcha',
+  SPINNER: 'spinner',
+  SUBMIT: 'submit',
+  
+  // Survey Elements
+  INPUT_TABLE: 'inputTable',
+  STAR_RATING: 'starRating',
+  SCALE_RATING: 'scaleRating',
+  
+  // Page Elements
+  DIVIDER: 'divider',
+  SECTION_COLLAPSE: 'sectionCollapse',
+  PAGE_BREAK: 'pageBreak',
+  
+  // Legacy
+  TEXTAREA: 'textarea',
   PASSWORD: 'password',
+  URL: 'url',
 };
 
 // Export validation types
