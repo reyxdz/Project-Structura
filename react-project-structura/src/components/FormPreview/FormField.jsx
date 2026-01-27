@@ -38,15 +38,48 @@ export default function FormField({ field, control, error }) {
                 <div className="appointment-field-wrapper">
                     <div className="appointment-main-container">
                         <div className="appointment-calendar-display">
-                            <input type="date" placeholder="Select a date" className="appointment-date-input" />
+                            <div className="appointment-date-input">
+                                <input type="text" placeholder="MM/DD/YYYY" />
+                                <svg className="appointment-calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                    <path d="M16 2v4M8 2v4M3 10h18"></path>
+                                </svg>
+                            </div>
+                            <div className="appointment-month-year">
+                                <select disabled>
+                                    <option>January</option>
+                                </select>
+                                <select disabled>
+                                    <option>2026</option>
+                                </select>
+                            </div>
+                            <div className="appointment-weekdays">
+                                <div>SUN</div>
+                                <div>MON</div>
+                                <div>TUE</div>
+                                <div>WED</div>
+                                <div>THU</div>
+                                <div>FRI</div>
+                                <div>SAT</div>
+                            </div>
+                            <div className="appointment-calendar-grid">
+                                {Array.from({ length: 35 }, (_, i) => (
+                                    <div key={i} className="appointment-day">{i % 31 + 1}</div>
+                                ))}
+                            </div>
                         </div>
-                        <div className="appointment-times-display">
-                            {timeSlots.map((time, index) => (
-                                <button key={index} type="button" className="time-slot-btn" disabled>{time}</button>
-                            ))}
+                        <div className="appointment-times">
+                            <div className="appointment-date-display">Select Time</div>
+                            <div className="appointment-time-slots">
+                                {timeSlots.map((slot, idx) => (
+                                    <button key={idx} className="appointment-time-slot" disabled>{slot}</button>
+                                ))}
+                            </div>
+                            {timezone && (
+                                <div className="appointment-timezone">{timezone}</div>
+                            )}
                         </div>
                     </div>
-                    {timezone && <div className="appointment-timezone">{timezone}</div>}
                     {sublabel && <p className="appointment-sublabel">{sublabel}</p>}
                 </div>
             </div>
