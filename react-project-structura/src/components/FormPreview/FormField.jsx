@@ -133,6 +133,8 @@ export default function FormField({ field, control, error }) {
                             );
 
                         case FIELD_TYPES.FULL_NAME:
+                            const firstNameLabel = field.metadata?.firstNameLabel || 'First Name';
+                            const lastNameLabel = field.metadata?.lastNameLabel || 'Last Name';
                             return (
                                 <div className="full-name-field">
                                     <div className="full-name-input-group">
@@ -142,7 +144,7 @@ export default function FormField({ field, control, error }) {
                                             placeholder=""
                                             defaultValue={field.value?.firstName || ''}
                                         />
-                                        <label className="full-name-label">First Name</label>
+                                        <label className="full-name-label">{firstNameLabel}</label>
                                     </div>
                                     <div className="full-name-input-group">
                                         <input
@@ -151,7 +153,7 @@ export default function FormField({ field, control, error }) {
                                             placeholder=""
                                             defaultValue={field.value?.lastName || ''}
                                         />
-                                        <label className="full-name-label">Last Name</label>
+                                        <label className="full-name-label">{lastNameLabel}</label>
                                     </div>
                                 </div>
                             );

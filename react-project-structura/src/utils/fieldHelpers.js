@@ -42,6 +42,8 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
     // Initialize full name field
     if (type === FIELD_TYPES.FULL_NAME) {
         field.label = 'Name';
+        field.metadata.firstNameLabel = 'First Name';
+        field.metadata.lastNameLabel = 'Last Name';
     }
 
     return field;

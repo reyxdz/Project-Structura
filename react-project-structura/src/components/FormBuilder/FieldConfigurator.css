@@ -133,3 +133,25 @@
   border-color: #2196f3;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
+
+.sublabel-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sublabel-group input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  background-color: #fafafa;
+  color: #333;
+}
+
+.sublabel-group input:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}

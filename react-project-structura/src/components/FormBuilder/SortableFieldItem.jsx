@@ -57,11 +57,11 @@ export default function SortableFieldItem({
                     <div className="full-name-inputs-preview">
                         <div className="full-name-preview-group">
                             <input type="text" disabled />
-                            <label>First Name</label>
+                            <label>{field.metadata?.firstNameLabel || 'First Name'}</label>
                         </div>
                         <div className="full-name-preview-group">
                             <input type="text" disabled />
-                            <label>Last Name</label>
+                            <label>{field.metadata?.lastNameLabel || 'Last Name'}</label>
                         </div>
                     </div>
                 </div>
