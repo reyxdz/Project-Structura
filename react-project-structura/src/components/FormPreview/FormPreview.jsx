@@ -27,11 +27,6 @@ export default function FormPreview() {
 
     return (
         <div className = "form-preview">
-            <div className = "form-preview-header">
-                <h2>{form.name}</h2>
-                {form.description && <p className = "form-description">{form.description}</p>}
-            </div>
-
             <form onSubmit = {handleSubmit(onSubmit)} className = "form-preview-body">
                 {form.fields.length === 0 ? (
                     <div className = "form-empty-state">
