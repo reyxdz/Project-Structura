@@ -78,6 +78,17 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.sublabel = 'Date';
     }
 
+    // Initialize appointment field
+    if (type === FIELD_TYPES.APPOINTMENT) {
+        field.label = 'Appointment';
+        field.placeholder = '';
+        field.metadata.selectedDate = null;
+        field.metadata.timeSlots = ['9:00 AM', '10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM'];
+        field.metadata.selectedTime = null;
+        field.metadata.timezone = 'America/New York';
+        field.metadata.sublabel = 'Please select an appointment date and time';
+    }
+
     return field;
 };
 

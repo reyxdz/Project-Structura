@@ -138,6 +138,61 @@ export default function SortableFieldItem({
                     {field.metadata?.sublabel && (
                         <p className="date-sublabel">{field.metadata.sublabel}</p>
                     )}
+                </div>            ) : field.type === FIELD_TYPES.APPOINTMENT ? (
+                <div className="appointment-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Appointment'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="appointment-picker-preview">
+                        <div className="appointment-calendar-wrapper">
+                            <div className="appointment-date-input">
+                                <input type="text" placeholder="MM/DD/YYYY" disabled />
+                                <svg className="appointment-calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                    <path d="M16 2v4M8 2v4M3 10h18"></path>
+                                </svg>
+                            </div>
+                            <div className="appointment-month-year">
+                                <select disabled>
+                                    <option>January</option>
+                                </select>
+                                <select disabled>
+                                    <option>2026</option>
+                                </select>
+                            </div>
+                            <div className="appointment-weekdays">
+                                <div>SUN</div>
+                                <div>MON</div>
+                                <div>TUE</div>
+                                <div>WED</div>
+                                <div>THU</div>
+                                <div>FRI</div>
+                                <div>SAT</div>
+                            </div>
+                            <div className="appointment-calendar-grid">
+                                {Array.from({ length: 35 }, (_, i) => (
+                                    <div key={i} className="appointment-day">{i % 31 + 1}</div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="appointment-times">
+                            <div className="appointment-date-display">Select Date</div>
+                            <div className="appointment-time-slots">
+                                {field.metadata?.timeSlots?.map((slot, idx) => (
+                                    <button key={idx} className="appointment-time-slot" disabled>{slot}</button>
+                                ))}
+                            </div>
+                            {field.metadata?.timezone && (
+                                <div className="appointment-timezone">{field.metadata.timezone}</div>
+                            )}
+                        </div>
+                    </div>
+                    {field.metadata?.sublabel && (
+                        <p className="appointment-sublabel">{field.metadata.sublabel}</p>
+                    )}
                 </div>            ) : (
                 <>
                     <div className = "field-item-header">

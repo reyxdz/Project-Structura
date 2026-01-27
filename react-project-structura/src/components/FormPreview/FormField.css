@@ -354,3 +354,155 @@
   margin: 0;
   line-height: 1.4;
 }
+
+/* Appointment Field Styles */
+.appointment-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.appointment-main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  background-color: white;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.appointment-calendar-display {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.appointment-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.appointment-input-container input {
+  padding-right: 36px;
+  flex: 1;
+}
+
+.appointment-icon {
+  position: absolute;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  color: #757575;
+  pointer-events: none;
+}
+
+.appointment-main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  background-color: white;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.appointment-calendar-display {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.appointment-month-year-display {
+  display: flex;
+  gap: 12px;
+}
+
+.appointment-month-year-display select {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.appointment-weekdays-display {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-top: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  color: #4a90e2;
+}
+
+.appointment-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.appointment-day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.appointment-times-display {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.appointment-selected-date {
+  padding: 8px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  font-weight: 500;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+}
+
+.appointment-time-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.appointment-time-btn {
+  padding: 10px 12px;
+  border: 2px solid #4a90e2;
+  border-radius: 4px;
+  background-color: white;
+  color: #4a90e2;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.appointment-time-btn:hover {
+  background-color: #f0f5ff;
+}
+
+.appointment-time-btn:hover {
+  background-color: #f0f5ff;
+}
+
+.appointment-field-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  line-height: 1.4;
+}

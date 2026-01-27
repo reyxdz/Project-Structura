@@ -694,6 +694,153 @@ export default function FieldConfigurator() {
         );
     }
 
+    // Render appointment-specific configuration
+    if (selectedField.type === FIELD_TYPES.APPOINTMENT) {
+        const sublabel = selectedField.metadata?.sublabel || '';
+        const timeSlots = selectedField.metadata?.timeSlots || ['9:00 AM', '10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM'];
+        const timezone = selectedField.metadata?.timezone || 'America/New York';
+
+        return (
+            <div className="field-configurator">
+                <h3>Appointment Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Appointment"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required,
+                                })
+                            }
+                        >
+                            {selectedField.required ? 'Required' : 'Optional'}
+                        </button>
+                    </label>
+                    <p className="config-hint">Prevent submission if this field is empty</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Time Slots */}
+                <div className="config-section">
+                    <label>
+                        <span>Available Time Slots</span>
+                        <textarea
+                            value={timeSlots.join('\n')}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    metadata: {
+                                        ...selectedField.metadata,
+                                        timeSlots: e.target.value.split('\n').filter(t => t.trim()),
+                                    },
+                                })
+                            }
+                            placeholder="9:00 AM&#10;10:00 AM&#10;11:00 AM"
+                            rows="6"
+                            style={{ fontFamily: 'monospace', fontSize: '12px', padding: '8px' }}
+                        />
+                    </label>
+                    <p className="config-hint">Enter one time slot per line</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Timezone */}
+                <div className="config-section">
+                    <label>
+                        <span>Timezone</span>
+                        <input
+                            type="text"
+                            value={timezone}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    metadata: {
+                                        ...selectedField.metadata,
+                                        timezone: e.target.value,
+                                    },
+                                })
+                            }
+                            placeholder="America/New York"
+                        />
+                    </label>
+                    <p className="config-hint">Display timezone information for users</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Sublabel */}
+                <div className="config-section">
+                    <label>
+                        <span>Sublabel</span>
+                        <input
+                            type="text"
+                            value={sublabel}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    metadata: {
+                                        ...selectedField.metadata,
+                                        sublabel: e.target.value,
+                                    },
+                                })
+                            }
+                            placeholder="Please select an appointment date and time"
+                        />
+                    </label>
+                    <p className="config-hint">Add a short description below the field</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     // Render heading-specific configuration
     if (selectedField.type === FIELD_TYPES.HEADING) {
         const headingSize = selectedField.metadata?.headingSize || 'default';

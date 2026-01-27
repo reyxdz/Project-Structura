@@ -97,6 +97,73 @@ export default function FormField({ field, control, error }) {
                             );
                         }
 
+                        case FIELD_TYPES.APPOINTMENT: {
+                            const appointmentSublabel = field.metadata?.sublabel || '';
+                            const timeSlots = field.metadata?.timeSlots || ['9:00 AM', '10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM'];
+                            return (
+                                <div className="appointment-field-wrapper">
+                                    <div className="appointment-main-container">
+                                        <div className="appointment-calendar-display">
+                                            <div className="appointment-input-container">
+                                                <input 
+                                                    {...fieldProps}
+                                                    type="text"
+                                                    placeholder="MM/DD/YYYY"
+                                                    className={error ? 'input-error' : ''}
+                                                />
+                                                <svg className="appointment-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                                    <path d="M16 2v4M8 2v4M3 10h18"></path>
+                                                </svg>
+                                            </div>
+                                            <div className="appointment-month-year-display">
+                                                <select>
+                                                    <option>January</option>
+                                                    <option>February</option>
+                                                    <option>March</option>
+                                                    <option>April</option>
+                                                    <option>May</option>
+                                                    <option>June</option>
+                                                    <option>July</option>
+                                                    <option>August</option>
+                                                    <option>September</option>
+                                                    <option>October</option>
+                                                    <option>November</option>
+                                                    <option>December</option>
+                                                </select>
+                                                <select>
+                                                    <option>2024</option>
+                                                    <option>2025</option>
+                                                    <option>2026</option>
+                                                    <option>2027</option>
+                                                    <option>2028</option>
+                                                </select>
+                                            </div>
+                                            <div className="appointment-weekdays-display">
+                                                <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
+                                            </div>
+                                            <div className="appointment-days-grid">
+                                                {Array.from({ length: 42 }, (_, i) => (
+                                                    <div key={i} className="appointment-day-cell">{i % 31 + 1}</div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="appointment-times-display">
+                                            <div className="appointment-selected-date">Select Date</div>
+                                            <div className="appointment-time-buttons">
+                                                {timeSlots.map((slot, idx) => (
+                                                    <button key={idx} type="button" className="appointment-time-btn">{slot}</button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {appointmentSublabel && (
+                                        <p className="appointment-field-sublabel">{appointmentSublabel}</p>
+                                    )}
+                                </div>
+                            );
+                        }
+
                         case FIELD_TYPES.FILE:
                             return (
                                 <input 
