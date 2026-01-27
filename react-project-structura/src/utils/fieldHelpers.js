@@ -53,6 +53,31 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.sublabel = 'example@example.com';
     }
 
+    // Initialize address field
+    if (type === FIELD_TYPES.ADDRESS) {
+        field.label = 'Address';
+        field.metadata.streetAddress1 = 'Street Address';
+        field.metadata.streetAddress2 = 'Street Address Line 2';
+        field.metadata.city = 'City';
+        field.metadata.stateProvince = 'State / Province';
+        field.metadata.postalZipCode = 'Postal / Zip Code';
+    }
+
+    // Initialize phone field
+    if (type === FIELD_TYPES.PHONE) {
+        field.label = 'Phone Number';
+        field.placeholder = '(000) 000-0000';
+        field.metadata.sublabel = 'Please enter a valid phone number';
+    }
+
+    // Initialize date field
+    if (type === FIELD_TYPES.DATE) {
+        field.label = 'Date';
+        field.placeholder = 'MM/DD/YYYY';
+        field.metadata.separator = '/';
+        field.metadata.sublabel = 'Date';
+    }
+
     return field;
 };
 

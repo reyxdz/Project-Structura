@@ -237,3 +237,132 @@
   margin: 4px 0 0 0;
   line-height: 1.4;
 }
+
+.address-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.address-inputs-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.address-inputs-preview input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+.address-row-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.address-col-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.address-col-preview input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+.phone-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.phone-field-builder input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+.phone-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 4px 0 0 0;
+  line-height: 1.4;
+}
+
+.phone-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.date-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.date-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.date-field-builder input {
+  padding: 8px 12px;
+  padding-right: 36px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: #f9f9f9;
+  color: #999;
+  width: 100%;
+}
+
+.date-calendar-icon {
+  position: absolute;
+  right: 10px;
+  width: 16px;
+  height: 16px;
+  color: #999;
+  pointer-events: none;
+}
+
+.date-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 4px 0 0 0;
+  line-height: 1.4;
+}
+
+.phone-field-builder input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+.phone-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 4px 0 0 0;
+  line-height: 1.4;
+}

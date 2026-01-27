@@ -35,7 +35,7 @@ export default function FormField({ field, control, error }) {
                                  />
                             );
 
-                        case FIELD_TYPES.EMAIL:
+                        case FIELD_TYPES.EMAIL: {
                             const emailSublabel = field.metadata?.sublabel || '';
                             return (
                                 <div className="email-field-wrapper">
@@ -50,6 +50,7 @@ export default function FormField({ field, control, error }) {
                                     )}
                                 </div>
                             );
+                        }
                         
                         case FIELD_TYPES.NUMBER:
                             return (
@@ -71,14 +72,30 @@ export default function FormField({ field, control, error }) {
                                 />
                             );
 
-                        case FIELD_TYPES.DATE:
+                        case FIELD_TYPES.DATE: {
+                            const dateSublabel = field.metadata?.sublabel || '';
+                            const separator = field.metadata?.separator || '/';
+                            const placeholder = `MM${separator}DD${separator}YYYY`;
                             return (
-                                <input 
-                                    {...fieldProps}
-                                    type = "date"
-                                    className = {error ? 'input-error' : ''}
-                                />
+                                <div className="date-field-wrapper">
+                                    <div className="date-input-container">
+                                        <input 
+                                            {...fieldProps}
+                                            type="text"
+                                            placeholder={placeholder}
+                                            className={error ? 'input-error' : ''}
+                                        />
+                                        <svg className="calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                            <path d="M16 2v4M8 2v4M3 10h18"></path>
+                                        </svg>
+                                    </div>
+                                    {dateSublabel && (
+                                        <p className="date-field-sublabel">{dateSublabel}</p>
+                                    )}
+                                </div>
                             );
+                        }
 
                         case FIELD_TYPES.FILE:
                             return (
@@ -138,7 +155,7 @@ export default function FormField({ field, control, error }) {
                                 </select>
                             );
 
-                        case FIELD_TYPES.FULL_NAME:
+                        case FIELD_TYPES.FULL_NAME: {
                             const firstNameLabel = field.metadata?.firstNameLabel || 'First Name';
                             const lastNameLabel = field.metadata?.lastNameLabel || 'Last Name';
                             return (
@@ -163,8 +180,57 @@ export default function FormField({ field, control, error }) {
                                     </div>
                                 </div>
                             );
+                        }
 
-                        case FIELD_TYPES.HEADING:
+                        case FIELD_TYPES.ADDRESS: {
+                            const streetAddress1 = field.metadata?.streetAddress1 || 'Street Address';
+                            const streetAddress2 = field.metadata?.streetAddress2 || 'Street Address Line 2';
+                            const city = field.metadata?.city || 'City';
+                            const stateProvince = field.metadata?.stateProvince || 'State / Province';
+                            const postalZipCode = field.metadata?.postalZipCode || 'Postal / Zip Code';
+                            return (
+                                <div className="address-field">
+                                    <input
+                                        type="text"
+                                        placeholder=""
+                                        className={error ? 'input-error' : ''}
+                                    />
+                                    <label className="address-sublabel">{streetAddress1}</label>
+                                    <input
+                                        type="text"
+                                        placeholder=""
+                                        className={error ? 'input-error' : ''}
+                                    />
+                                    <label className="address-sublabel">{streetAddress2}</label>
+                                    <div className="address-row">
+                                        <div className="address-col">
+                                            <input
+                                                type="text"
+                                                placeholder=""
+                                                className={error ? 'input-error' : ''}
+                                            />
+                                            <label className="address-sublabel">{city}</label>
+                                        </div>
+                                        <div className="address-col">
+                                            <input
+                                                type="text"
+                                                placeholder=""
+                                                className={error ? 'input-error' : ''}
+                                            />
+                                            <label className="address-sublabel">{stateProvince}</label>
+                                        </div>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        placeholder=""
+                                        className={error ? 'input-error' : ''}
+                                    />
+                                    <label className="address-sublabel">{postalZipCode}</label>
+                                </div>
+                            );
+                        }
+
+                        case FIELD_TYPES.HEADING: {
                             const headingSize = field.metadata?.headingSize || 'default';
                             const textAlignment = field.metadata?.textAlignment || 'left';
                             return (
@@ -173,6 +239,24 @@ export default function FormField({ field, control, error }) {
                                     <p className="heading-subtitle">{field.placeholder || 'Type a subheader'}</p>
                                 </div>
                             );
+                        }
+
+                        case FIELD_TYPES.PHONE: {
+                            const phoneSublabel = field.metadata?.sublabel || '';
+                            return (
+                                <div className="phone-field-wrapper">
+                                    <input
+                                        {...fieldProps}
+                                        type="tel"
+                                        placeholder={field.placeholder}
+                                        className={error ? 'input-error' : ''}
+                                    />
+                                    {phoneSublabel && (
+                                        <p className="phone-field-sublabel">{phoneSublabel}</p>
+                                    )}
+                                </div>
+                            );
+                        }
 
                         default:
                             return null;

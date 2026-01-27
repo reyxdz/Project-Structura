@@ -117,7 +117,7 @@ export default function FieldConfigurator() {
                                 })
                             }
                         >
-                            {selectedField.required ? '✓ Required' : 'Optional'}
+                            {selectedField.required ? 'Required' : 'Optional'}
                         </button>
                     </label>
                     <p className="config-hint">Prevent submission if this field is empty</p>
@@ -154,6 +154,15 @@ export default function FieldConfigurator() {
                         Duplicate Field
                     </button>
                     <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
                 </div>
 
                 <ConfirmModal
@@ -207,7 +216,7 @@ export default function FieldConfigurator() {
                                 })
                             }
                         >
-                            {selectedField.required ? '✓ Required' : 'Optional'}
+                            {selectedField.required ? 'Required' : 'Optional'}
                         </button>
                     </label>
                     <p className="config-hint">Prevent submission if this field is empty</p>
@@ -259,6 +268,416 @@ export default function FieldConfigurator() {
                         Duplicate Field
                     </button>
                     <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
+    // Render Address-specific configuration
+    if (selectedField.type === FIELD_TYPES.ADDRESS) {
+        const streetAddress1 = selectedField.metadata?.streetAddress1 || 'Street Address';
+        const streetAddress2 = selectedField.metadata?.streetAddress2 || 'Street Address Line 2';
+        const city = selectedField.metadata?.city || 'City';
+        const stateProvince = selectedField.metadata?.stateProvince || 'State / Province';
+        const postalZipCode = selectedField.metadata?.postalZipCode || 'Postal / Zip Code';
+
+        return (
+            <div className="field-configurator">
+                <h3>Address Configuration</h3>
+
+                {/* Field Name */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Name</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Address"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required,
+                                })
+                            }
+                        >
+                            {selectedField.required ? 'Required' : 'Optional'}
+                        </button>
+                    </label>
+                    <p className="config-hint">Prevent submission if this field is empty</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Sublabels */}
+                <div className="config-section">
+                    <label>
+                        <span>Sublabels</span>
+                        <div className="sublabel-group">
+                            <input
+                                type="text"
+                                value={streetAddress1}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            streetAddress1: e.target.value,
+                                        },
+                                    })
+                                }
+                                placeholder="Street Address"
+                            />
+
+                            <input
+                                type="text"
+                                value={streetAddress2}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            streetAddress2: e.target.value,
+                                        },
+                                    })
+                                }
+                                placeholder="Street Address Line 2"
+                            />
+
+                            <input
+                                type="text"
+                                value={city}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            city: e.target.value,
+                                        },
+                                    })
+                                }
+                                placeholder="City"
+                            />
+
+                            <input
+                                type="text"
+                                value={stateProvince}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            stateProvince: e.target.value,
+                                        },
+                                    })
+                                }
+                                placeholder="State / Province"
+                            />
+
+                            <input
+                                type="text"
+                                value={postalZipCode}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            postalZipCode: e.target.value,
+                                        },
+                                    })
+                                }
+                                placeholder="Postal / Zip Code"
+                            />
+                        </div>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
+    // Render Full Phone-specific configuration
+    if (selectedField.type === FIELD_TYPES.PHONE) {
+        const sublabel = selectedField.metadata?.sublabel || '';
+
+        return (
+            <div className="field-configurator">
+                <h3>Phone Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Phone Number"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required,
+                                })
+                            }
+                        >
+                            {selectedField.required ? 'Required' : 'Optional'}
+                        </button>
+                    </label>
+                    <p className="config-hint">Prevent submission if this field is empty</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Sublabel */}
+                <div className="config-section">
+                    <label>
+                        <span>Sublabel</span>
+                        <input
+                            type="text"
+                            value={sublabel}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    metadata: {
+                                        ...selectedField.metadata,
+                                        sublabel: e.target.value,
+                                    },
+                                })
+                            }
+                            placeholder="(000) 000-0000"
+                        />
+                    </label>
+                    <p className="config-hint">Add a short description below the field</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
+    // Render Date-specific configuration
+    if (selectedField.type === FIELD_TYPES.DATE) {
+        const sublabel = selectedField.metadata?.sublabel || '';
+        const separator = selectedField.metadata?.separator || '/';
+
+        return (
+            <div className="field-configurator">
+                <h3>Date Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Date"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required,
+                                })
+                            }
+                        >
+                            {selectedField.required ? 'Required' : 'Optional'}
+                        </button>
+                    </label>
+                    <p className="config-hint">Prevent submission if this field is empty</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Separator */}
+                <div className="config-section">
+                    <label>
+                        <span>Separator</span>
+                        <div className="alignment-buttons">
+                            <button
+                                type="button"
+                                className={`alignment-btn ${separator === '-' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            separator: '-',
+                                        },
+                                    })
+                                }
+                            >
+                                -
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${separator === '/' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            separator: '/',
+                                        },
+                                    })
+                                }
+                            >
+                                /
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${separator === '.' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            separator: '.',
+                                        },
+                                    })
+                                }
+                            >
+                                .
+                            </button>
+                        </div>
+                    </label>
+                    <p className="config-hint">Select a character to use between date fields</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Sublabel */}
+                <div className="config-section">
+                    <label>
+                        <span>Sublabel</span>
+                        <input
+                            type="text"
+                            value={sublabel}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    metadata: {
+                                        ...selectedField.metadata,
+                                        sublabel: e.target.value,
+                                    },
+                                })
+                            }
+                            placeholder="Date"
+                        />
+                    </label>
+                    <p className="config-hint">Add a short description below the field</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
                 </div>
 
                 <ConfirmModal
