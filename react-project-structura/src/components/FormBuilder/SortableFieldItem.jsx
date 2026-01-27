@@ -21,7 +21,7 @@ export default function SortableFieldItem({
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
-        opacity: isSortableDragging ? 0.5 : 1,
+        opacity: isSortableDragging ? 0 : 1,
     };
 
     const handleClick = () => {
