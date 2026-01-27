@@ -15,7 +15,6 @@ import phoneIcon from '../../icons/phone.png';
 import datePickerIcon from '../../icons/date_picker.png';
 import appointmentIcon from '../../icons/appointment.png';
 import signatureIcon from '../../icons/signature.png';
-import cartIcon from '../../icons/cart.png';
 import shortTextIcon from '../../icons/short_text.png';
 import longTextIcon from '../../icons/long_text.png';
 import paragraphIcon from '../../icons/paragraph.png';
@@ -47,7 +46,6 @@ const fieldSections = [
             FIELD_TYPES.DATE,
             FIELD_TYPES.APPOINTMENT,
             FIELD_TYPES.SIGNATURE,
-            FIELD_TYPES.PRODUCT_LIST,
         ],
     },
     {
@@ -94,7 +92,6 @@ const fieldIcons = {
     [FIELD_TYPES.DATE]: datePickerIcon,
     [FIELD_TYPES.APPOINTMENT]: appointmentIcon,
     [FIELD_TYPES.SIGNATURE]: signatureIcon,
-    [FIELD_TYPES.PRODUCT_LIST]: cartIcon,
     [FIELD_TYPES.SHORT_TEXT]: shortTextIcon,
     [FIELD_TYPES.LONG_TEXT]: longTextIcon,
     [FIELD_TYPES.PARAGRAPH]: paragraphIcon,

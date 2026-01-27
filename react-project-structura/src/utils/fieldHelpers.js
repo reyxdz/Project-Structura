@@ -160,7 +160,6 @@ export const getFieldTypeLabel = (type) => {
         [FIELD_TYPES.DATE]: 'Date Picker',
         [FIELD_TYPES.APPOINTMENT]: 'Appointment',
         [FIELD_TYPES.SIGNATURE]: 'Signature',
-        [FIELD_TYPES.PRODUCT_LIST]: 'Product List',
         
         // Basic Elements
         [FIELD_TYPES.SHORT_TEXT]: 'Short Text',
