@@ -506,3 +506,44 @@
   margin: 0;
   line-height: 1.4;
 }
+
+/* Signature Field Styles */
+.signature-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.signature-canvas {
+  position: relative;
+  width: 100%;
+  min-height: 120px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.signature-placeholder-display {
+  font-size: 16px;
+  color: #b0b0b0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-weight: 400;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  letter-spacing: 0.5px;
+}
+
+.signature-icon {
+  position: absolute;
+  right: 20px;
+  width: 28px;
+  height: 28px;
+  color: #ccc;
+  pointer-events: none;
+}

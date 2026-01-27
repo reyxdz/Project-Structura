@@ -513,6 +513,52 @@
   margin: 4px 0 0 0;
   line-height: 1.4;
 }
+
+/* Signature Field Builder Styles */
+.signature-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.signature-canvas-preview {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.signature-placeholder-text {
+  font-size: 14px;
+  color: #b0b0b0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-weight: 400;
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  letter-spacing: 0.5px;
+}
+
+.signature-pen-icon {
+  position: absolute;
+  right: 16px;
+  width: 24px;
+  height: 24px;
+  color: #ccc;
+  pointer-events: none;
+}
+  color: #757575;
+  margin: 4px 0 0 0;
+  line-height: 1.4;
+}
 }
 
 .phone-field-builder input {

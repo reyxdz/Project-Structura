@@ -89,6 +89,12 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.sublabel = 'Please select an appointment date and time';
     }
 
+    // Initialize signature field
+    if (type === FIELD_TYPES.SIGNATURE) {
+        field.label = 'Signature';
+        field.placeholder = 'Sign Here';
+    }
+
     return field;
 };
 

@@ -841,6 +841,101 @@ export default function FieldConfigurator() {
         );
     }
 
+    // Render signature-specific configuration
+    if (selectedField.type === FIELD_TYPES.SIGNATURE) {
+        const placeholder = selectedField.placeholder || 'Sign Here';
+
+        return (
+            <div className="field-configurator">
+                <h3>Signature Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Signature"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Placeholder */}
+                <div className="config-section">
+                    <label>
+                        <span>Placeholder</span>
+                        <input
+                            type="text"
+                            value={placeholder}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    placeholder: e.target.value,
+                                })
+                            }
+                            placeholder="Sign Here"
+                        />
+                    </label>
+                    <p className="config-hint">Text shown in the signature area</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required,
+                                })
+                            }
+                        >
+                            {selectedField.required ? 'Required' : 'Optional'}
+                        </button>
+                    </label>
+                    <p className="config-hint">Prevent submission if this field is empty</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     // Render heading-specific configuration
     if (selectedField.type === FIELD_TYPES.HEADING) {
         const headingSize = selectedField.metadata?.headingSize || 'default';
