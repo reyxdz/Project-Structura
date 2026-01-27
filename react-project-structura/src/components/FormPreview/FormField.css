@@ -57,7 +57,23 @@
 .email-field-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
+}
+
+.email-field-wrapper input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
+}
+
+.email-field-wrapper label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
 }
 
 .email-field-sublabel {
@@ -70,7 +86,23 @@
 .phone-field-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
+}
+
+.phone-field-wrapper input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
+}
+
+.phone-field-wrapper label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
 }
 
 .phone-field-sublabel {
@@ -83,7 +115,23 @@
 .date-field-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 12px;
+}
+
+.date-field-wrapper label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.date-field-wrapper input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
 }
 
 .date-input-container {
@@ -187,10 +235,9 @@
 }
 
 .full-name-field {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .full-name-input-group {
@@ -548,3 +595,111 @@
   pointer-events: none;
 }
 
+/* Full Name Field Styles */
+.full-name-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.full-name-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.full-name-inputs-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.full-name-preview-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.full-name-preview-group input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
+}
+
+.full-name-label {
+  font-size: 12px;
+  color: #757575;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+
+/* Address Field Styles */
+.address-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.address-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.address-inputs-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.address-input-group-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.address-inputs-preview input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
+}
+
+.address-row-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.address-col-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.address-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+
+/* Date Field Styles */
+.date-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.date-input-wrapper input {
+  width: 100%;
+}
