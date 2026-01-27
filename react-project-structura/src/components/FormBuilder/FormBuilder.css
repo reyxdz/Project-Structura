@@ -52,6 +52,24 @@
   padding: 20px;
 }
 
+/* Custom scrollbar styling for left sidebar */
+.form-builder-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-builder-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.form-builder-sidebar::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 3px;
+}
+
+.form-builder-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
 .form-builder-sidebar.right-sidebar {
   border-right: none;
   border-left: 1px solid #ddd;
@@ -61,6 +79,24 @@
   flex: 1;
   overflow-y: auto;
   padding: 20px;
+}
+
+/* Custom scrollbar styling for main canvas */
+.form-builder-main::-webkit-scrollbar {
+  width: 6px;
+}
+
+.form-builder-main::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.form-builder-main::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 3px;
+}
+
+.form-builder-main::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
 }
 
 .preview-message {
