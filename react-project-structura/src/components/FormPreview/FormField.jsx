@@ -36,13 +36,19 @@ export default function FormField({ field, control, error }) {
                             );
 
                         case FIELD_TYPES.EMAIL:
+                            const emailSublabel = field.metadata?.sublabel || '';
                             return (
-                                <input 
-                                    {...fieldProps}
-                                    type = "email"
-                                    placeholder = {field.placeholder}
-                                    className = {error ? 'input-error' : ''}
-                                />
+                                <div className="email-field-wrapper">
+                                    <input 
+                                        {...fieldProps}
+                                        type = "email"
+                                        placeholder = ""
+                                        className = {error ? 'input-error' : ''}
+                                    />
+                                    {emailSublabel && (
+                                        <p className="email-field-sublabel">{emailSublabel}</p>
+                                    )}
+                                </div>
                             );
                         
                         case FIELD_TYPES.NUMBER:

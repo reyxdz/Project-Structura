@@ -81,6 +81,95 @@ export default function FieldConfigurator() {
         duplicateField(selectedFieldId);
     }
 
+    // Render Email-specific configuration
+    if (selectedField.type === FIELD_TYPES.EMAIL) {
+        const sublabel = selectedField.metadata?.sublabel || '';
+
+        return (
+            <div className="field-configurator">
+                <h3>Email Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Email"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required,
+                                })
+                            }
+                        >
+                            {selectedField.required ? '✓ Required' : 'Optional'}
+                        </button>
+                    </label>
+                    <p className="config-hint">Prevent submission if this field is empty</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Sublabel */}
+                <div className="config-section">
+                    <label>
+                        <span>Sublabel</span>
+                        <input
+                            type="text"
+                            value={sublabel}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    metadata: {
+                                        ...selectedField.metadata,
+                                        sublabel: e.target.value,
+                                    },
+                                })
+                            }
+                            placeholder="example@example.com"
+                        />
+                    </label>
+                    <p className="config-hint">Add a short description below the field</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     // Render Full Name-specific configuration
     if (selectedField.type === FIELD_TYPES.FULL_NAME) {
         const firstNameLabel = selectedField.metadata?.firstNameLabel || 'First Name';
@@ -144,7 +233,7 @@ export default function FieldConfigurator() {
                                 }
                                 placeholder="First Name"
                             />
-                            
+
                             <input
                                 type="text"
                                 value={lastNameLabel}

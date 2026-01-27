@@ -46,6 +46,13 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.lastNameLabel = 'Last Name';
     }
 
+    // Initialize email field
+    if (type === FIELD_TYPES.EMAIL) {
+        field.label = 'Email';
+        field.placeholder = '';
+        field.metadata.sublabel = 'example@example.com';
+    }
+
     return field;
 };
 

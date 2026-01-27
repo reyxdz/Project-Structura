@@ -65,12 +65,27 @@ export default function SortableFieldItem({
                         </div>
                     </div>
                 </div>
+            ) : field.type === FIELD_TYPES.EMAIL ? (
+                <div className="email-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Email'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <input type="email" placeholder="" disabled />
+                    {field.metadata?.sublabel && (
+                        <p className="email-sublabel">{field.metadata.sublabel}</p>
+                    )}
+                </div>
             ) : (
                 <>
                     <div className = "field-item-header">
-                        <span className = "field-label">{field.label}</span>
+                        <span className = "field-label">
+                            {field.label}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
                     </div>
-                    {field.required && <span className = "field-required">*Required</span>}
                 </>
             )}
         </div>

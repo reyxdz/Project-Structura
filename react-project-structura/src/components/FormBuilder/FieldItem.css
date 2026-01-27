@@ -72,6 +72,12 @@
   word-break: break-word;
 }
 
+.required-asterisk {
+  color: #f44336;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
 .field-type {
   font-size: 12px;
   color: #999;
@@ -207,4 +213,27 @@
   color: #757575;
   font-weight: 500;
   margin: 0;
+}
+
+.email-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.email-field-builder input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+.email-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 4px 0 0 0;
+  line-height: 1.4;
 }
