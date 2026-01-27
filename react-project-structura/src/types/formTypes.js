@@ -84,7 +84,6 @@ export const FIELD_TYPES = {
   DATE: 'date',
   APPOINTMENT: 'appointment',
   SIGNATURE: 'signature',
-  FILL_IN_BLANK: 'fillInBlank',
   PRODUCT_LIST: 'productList',
   
   // Basic Elements
