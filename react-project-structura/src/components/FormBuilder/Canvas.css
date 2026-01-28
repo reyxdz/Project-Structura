@@ -4,6 +4,8 @@
   border: 2px dashed #ccc;
   min-height: 400px;
   padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .canvas-content {
@@ -76,11 +78,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 4px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .field-label {
   font-weight: 500;
   color: #333;
+  word-break: break-word;
 }
 
 .field-type {
@@ -89,10 +94,65 @@
   background-color: #f0f0f0;
   padding: 2px 8px;
   border-radius: 3px;
+  white-space: nowrap;
 }
 
 .field-required {
   font-size: 12px;
   color: #f44336;
   font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .canvas {
+    padding: 16px;
+    min-height: 300px;
+  }
+
+  .canvas-empty-state {
+    height: 200px;
+    font-size: 14px;
+  }
+
+  .field-item {
+    padding: 10px;
+  }
+
+  .field-label {
+    font-size: 13px;
+  }
+
+  .field-type {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .canvas {
+    padding: 12px;
+    border-radius: 4px;
+  }
+
+  .canvas-empty-state {
+    height: 150px;
+    font-size: 12px;
+  }
+
+  .fields-list {
+    gap: 8px;
+  }
+
+  .field-item {
+    padding: 8px;
+  }
+
+  .field-label {
+    font-size: 12px;
+  }
+
+  .field-type {
+    font-size: 10px;
+    padding: 1px 6px;
+  }
 }

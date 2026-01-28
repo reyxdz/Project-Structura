@@ -8,21 +8,24 @@
 .form-builder-header {
   background-color: white;
   border-bottom: 1px solid #ddd;
-  padding: 20px;
+  padding: 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 16px;
+  min-width: 0;
 }
 
 .header-logo {
-  height: 30px;
+  height: 28px;
   width: auto;
   object-fit: contain;
   margin-top: 4px;
@@ -33,6 +36,7 @@
   margin: 0;
   font-size: 24px;
   color: #333;
+  white-space: nowrap;
 }
 
 .header-actions {
@@ -44,6 +48,7 @@
   display: flex;
   flex: 1;
   overflow: hidden;
+  min-height: 0;
 }
 
 .form-builder-sidebar {
@@ -51,7 +56,9 @@
   background-color: white;
   border-right: 1px solid #ddd;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
+  min-width: 280px;
 }
 
 /* Custom scrollbar styling for left sidebar */
@@ -80,7 +87,9 @@
 .form-builder-main {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 20px;
+  min-width: 0;
 }
 
 /* Custom scrollbar styling for main canvas */
@@ -124,6 +133,7 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -151,4 +161,321 @@
 
 .btn-danger:hover {
   background-color: #d32f2f;
+}
+
+/* Desktop and Tablet - Show regular sidebars, hide mobile overlays */
+@media (min-width: 769px) {
+  .form-builder-sidebar {
+    display: block;
+  }
+
+  .form-builder-sidebar.mobile-overlay {
+    display: none !important;
+  }
+
+  .floating-sidebar-btn {
+    display: none !important;
+  }
+
+  .sidebar-overlay {
+    display: none !important;
+  }
+
+  .mobile-sidebar-header {
+    display: none !important;
+  }
+}
+
+/* Tablet (768px and below) - Hide right sidebar */
+@media (max-width: 1024px) {
+  .form-builder-sidebar {
+    width: 240px;
+    padding: 16px;
+  }
+
+  .form-builder-main {
+    padding: 16px;
+  }
+
+  .form-builder-sidebar.right-sidebar {
+    display: none;
+  }
+}
+
+/* Mobile (576px and below) - Single column layout */
+@media (max-width: 768px) {
+  .form-builder {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .form-builder-header {
+    padding: 12px;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    justify-content: space-between;
+  }
+
+  .header-left {
+    justify-content: flex-start;
+    width: auto;
+  }
+
+  .header-logo {
+    height: 24px;
+  }
+
+  .form-builder-header h1 {
+    display: none;
+  }
+
+  .header-actions {
+    width: auto;
+    justify-content: flex-end;
+  }
+
+  .form-builder-body {
+    flex-direction: column;
+    position: relative;
+  }
+
+  .form-builder-sidebar {
+    display: none;
+  }
+
+  .form-builder-sidebar.mobile-overlay {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    max-width: 85vw;
+    height: 100vh;
+    background-color: white;
+    border-right: 1px solid #ddd;
+    padding: 0;
+    flex-direction: column;
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    border-radius: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .form-builder-sidebar.mobile-overlay.show {
+    transform: translateX(0);
+  }
+
+  .form-builder-sidebar.right-sidebar.mobile-overlay {
+    left: auto;
+    right: 0;
+    border-right: none;
+    border-left: 1px solid #ddd;
+    transform: translateX(100%);
+  }
+
+  .form-builder-sidebar.right-sidebar.mobile-overlay.show {
+    transform: translateX(0);
+  }
+
+  .form-builder-main {
+    flex: 1;
+    padding: 12px;
+  }
+
+  .btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  /* Sidebar overlay backdrop */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    animation: fadeIn 0.2s ease;
+  }
+
+  /* Floating sidebar buttons */
+  .floating-sidebar-btn {
+    position: fixed;
+    bottom: 40px;
+    width: 60px;
+    height: 30px;
+    border-radius: 0 8px 8px 0;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    transition: all 0.2s ease;
+    z-index: 997;
+    padding: 0;
+  }
+  
+  .floating-sidebar-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: white;
+  }
+
+  .floating-sidebar-btn:hover {
+    background-color: #34495e;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    transform: translateX(2px);
+  }
+
+  .floating-sidebar-btn:active {
+    transform: translateX(0);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  }
+
+  .left-floating-btn {
+    left: -15px;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .left-floating-btn:hover {
+    transform: translateX(3px);
+  }
+
+  .right-floating-btn {
+    right: -15px;
+    border-radius: 8px 0 0 8px;
+  }
+
+  .right-floating-btn:hover {
+    transform: translateX(-3px);
+  }
+
+  /* Mobile sidebar header */
+  .mobile-sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
+    flex-shrink: 0;
+    background-color: #f5f5f5;
+  }
+
+  .mobile-sidebar-header h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .mobile-sidebar-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+  }
+
+  .mobile-sidebar-close:hover {
+    color: #333;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+/* Very small mobile (375px and below) */
+@media (max-width: 480px) {
+  .form-builder-header {
+    padding: 8px;
+  }
+
+  .header-logo {
+    height: 20px;
+  }
+
+  .form-builder-header h1 {
+    font-size: 16px;
+  }
+
+  .form-builder-main {
+    padding: 8px;
+  }
+
+  .btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .floating-sidebar-btn {
+    width: 52px;
+    height: 30px;
+    bottom: 25px;
+    border-radius: 0;
+  }
+
+  .floating-sidebar-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .left-floating-btn {
+    left: -12px;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .right-floating-btn {
+    right: -12px;
+    border-radius: 6px 0 0 6px;
+  }
+
+  .form-builder-sidebar.mobile-overlay {
+    width: 75vw;
+  }
+
+  .form-builder-sidebar.right-sidebar.mobile-overlay {
+    margin-left: 0;
+  }
+
+  /* Reduce content padding inside mobile overlay sidebar */
+  .form-builder-sidebar.mobile-overlay .field-configurator {
+    padding: 0 14px 16px 14px;
+  }
+
+  .form-builder-sidebar.mobile-overlay .field-configurator h3 {
+    margin: 12px 0 12px 0;
+    font-size: 13px;
+  }
+
+  .form-builder-sidebar.mobile-overlay .config-section {
+    margin-bottom: 10px;
+  }
+
+  .form-builder-sidebar.mobile-overlay .config-section input[type="text"],
+  .form-builder-sidebar.mobile-overlay .config-section textarea,
+  .form-builder-sidebar.mobile-overlay .config-section select {
+    max-width: 100%;
+    width: 100%;
+  }
 }

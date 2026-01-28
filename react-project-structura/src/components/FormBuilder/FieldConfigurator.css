@@ -4,6 +4,12 @@
   color: #333;
 }
 
+.field-configurator {
+  padding: 0 20px 20px 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
 .config-section {
   margin-bottom: 16px;
 }
@@ -29,6 +35,8 @@
   font-family: inherit;
   background-color: #fafafa;
   color: #333;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .config-section input[type="text"]:focus,
@@ -323,4 +331,128 @@
 
 .appointment-add-interval-btn:active {
   background-color: rgba(33, 150, 243, 0.1);
+}
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .field-configurator h3 {
+    font-size: 15px;
+    margin: 0 0 12px 0;
+  }
+
+  .config-section {
+    margin-bottom: 12px;
+  }
+
+  .config-section span {
+    font-size: 11px;
+  }
+
+  .config-section input[type="text"],
+  .config-section textarea {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .appointment-interval-times {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .appointment-duration-btn {
+    min-width: 70px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .field-configurator h3 {
+    font-size: 14px;
+    margin: 0 0 10px 0;
+  }
+
+  .config-section {
+    margin-bottom: 10px;
+  }
+
+  .config-section span {
+    font-size: 11px;
+  }
+
+  .config-section input[type="text"],
+  .config-section textarea {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .appointment-duration-buttons {
+    gap: 6px;
+    margin: 10px 0;
+  }
+
+  .appointment-duration-btn {
+    min-width: 65px;
+    padding: 8px 8px;
+    font-size: 11px;
+  }
+
+  .appointment-interval-item {
+    padding: 10px;
+  }
+
+  .appointment-interval-times {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .interval-time-group input[type="time"] {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .field-configurator h3 {
+    font-size: 13px;
+    margin: 0 0 8px 0;
+  }
+
+  .config-section {
+    margin-bottom: 8px;
+  }
+
+  .config-section span {
+    font-size: 10px;
+  }
+
+  .config-section input[type="text"],
+  .config-section textarea {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+
+  .appointment-duration-buttons {
+    gap: 4px;
+    margin: 8px 0;
+  }
+
+  .appointment-duration-btn {
+    min-width: 50px;
+    padding: 6px 6px;
+    font-size: 10px;
+  }
+
+  .appointment-interval-times {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .appointment-interval-item {
+    padding: 8px;
+  }
+
+  .interval-time-group input[type="time"] {
+    padding: 5px 8px;
+    font-size: 11px;
+  }
+}  }
 }

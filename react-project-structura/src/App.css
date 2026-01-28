@@ -2,6 +2,11 @@
   box-sizing: border-box;
 }
 
+html {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -10,14 +15,18 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  height: 100%;
 }
 
 #root {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 
 .app {
   width: 100%;
+  min-height: 100vh;
   height: 100%;
 }

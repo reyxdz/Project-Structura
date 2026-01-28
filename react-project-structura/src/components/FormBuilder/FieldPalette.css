@@ -55,6 +55,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  min-height: 40px;
 }
 
 .field-icon {
@@ -73,6 +74,54 @@
 
 .field-button:hover .field-icon {
   filter: brightness(0) invert(1);
+}
+
+.field-button:active {
+  opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .field-palette h3 {
+    font-size: 14px;
+    margin: 0 0 12px 0;
+  }
+
+  .field-button {
+    padding: 8px 10px;
+    font-size: 12px;
+    min-height: 36px;
+  }
+
+  .field-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .field-palette h3 {
+    font-size: 13px;
+    margin: 0 0 10px 0;
+    margin-left: 0.5rem;
+    margin-top: 5px;
+  }
+
+  .field-divider {
+    margin: 12px 0 6px 0;
+    padding: 6px 0;
+  }
+
+  .field-button {
+    padding: 6px 8px;
+    font-size: 11px;
+    gap: 8px;
+  }
+
+  .field-icon {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .field-button:active {

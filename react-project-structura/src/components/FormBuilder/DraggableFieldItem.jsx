@@ -187,6 +187,203 @@ export default function DraggableFieldItem({ field, isDragging }) {
                         </svg>
                     </div>
                 </div>
+            ) : field.type === FIELD_TYPES.SHORT_TEXT ? (
+                <div className="short-text-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Short Text'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <input type="text" placeholder={field.placeholder || ''} disabled />
+                </div>
+            ) : field.type === FIELD_TYPES.LONG_TEXT ? (
+                <div className="long-text-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Long Text'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <textarea placeholder={field.placeholder || ''} rows="4" disabled />
+                </div>
+            ) : field.type === FIELD_TYPES.PARAGRAPH ? (
+                <div className="paragraph-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Paragraph'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <textarea placeholder={field.placeholder || ''} rows={field.metadata?.rows || 6} disabled />
+                </div>
+            ) : field.type === FIELD_TYPES.DROPDOWN || field.type === FIELD_TYPES.SELECT ? (
+                <div className="dropdown-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Dropdown'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <select disabled>
+                        <option>Select an option...</option>
+                        {field.options?.map((opt, idx) => (
+                            <option key={idx}>{opt.label || opt}</option>
+                        ))}
+                    </select>
+                </div>
+            ) : field.type === FIELD_TYPES.SINGLE_CHOICE ? (
+                <div className="single-choice-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Single Choice'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="radio-options-builder">
+                        {field.options?.map((opt, idx) => (
+                            <div key={idx} className="radio-option-builder">
+                                <input type="radio" disabled />
+                                <label>{opt.label || opt}</label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : field.type === FIELD_TYPES.MULTIPLE_CHOICE ? (
+                <div className="multiple-choice-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Multiple Choice'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="checkbox-options-builder">
+                        {field.options?.map((opt, idx) => (
+                            <div key={idx} className="checkbox-option-builder">
+                                <input type="checkbox" disabled />
+                                <label>{opt.label || opt}</label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ) : field.type === FIELD_TYPES.NUMBER ? (
+                <div className="number-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Number'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <input type="number" placeholder={field.placeholder || ''} disabled />
+                </div>
+            ) : field.type === FIELD_TYPES.IMAGE ? (
+                <div className="image-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Image'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="image-placeholder">🖼️ Image Upload</div>
+                </div>
+            ) : field.type === FIELD_TYPES.FILE ? (
+                <div className="file-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'File Upload'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="file-placeholder">📎 Click to upload or drag file</div>
+                </div>
+            ) : field.type === FIELD_TYPES.TIME ? (
+                <div className="time-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Time'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <input type="time" disabled />
+                </div>
+            ) : field.type === FIELD_TYPES.STAR_RATING ? (
+                <div className="star-rating-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Star Rating'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="stars-preview">
+                        {Array.from({length: field.metadata?.maxRating || 5}).map((_, i) => (
+                            <span key={i} className="star">★</span>
+                        ))}
+                    </div>
+                </div>
+            ) : field.type === FIELD_TYPES.SCALE_RATING ? (
+                <div className="scale-rating-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Scale Rating'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="scale-labels-preview">
+                        <span>{field.metadata?.minLabel || 'Not Satisfied'}</span>
+                        <span>{field.metadata?.maxLabel || 'Very Satisfied'}</span>
+                    </div>
+                    <div className="scale-numbers">
+                        {Array.from({length: field.metadata?.scaleRange || 5}).map((_, i) => (
+                            <span key={i} className="scale-num">{i + 1}</span>
+                        ))}
+                    </div>
+                </div>
+            ) : field.type === FIELD_TYPES.INPUT_TABLE ? (
+                <div className="input-table-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Input Table'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="table-preview">
+                        <strong>Table with {field.metadata?.columns?.length || 0} columns × {field.metadata?.rows || 3} rows</strong>
+                    </div>
+                </div>
+            ) : field.type === FIELD_TYPES.DIVIDER ? (
+                <div className="divider-field-builder">
+                    <hr className="divider-preview" />
+                </div>
+            ) : field.type === FIELD_TYPES.SECTION_COLLAPSE ? (
+                <div className="section-collapse-field-builder">
+                    <div className="collapse-header-preview">
+                        <span>▶</span>
+                        <span className="collapse-title">{field.label || 'Collapsible Section'}</span>
+                    </div>
+                </div>
+            ) : field.type === FIELD_TYPES.PAGE_BREAK ? (
+                <div className="page-break-field-builder">
+                    <div className="page-break-preview">
+                        <div className="page-break-line" />
+                        <span>Page Break</span>
+                    </div>
+                </div>
+            ) : field.type === FIELD_TYPES.CAPTCHA ? (
+                <div className="captcha-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'CAPTCHA'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="captcha-preview">🔒 reCAPTCHA</div>
+                </div>
+            ) : field.type === FIELD_TYPES.SUBMIT ? (
+                <div className="submit-field-builder">
+                    <button className="submit-button-preview" disabled>
+                        {field.label || 'Submit'}
+                    </button>
+                </div>
             ) : (
                 <>
                     <div className = "field-item-header">

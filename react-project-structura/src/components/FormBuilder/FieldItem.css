@@ -304,6 +304,228 @@
   line-height: 1.4;
 }
 
+/* Short Text Field */
+.short-text-field-builder input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+/* Long Text / Paragraph Field */
+.long-text-field-builder textarea,
+.paragraph-field-builder textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #f9f9f9;
+  color: #999;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* Dropdown Field */
+.dropdown-field-builder select {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+/* Radio/Checkbox Options */
+.radio-options-builder,
+.checkbox-options-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.radio-option-builder,
+.checkbox-option-builder {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.radio-option-builder input,
+.checkbox-option-builder input {
+  width: 14px;
+  height: 14px;
+  cursor: default;
+}
+
+.radio-option-builder label,
+.checkbox-option-builder label {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  cursor: default;
+}
+
+/* Number Field */
+.number-field-builder input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+/* Image Field */
+.image-placeholder {
+  padding: 16px;
+  text-align: center;
+  background-color: #f0f0f0;
+  border: 2px dashed #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* File Upload Field */
+.file-placeholder {
+  padding: 16px;
+  text-align: center;
+  background-color: #f0f0f0;
+  border: 2px dashed #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* Time Field */
+.time-field-builder input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #f9f9f9;
+  color: #999;
+}
+
+/* Star Rating */
+.stars-preview {
+  display: flex;
+  gap: 4px;
+}
+
+.stars-preview .star {
+  font-size: 18px;
+  color: #ffc107;
+}
+
+/* Scale Rating */
+.scale-labels-preview {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #999;
+  margin-bottom: 6px;
+}
+
+.scale-numbers {
+  display: flex;
+  gap: 4px;
+}
+
+.scale-numbers .scale-num {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 12px;
+  background-color: white;
+  color: #666;
+}
+
+/* Input Table */
+.table-preview {
+  padding: 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+}
+
+/* Divider */
+.divider-preview {
+  margin: 8px 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+/* Section Collapse */
+.collapse-header-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #666;
+}
+
+.collapse-title {
+  font-weight: 500;
+}
+
+/* Page Break */
+.page-break-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.6;
+  margin: 12px 0;
+}
+
+.page-break-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, #ddd 50%, transparent 50%);
+  background-size: 8px 2px;
+}
+
+/* CAPTCHA */
+.captcha-preview {
+  padding: 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+}
+
+/* Submit Button */
+.submit-button-preview {
+  width: 100%;
+  padding: 10px 16px;
+  background-color: #0D47A1;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: default;
+}
 .phone-field-builder {
   display: flex;
   flex-direction: column;

@@ -880,3 +880,197 @@
 .date-input-wrapper input {
   width: 100%;
 }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-field label {
+    font-size: 13px;
+  }
+
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .full-name-field {
+    gap: 10px;
+  }
+
+  .full-name-input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .full-name-label {
+    font-size: 11px;
+  }
+
+  .heading-title {
+    font-size: 20px;
+  }
+
+  .heading-subtitle {
+    font-size: 12px;
+  }
+
+  .heading-field.heading-small .heading-title {
+    font-size: 14px;
+  }
+
+  .heading-field.heading-small .heading-subtitle {
+    font-size: 11px;
+  }
+
+  .heading-field.heading-default .heading-title {
+    font-size: 20px;
+  }
+
+  .heading-field.heading-default .heading-subtitle {
+    font-size: 12px;
+  }
+
+  .heading-field.heading-large .heading-title {
+    font-size: 26px;
+  }
+
+  .heading-field.heading-large .heading-subtitle {
+    font-size: 14px;
+  }
+
+  .address-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .appointment-main-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .appointment-month-dropdown,
+  .appointment-year-dropdown {
+    flex: 0 0 48%;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-field {
+    gap: 4px;
+  }
+
+  .form-field label {
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .required-asterisk {
+    margin-left: 2px;
+  }
+
+  .sublabel {
+    font-size: 10px;
+  }
+
+  .field-error-message {
+    font-size: 10px;
+  }
+
+  .full-name-field {
+    gap: 8px;
+  }
+
+  .full-name-input-group {
+    gap: 4px;
+  }
+
+  .full-name-input {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .full-name-label {
+    font-size: 10px;
+  }
+
+  .heading-field {
+    padding: 12px;
+  }
+
+  .heading-title {
+    font-size: 16px;
+  }
+
+  .heading-subtitle {
+    font-size: 11px;
+  }
+
+  .heading-field.heading-small .heading-title {
+    font-size: 12px;
+  }
+
+  .heading-field.heading-small .heading-subtitle {
+    font-size: 9px;
+  }
+
+  .heading-field.heading-default .heading-title {
+    font-size: 16px;
+  }
+
+  .heading-field.heading-default .heading-subtitle {
+    font-size: 11px;
+  }
+
+  .heading-field.heading-large .heading-title {
+    font-size: 22px;
+  }
+
+  .heading-field.heading-large .heading-subtitle {
+    font-size: 12px;
+  }
+
+  .address-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .checkbox-field,
+  .radio-field {
+    gap: 6px;
+  }
+
+  .appointment-field-wrapper {
+    gap: 8px;
+  }
+
+  .appointment-main-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .appointment-month-dropdown,
+  .appointment-year-dropdown {
+    flex: 0 0 48%;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .calendar-icon,
+  .appointment-calendar-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .signature-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
