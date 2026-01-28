@@ -103,7 +103,7 @@
 
 .preview-message {
   background-color: #e3f2fd;
-  border-left: 4px solid #2196f3;
+  border-left: 4px solid #0D47A1;
   padding: 12px 16px;
   margin-bottom: 20px;
   border-radius: 4px;
@@ -127,7 +127,7 @@
 }
 
 .btn-primary {
-  background-color: #2196f3;
+  background-color: #0D47A1;
   color: white;
 }
 

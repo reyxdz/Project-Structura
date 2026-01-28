@@ -65,10 +65,14 @@
 }
 
 .field-button:hover {
-  background-color: #2196f3;
+  background-color: #0D47A1;
   color: white;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
+}
+
+.field-button:hover .field-icon {
+  filter: brightness(0) invert(1);
 }
 
 .field-button:active {

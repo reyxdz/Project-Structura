@@ -40,7 +40,7 @@
 
 .add-validation select:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
@@ -112,7 +112,7 @@
 .rule-input:focus,
 .rule-message:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 

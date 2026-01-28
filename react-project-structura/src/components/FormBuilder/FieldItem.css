@@ -18,7 +18,7 @@
 
 .field-item.selected {
   background-color: #e3f2fd;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   border-width: 2px;
   cursor: grab;
   padding: 11px;
@@ -30,7 +30,7 @@
 }
 
 .field-item.dragging.overlay {
-  background-color: #2196f3;
+  background-color: #0D47A1;
   color: white;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
@@ -494,14 +494,6 @@
   padding-top: 6px;
   margin-top: 4px;
 }
-  border: 1px solid #4a90e2;
-  border-radius: 3px;
-  background-color: white;
-  color: #4a90e2;
-  font-size: 10px;
-  font-weight: 500;
-  cursor: pointer;
-}
 
 .appointment-time-slot:hover {
   background-color: #f0f5ff;
@@ -554,12 +546,6 @@
   height: 24px;
   color: #ccc;
   pointer-events: none;
-}
-
-  color: #757575;
-  margin: 4px 0 0 0;
-  line-height: 1.4;
-}
 }
 
 .phone-field-builder input {

@@ -50,7 +50,7 @@
 .btn-text {
   background: none;
   border: none;
-  color: #2196f3;
+  color: #0D47A1;
   cursor: pointer;
   padding: 0;
   font-size: 12px;
@@ -123,7 +123,7 @@
 .rule-connector {
   font-size: 11px;
   font-weight: 600;
-  color: #2196f3;
+  color: #0D47A1;
   text-align: center;
   padding: 4px 0;
   text-transform: uppercase;
@@ -174,6 +174,6 @@
 .rule-value-input:focus,
 .rule-action-select:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }

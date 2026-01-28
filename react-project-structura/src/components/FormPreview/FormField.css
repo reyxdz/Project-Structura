@@ -33,7 +33,7 @@
 .form-field textarea:focus,
 .form-field select:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
@@ -268,7 +268,7 @@
 
 .full-name-input:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
@@ -294,7 +294,7 @@
   gap: 8px;
   padding: 20px;
   background-color: #f8f9fa;
-  border: 2px solid #2196f3;
+  border: 2px solid #0D47A1;
   border-radius: 4px;
 }
 
@@ -370,7 +370,7 @@
 
 .address-field input:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
@@ -457,7 +457,7 @@
 
 .appointment-date-input input:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
@@ -490,8 +490,8 @@
 }
 
 .appointment-month-btn:hover {
-  border-color: #2196f3;
-  color: #2196f3;
+  border-color: #0D47A1;
+  color: #0D47A1;
   background-color: #f0f5ff;
 }
 
@@ -526,14 +526,14 @@
 
 .appointment-month-dropdown:hover,
 .appointment-year-dropdown:hover {
-  border-color: #2196f3;
+  border-color: #0D47A1;
   background-color: #f9fbff;
 }
 
 .appointment-month-dropdown:focus,
 .appointment-year-dropdown:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
@@ -587,13 +587,13 @@
 }
 
 .appointment-day.clickable:hover {
-  border-color: #2196f3;
+  border-color: #0D47A1;
   background-color: #f0f5ff;
 }
 
 .appointment-day.selected {
-  background-color: #2196f3 !important;
-  border-color: #2196f3;
+  background-color: #0D47A1 !important;
+  border-color: #0D47A1;
   color: white !important;
   font-weight: 600;
 }
@@ -637,13 +637,13 @@
 }
 
 .appointment-time-slot:hover {
-  border-color: #2196f3;
+  border-color: #0D47A1;
   background-color: #f0f5ff;
 }
 
 .appointment-time-slot.selected {
-  background-color: #2196f3 !important;
-  border-color: #2196f3;
+  background-color: #0D47A1 !important;
+  border-color: #0D47A1;
   color: white !important;
 }
 
@@ -673,7 +673,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #2196f3;
+  background-color: #0D47A1;
   color: white;
   padding: 16px;
   border-radius: 4px;
@@ -715,7 +715,7 @@
 .appointment-cancel-btn {
   padding: 8px 16px;
   background-color: white;
-  color: #2196f3;
+  color: #0D47A1;
   border: none;
   border-radius: 4px;
   font-size: 13px;

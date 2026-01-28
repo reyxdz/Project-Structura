@@ -55,14 +55,14 @@
 }
 
 .device-btn:hover {
-  border-color: #2196f3;
-  color: #2196f3;
+  border-color: #0D47A1;
+  color: #0D47A1;
   background-color: #f9fbff;
 }
 
 .device-btn.active {
-  border-color: #2196f3;
-  background-color: #2196f3;
+  border-color: #0D47A1;
+  background-color: #0D47A1;
   color: white;
 }
 

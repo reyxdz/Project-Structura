@@ -34,7 +34,7 @@
 .config-section input[type="text"]:focus,
 .config-section textarea:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
@@ -109,8 +109,8 @@
 }
 
 .alignment-btn.active {
-  background-color: #2196f3;
-  border-color: #2196f3;
+  background-color: #0D47A1;
+  border-color: #0D47A1;
   color: white;
 }
 
@@ -130,7 +130,7 @@
 
 .config-section select:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
@@ -152,7 +152,7 @@
 
 .sublabel-group input:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
@@ -185,8 +185,8 @@
 }
 
 .appointment-duration-btn.active {
-  background-color: #2196f3;
-  border-color: #2196f3;
+  background-color: #0D47A1;
+  border-color: #0D47A1;
   color: white;
 }
 
@@ -243,7 +243,7 @@
 
 .interval-time-group input[type="time"]:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
@@ -292,13 +292,13 @@
 
 .appointment-weekdays-multi-select:focus {
   outline: none;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
 .appointment-weekdays-multi-select option:checked {
-  background: linear-gradient(#2196f3, #2196f3);
-  background-color: #2196f3;
+  background: linear-gradient(#0D47A1, #0D47A1);
+  background-color: #0D47A1;
   color: white;
 }
 
@@ -309,7 +309,7 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   background-color: #fafafa;
-  color: #2196f3;
+  color: #0D47A1;
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -317,7 +317,7 @@
 }
 
 .appointment-add-interval-btn:hover {
-  border-color: #2196f3;
+  border-color: #0D47A1;
   background-color: rgba(33, 150, 243, 0.05);
 }
 

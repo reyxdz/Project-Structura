@@ -62,12 +62,12 @@
 
 .field-item:hover {
   background-color: #f0f0f0;
-  border-color: #2196f3;
+  border-color: #0D47A1;
 }
 
 .field-item.selected {
   background-color: #e3f2fd;
-  border-color: #2196f3;
+  border-color: #0D47A1;
   border-width: 2px;
 }
 
