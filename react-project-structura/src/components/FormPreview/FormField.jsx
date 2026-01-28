@@ -9,6 +9,14 @@ import './FormField.css';
 export default function FormField({ field, control, error }) {
     const validationRules = buildValidationRules(field);
 
+    // Appointment field state
+    const [appointmentState, setAppointmentState] = React.useState(() => ({
+        selectedDate: null,
+        selectedTime: null,
+        currentMonth: new Date().getMonth(),
+        currentYear: new Date().getFullYear(),
+    }));
+
     // Handle non-input fields (like HEADING) that don't need form control
     if (field.type === FIELD_TYPES.HEADING) {
         const headingSize = field.metadata?.headingSize || 'default';
@@ -23,68 +31,7 @@ export default function FormField({ field, control, error }) {
         );
     }
 
-    // Handle APPOINTMENT field
-    if (field.type === FIELD_TYPES.APPOINTMENT) {
-        const timeSlots = field.metadata?.timeSlots || [];
-        const timezone = field.metadata?.timezone || 'America/New_York';
-        const sublabel = field.metadata?.sublabel || '';
 
-        return (
-            <div className="form-field">
-                <label htmlFor={field.id}>
-                    {field.label}
-                    {field.required && <span className="required-asterisk">*</span>}
-                </label>
-                <div className="appointment-field-wrapper">
-                    <div className="appointment-main-container">
-                        <div className="appointment-calendar-display">
-                            <div className="appointment-date-input">
-                                <input type="text" placeholder="MM/DD/YYYY" />
-                                <svg className="appointment-calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                                    <path d="M16 2v4M8 2v4M3 10h18"></path>
-                                </svg>
-                            </div>
-                            <div className="appointment-month-year">
-                                <select disabled>
-                                    <option>January</option>
-                                </select>
-                                <select disabled>
-                                    <option>2026</option>
-                                </select>
-                            </div>
-                            <div className="appointment-weekdays">
-                                <div>SUN</div>
-                                <div>MON</div>
-                                <div>TUE</div>
-                                <div>WED</div>
-                                <div>THU</div>
-                                <div>FRI</div>
-                                <div>SAT</div>
-                            </div>
-                            <div className="appointment-calendar-grid">
-                                {Array.from({ length: 35 }, (_, i) => (
-                                    <div key={i} className="appointment-day">{i % 31 + 1}</div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="appointment-times">
-                            <div className="appointment-date-display">Select Time</div>
-                            <div className="appointment-time-slots">
-                                {timeSlots.map((slot, idx) => (
-                                    <button key={idx} className="appointment-time-slot" disabled>{slot}</button>
-                                ))}
-                            </div>
-                            {timezone && (
-                                <div className="appointment-timezone">{timezone}</div>
-                            )}
-                        </div>
-                    </div>
-                    {sublabel && <p className="appointment-sublabel">{sublabel}</p>}
-                </div>
-            </div>
-        );
-    }
 
     // Handle SIGNATURE field
     if (field.type === FIELD_TYPES.SIGNATURE) {
@@ -287,66 +234,220 @@ export default function FormField({ field, control, error }) {
 
                         case FIELD_TYPES.APPOINTMENT: {
                             const appointmentSublabel = field.metadata?.sublabel || '';
-                            const timeSlots = field.metadata?.timeSlots || ['9:00 AM', '10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM'];
+                            const slotDuration = field.metadata?.slotDuration || '30';
+                            const customSlotDuration = field.metadata?.customSlotDuration || '';
+                            const intervals = field.metadata?.intervals || [];
+                            const timezone = field.metadata?.timezone || 'America/New York';
+
+                            const getSlotMinutes = () => {
+                                if (slotDuration === 'custom') {
+                                    return parseInt(customSlotDuration) || 30;
+                                }
+                                return parseInt(slotDuration) || 30;
+                            };
+
+                            const generateSlotsForDate = (date) => {
+                                if (!intervals || intervals.length === 0) return [];
+                                
+                                const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+                                const dayOfWeek = dayNames[date.getDay()];
+                                const slotMinutes = getSlotMinutes();
+                                const slots = [];
+
+                                const matchingIntervals = intervals.filter((interval) =>
+                                    interval && (interval.daysOfWeek || []).includes(dayOfWeek)
+                                );
+
+                                matchingIntervals.forEach((interval) => {
+                                    if (!interval.startTime || !interval.endTime) return;
+                                    
+                                    const [startHour, startMin] = interval.startTime.split(':').map(Number);
+                                    const [endHour, endMin] = interval.endTime.split(':').map(Number);
+
+                                    const startTotalMin = startHour * 60 + startMin;
+                                    const endTotalMin = endHour * 60 + endMin;
+
+                                    for (let time = startTotalMin; time < endTotalMin; time += slotMinutes) {
+                                        const hour = Math.floor(time / 60);
+                                        const minute = time % 60;
+                                        const displayHour = hour % 12 || 12;
+                                        const period = hour < 12 ? 'AM' : 'PM';
+                                        const timeStr = `${displayHour}:${String(minute).padStart(2, '0')} ${period}`;
+                                        slots.push(timeStr);
+                                    }
+                                });
+
+                                return slots;
+                            };
+
+                            const getDaysInMonth = (month, year) => {
+                                return new Date(year, month + 1, 0).getDate();
+                            };
+
+                            const getFirstDayOfMonth = (month, year) => {
+                                return new Date(year, month, 1).getDay();
+                            };
+
+                            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                            
+                            const daysInMonth = getDaysInMonth(appointmentState.currentMonth, appointmentState.currentYear);
+                            const firstDay = getFirstDayOfMonth(appointmentState.currentMonth, appointmentState.currentYear);
+                            const calendarDays = [];
+                            for (let i = 0; i < firstDay; i++) {
+                                calendarDays.push(null);
+                            }
+                            for (let day = 1; day <= daysInMonth; day++) {
+                                calendarDays.push(day);
+                            }
+
+                            const handleDateClick = (day) => {
+                                if (day) {
+                                    const selectedDate = new Date(appointmentState.currentYear, appointmentState.currentMonth, day);
+                                    const dateStr = selectedDate.toISOString().split('T')[0];
+                                    setAppointmentState((prev) => ({
+                                        ...prev,
+                                        selectedDate: dateStr,
+                                        selectedTime: null,
+                                    }));
+                                }
+                            };
+
+                            const handleTimeSelect = (time) => {
+                                setAppointmentState((prev) => ({ ...prev, selectedTime: time }));
+                                const newValue = `${appointmentState.selectedDate} ${time}`;
+                                fieldProps.onChange(newValue);
+                            };
+
+                            const handleMonthChange = (newMonth) => {
+                                setAppointmentState((prev) => ({
+                                    ...prev,
+                                    currentMonth: parseInt(newMonth)
+                                }));
+                            };
+
+                            const handleYearChange = (newYear) => {
+                                setAppointmentState((prev) => ({
+                                    ...prev,
+                                    currentYear: parseInt(newYear)
+                                }));
+                            };
+
+                            const getFormattedDate = () => {
+                                if (!appointmentState.selectedDate) return '';
+                                const date = new Date(appointmentState.selectedDate + 'T00:00:00');
+                                const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                                const dayName = dayNames[date.getDay()];
+                                const monthName = monthNames[date.getMonth()];
+                                const dayDate = date.getDate();
+                                return `${dayName}, ${monthName} ${dayDate}`;
+                            };
+
+                            const handleCancelSelection = () => {
+                                setAppointmentState({ 
+                                    selectedDate: null, 
+                                    selectedTime: null, 
+                                    currentMonth: new Date().getMonth(), 
+                                    currentYear: new Date().getFullYear() 
+                                });
+                                fieldProps.onChange('');
+                            };
+
+                            const timeSlots = appointmentState.selectedDate ? generateSlotsForDate(new Date(appointmentState.selectedDate + 'T00:00:00')) : [];
+
                             return (
                                 <div className="appointment-field-wrapper">
                                     <div className="appointment-main-container">
                                         <div className="appointment-calendar-display">
-                                            <div className="appointment-input-container">
-                                                <input 
-                                                    {...fieldProps}
+                                            <div className="appointment-date-input">
+                                                <input
                                                     type="text"
                                                     placeholder="MM/DD/YYYY"
-                                                    className={error ? 'input-error' : ''}
+                                                    readOnly
+                                                    value={appointmentState.selectedDate ? appointmentState.selectedDate.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1') : ''}
                                                 />
-                                                <svg className="appointment-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <svg className="appointment-calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                                                     <rect x="3" y="4" width="18" height="18" rx="2"></rect>
                                                     <path d="M16 2v4M8 2v4M3 10h18"></path>
                                                 </svg>
                                             </div>
-                                            <div className="appointment-month-year-display">
-                                                <select>
-                                                    <option>January</option>
-                                                    <option>February</option>
-                                                    <option>March</option>
-                                                    <option>April</option>
-                                                    <option>May</option>
-                                                    <option>June</option>
-                                                    <option>July</option>
-                                                    <option>August</option>
-                                                    <option>September</option>
-                                                    <option>October</option>
-                                                    <option>November</option>
-                                                    <option>December</option>
+                                            <div className="appointment-month-year-controls">
+                                                <select 
+                                                    className="appointment-month-dropdown"
+                                                    value={appointmentState.currentMonth}
+                                                    onChange={(e) => handleMonthChange(e.target.value)}
+                                                >
+                                                    {monthNames.map((month, idx) => (
+                                                        <option key={idx} value={idx}>{month}</option>
+                                                    ))}
                                                 </select>
-                                                <select>
-                                                    <option>2024</option>
-                                                    <option>2025</option>
-                                                    <option>2026</option>
-                                                    <option>2027</option>
-                                                    <option>2028</option>
+                                                <select 
+                                                    className="appointment-year-dropdown"
+                                                    value={appointmentState.currentYear}
+                                                    onChange={(e) => handleYearChange(e.target.value)}
+                                                >
+                                                    {[2024, 2025, 2026, 2027, 2028].map((year) => (
+                                                        <option key={year} value={year}>{year}</option>
+                                                    ))}
                                                 </select>
                                             </div>
-                                            <div className="appointment-weekdays-display">
+                                            <div className="appointment-weekdays">
                                                 <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
                                             </div>
-                                            <div className="appointment-days-grid">
-                                                {Array.from({ length: 42 }, (_, i) => (
-                                                    <div key={i} className="appointment-day-cell">{i % 31 + 1}</div>
+                                            <div className="appointment-calendar-grid">
+                                                {calendarDays.map((day, i) => (
+                                                    <div
+                                                        key={i}
+                                                        className={`appointment-day ${day ? 'clickable' : ''} ${appointmentState.selectedDate === `${appointmentState.currentYear}-${String(appointmentState.currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}` ? 'selected' : ''}`}
+                                                        onClick={() => handleDateClick(day)}
+                                                    >
+                                                        {day}
+                                                    </div>
                                                 ))}
                                             </div>
                                         </div>
-                                        <div className="appointment-times-display">
-                                            <div className="appointment-selected-date">Select Date</div>
-                                            <div className="appointment-time-buttons">
-                                                {timeSlots.map((slot, idx) => (
-                                                    <button key={idx} type="button" className="appointment-time-btn">{slot}</button>
-                                                ))}
+                                        <div className="appointment-times">
+                                            {appointmentState.selectedDate && (
+                                                <div className="appointment-date-display">{getFormattedDate()}</div>
+                                            )}
+                                            <div className="appointment-time-slots">
+                                                {timeSlots.length > 0 ? (
+                                                    timeSlots.map((slot, idx) => (
+                                                        <button
+                                                            key={idx}
+                                                            type="button"
+                                                            className={`appointment-time-slot ${appointmentState.selectedTime === slot ? 'selected' : ''}`}
+                                                            onClick={() => handleTimeSelect(slot)}
+                                                        >
+                                                            {slot}
+                                                        </button>
+                                                    ))
+                                                ) : (
+                                                    <div className="appointment-no-slots">
+                                                        {appointmentState.selectedDate ? 'No available slots for this date' : 'Select a date'}
+                                                    </div>
+                                                )}
                                             </div>
+                                            {timezone && (
+                                                <div className="appointment-timezone">{timezone}</div>
+                                            )}
                                         </div>
                                     </div>
-                                    {appointmentSublabel && (
-                                        <p className="appointment-field-sublabel">{appointmentSublabel}</p>
+                                    {appointmentState.selectedDate && appointmentState.selectedTime && (
+                                        <div className="appointment-selected-summary">
+                                            <div className="appointment-summary-content">
+                                                <svg className="appointment-summary-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                <div className="appointment-summary-text">
+                                                    <div className="appointment-summary-label">Selected Time</div>
+                                                    <div className="appointment-summary-value">{appointmentState.selectedTime} {getFormattedDate()}</div>
+                                                </div>
+                                            </div>
+                                            <button type="button" className="appointment-cancel-btn" onClick={handleCancelSelection}>Cancel Selection</button>
+                                        </div>
+                                    )}
+                                    {appointmentSublabel && !appointmentState.selectedTime && (
+                                        <p className="appointment-sublabel">{appointmentSublabel}</p>
                                     )}
                                 </div>
                             );

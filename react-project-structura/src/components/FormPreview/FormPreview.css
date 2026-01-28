@@ -2,7 +2,7 @@
   background-color: white;
   border-radius: 8px;
   padding: 32px;
-  max-width: 600px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -10,6 +10,9 @@
   margin-bottom: 32px;
   border-bottom: 2px solid #f0f0f0;
   padding-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .form-preview-header h2 {
@@ -22,6 +25,122 @@
   margin: 0;
   color: #666;
   font-size: 14px;
+}
+
+.device-selector {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.device-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  background-color: white;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.device-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.device-btn:hover {
+  border-color: #2196f3;
+  color: #2196f3;
+  background-color: #f9fbff;
+}
+
+.device-btn.active {
+  border-color: #2196f3;
+  background-color: #2196f3;
+  color: white;
+}
+
+.form-preview-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  min-height: 600px;
+}
+
+.form-preview-container.desktop-view {
+  background-color: #f5f5f5;
+}
+
+.form-preview-container.tablet-view {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  padding: 40px 20px;
+}
+
+.form-preview-container.mobile-view {
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  padding: 40px 20px;
+}
+
+.form-preview-container.mobile-view .form-preview-body {
+  width: 375px;
+  height: 667px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  background-color: white;
+  border: 12px solid #333;
+  border-radius: 40px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  box-sizing: border-box;
+}
+
+.form-preview-container.mobile-view .form-preview-body::-webkit-scrollbar {
+  display: none;
+}
+
+.form-preview-container.mobile-view .form-preview-body::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 25px;
+  background-color: #333;
+  border-radius: 0 0 20px 20px;
+  z-index: 10;
+}
+
+.form-preview-container.tablet-view .form-preview-body {
+  width: 768px;
+  height: 1024px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  background-color: white;
+  border: 16px solid #555;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.form-preview-container.tablet-view .form-preview-body::-webkit-scrollbar {
+  display: none;
+}
+
+.form-preview-container.desktop-view .form-preview-body {
+  width: 100%;
+  max-width: 800px;
+  background-color: white;
+  padding: 20px;
 }
 
 .form-preview-body {

@@ -155,3 +155,172 @@
   border-color: #2196f3;
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
+
+/* ===== APPOINTMENT FIELD CONFIGURATION ===== */
+
+.appointment-duration-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.appointment-duration-btn {
+  flex: 1;
+  min-width: 80px;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.appointment-duration-btn:hover {
+  border-color: #999;
+  background-color: #f9f9f9;
+}
+
+.appointment-duration-btn.active {
+  background-color: #2196f3;
+  border-color: #2196f3;
+  color: white;
+}
+
+.appointment-intervals-list {
+  margin: 12px 0;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #fafafa;
+  overflow: hidden;
+}
+
+.appointment-interval-item {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.appointment-interval-item:last-child {
+  border-bottom: none;
+}
+
+.appointment-interval-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.appointment-interval-times {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.interval-time-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.interval-time-group label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+}
+
+.interval-time-group input[type="time"] {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #fff;
+  color: #333;
+}
+
+.interval-time-group input[type="time"]:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.appointment-interval-delete-btn {
+  padding: 6px 10px;
+  border: 1px solid #d32f2f;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #d32f2f;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 1;
+  transition: all 0.2s ease;
+  min-width: 32px;
+  height: 32px;
+}
+
+.appointment-interval-delete-btn:hover {
+  border-color: #d32f2f;
+  color: white;
+  background-color: #d32f2f;
+}
+
+.appointment-weekdays-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.appointment-weekdays-selector label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+}
+
+.appointment-weekdays-multi-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #fff;
+  color: #333;
+  min-height: 100px;
+}
+
+.appointment-weekdays-multi-select:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.appointment-weekdays-multi-select option:checked {
+  background: linear-gradient(#2196f3, #2196f3);
+  background-color: #2196f3;
+  color: white;
+}
+
+.appointment-add-interval-btn {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fafafa;
+  color: #2196f3;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.appointment-add-interval-btn:hover {
+  border-color: #2196f3;
+  background-color: rgba(33, 150, 243, 0.05);
+}
+
+.appointment-add-interval-btn:active {
+  background-color: rgba(33, 150, 243, 0.1);
+}

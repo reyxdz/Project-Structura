@@ -2,6 +2,7 @@
 // Phase 3 Step 5.1: Added conditional builder to the field configurator
 
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import ConditionalRuleBuilder from './ConditionalRuleBuilder';
 import { useFormStore } from '../../stores/formStore';
 import {FIELD_TYPES, VALIDATION_TYPES } from '../../types/formTypes';
@@ -697,8 +698,67 @@ export default function FieldConfigurator() {
     // Render appointment-specific configuration
     if (selectedField.type === FIELD_TYPES.APPOINTMENT) {
         const sublabel = selectedField.metadata?.sublabel || '';
-        const timeSlots = selectedField.metadata?.timeSlots || ['9:00 AM', '10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM'];
+        const slotDuration = selectedField.metadata?.slotDuration || '30';
+        const customSlotDuration = selectedField.metadata?.customSlotDuration || '';
+        const intervals = selectedField.metadata?.intervals || [];
         const timezone = selectedField.metadata?.timezone || 'America/New York';
+        const daysOfWeekOptions = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+        const handleSlotDurationChange = (duration) => {
+            updateField(selectedFieldId, {
+                metadata: {
+                    ...selectedField.metadata,
+                    slotDuration: duration,
+                    customSlotDuration: duration === 'custom' ? customSlotDuration : null,
+                },
+            });
+        };
+
+        const handleCustomSlotDurationChange = (value) => {
+            updateField(selectedFieldId, {
+                metadata: {
+                    ...selectedField.metadata,
+                    customSlotDuration: value,
+                },
+            });
+        };
+
+        const handleAddInterval = () => {
+            const newInterval = {
+                id: uuidv4(),
+                startTime: '09:00',
+                endTime: '17:00',
+                daysOfWeek: ['MON', 'TUE', 'WED', 'THU', 'FRI'],
+            };
+            updateField(selectedFieldId, {
+                metadata: {
+                    ...selectedField.metadata,
+                    intervals: [...intervals, newInterval],
+                },
+            });
+        };
+
+        const handleUpdateInterval = (intervalId, updates) => {
+            const updatedIntervals = intervals.map((interval) =>
+                interval.id === intervalId ? { ...interval, ...updates } : interval
+            );
+            updateField(selectedFieldId, {
+                metadata: {
+                    ...selectedField.metadata,
+                    intervals: updatedIntervals,
+                },
+            });
+        };
+
+        const handleRemoveInterval = (intervalId) => {
+            const updatedIntervals = intervals.filter((interval) => interval.id !== intervalId);
+            updateField(selectedFieldId, {
+                metadata: {
+                    ...selectedField.metadata,
+                    intervals: updatedIntervals,
+                },
+            });
+        };
 
         return (
             <div className="field-configurator">
@@ -740,26 +800,141 @@ export default function FieldConfigurator() {
 
                 <div className="config-divider" />
 
-                {/* Time Slots */}
+                {/* Slot Duration */}
                 <div className="config-section">
                     <label>
-                        <span>Available Time Slots</span>
-                        <textarea
-                            value={timeSlots.join('\n')}
-                            onChange={(e) =>
-                                updateField(selectedFieldId, {
-                                    metadata: {
-                                        ...selectedField.metadata,
-                                        timeSlots: e.target.value.split('\n').filter(t => t.trim()),
-                                    },
-                                })
-                            }
-                            placeholder="9:00 AM&#10;10:00 AM&#10;11:00 AM"
-                            rows="6"
-                            style={{ fontFamily: 'monospace', fontSize: '12px', padding: '8px' }}
-                        />
+                        <span>Appointment Slot Duration</span>
+                        <p className="config-hint" style={{ marginTop: '-2px' }}>
+                            Select the length of each appointment slot
+                        </p>
                     </label>
-                    <p className="config-hint">Enter one time slot per line</p>
+                    <div className="appointment-duration-buttons">
+                        {['15', '30', '45', '60'].map((duration) => (
+                            <button
+                                key={duration}
+                                type="button"
+                                className={`appointment-duration-btn ${slotDuration === duration ? 'active' : ''}`}
+                                onClick={() => handleSlotDurationChange(duration)}
+                            >
+                                {duration} min
+                            </button>
+                        ))}
+                        <button
+                            type="button"
+                            className={`appointment-duration-btn ${slotDuration === 'custom' ? 'active' : ''}`}
+                            onClick={() => handleSlotDurationChange('custom')}
+                        >
+                            Custom
+                        </button>
+                    </div>
+                    {slotDuration === 'custom' && (
+                        <div style={{ marginTop: '12px' }}>
+                            <input
+                                type="number"
+                                min="1"
+                                max="480"
+                                value={customSlotDuration || ''}
+                                onChange={(e) => handleCustomSlotDurationChange(e.target.value)}
+                                placeholder="Enter minutes"
+                                style={{ width: '100%' }}
+                            />
+                        </div>
+                    )}
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Intervals */}
+                <div className="config-section">
+                    <label>
+                        <span>Intervals</span>
+                        <p className="config-hint" style={{ marginTop: '-2px' }}>
+                            Define the days and times you will accept appointments
+                        </p>
+                    </label>
+
+                    <div className="appointment-intervals-list">
+                        {intervals.length === 0 ? (
+                            <p className="config-hint" style={{ textAlign: 'center', padding: '12px' }}>
+                                No intervals added yet
+                            </p>
+                        ) : (
+                            intervals.map((interval) => (
+                                <div key={interval.id} className="appointment-interval-item">
+                                    <div className="appointment-interval-header">
+                                        <button
+                                            type="button"
+                                            className="appointment-interval-delete-btn"
+                                            onClick={() => handleRemoveInterval(interval.id)}
+                                            title="Remove interval"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+
+                                    <div className="appointment-interval-times">
+                                        <div className="interval-time-group">
+                                            <label>From</label>
+                                            <input
+                                                type="time"
+                                                value={interval.startTime || '09:00'}
+                                                onChange={(e) =>
+                                                    handleUpdateInterval(interval.id, {
+                                                        startTime: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        </div>
+
+                                        <div className="interval-time-group">
+                                            <label>To</label>
+                                            <input
+                                                type="time"
+                                                value={interval.endTime || '17:00'}
+                                                onChange={(e) =>
+                                                    handleUpdateInterval(interval.id, {
+                                                        endTime: e.target.value,
+                                                    })
+                                                }
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="appointment-weekdays-selector">
+                                        <label>Weekdays</label>
+                                        <select
+                                            multiple
+                                            value={interval.daysOfWeek || []}
+                                            onChange={(e) => {
+                                                const selected = Array.from(
+                                                    e.target.selectedOptions,
+                                                    (option) => option.value
+                                                );
+                                                handleUpdateInterval(interval.id, {
+                                                    daysOfWeek: selected,
+                                                });
+                                            }}
+                                            className="appointment-weekdays-multi-select"
+                                        >
+                                            {daysOfWeekOptions.map((day) => (
+                                                <option key={day} value={day}>
+                                                    {day}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+
+                    <button
+                        type="button"
+                        className="appointment-add-interval-btn"
+                        onClick={handleAddInterval}
+                    >
+                        + Add New Interval
+                    </button>
                 </div>
 
                 <div className="config-divider" />
@@ -802,7 +977,7 @@ export default function FieldConfigurator() {
                                     },
                                 })
                             }
-                            placeholder="Please select an appointment date and time"
+                            placeholder="Select your preferred appointment date and time"
                         />
                     </label>
                     <p className="config-hint">Add a short description below the field</p>

@@ -82,11 +82,21 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
     if (type === FIELD_TYPES.APPOINTMENT) {
         field.label = 'Appointment';
         field.placeholder = '';
-        field.metadata.selectedDate = null;
-        field.metadata.timeSlots = ['9:00 AM', '10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM'];
-        field.metadata.selectedTime = null;
+        field.metadata.slotDuration = '30'; // 15, 30, 45, 60, or 'custom'
+        field.metadata.customSlotDuration = null; // For custom durations
+        field.metadata.intervals = [ // Array of time intervals per day
+            {
+                id: 'interval-1',
+                startTime: '09:00',
+                endTime: '17:00',
+                daysOfWeek: ['MON', 'TUE', 'WED', 'THU', 'FRI']
+            }
+        ];
         field.metadata.timezone = 'America/New York';
-        field.metadata.sublabel = 'Please select an appointment date and time';
+        field.metadata.sublabel = 'Select your preferred appointment date and time';
+        // Runtime state (not persisted)
+        field.metadata.selectedDate = null;
+        field.metadata.selectedTime = null;
     }
 
     // Initialize signature field
