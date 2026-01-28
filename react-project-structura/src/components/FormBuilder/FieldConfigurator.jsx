@@ -322,6 +322,148 @@ export default function FieldConfigurator() {
         );
     }
 
+    // Render Long Text-specific configuration
+    if (selectedField.type === FIELD_TYPES.LONG_TEXT) {
+        const sublabel = selectedField.metadata?.sublabel || '';
+        const wordLimitEnabled = selectedField.metadata?.wordLimitEnabled || false;
+        const maxWords = selectedField.metadata?.maxWords || '';
+
+        return (
+            <div className="field-configurator">
+                <h3>Long Text Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Type a question"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required,
+                                })
+                            }
+                        >
+                            {selectedField.required ? 'Required' : 'Optional'}
+                        </button>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Sublabel */}
+                <div className="config-section">
+                    <label>
+                        <span>Sublabel</span>
+                        <input
+                            type="text"
+                            value={sublabel}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    metadata: {
+                                        ...selectedField.metadata,
+                                        sublabel: e.target.value,
+                                    },
+                                })
+                            }
+                            placeholder="Type a sublabel"
+                        />
+                    </label>
+                    <p className="config-hint">Add a short description below the field</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Word Limit */}
+                <div className="config-section">
+                    <label>
+                        <span>Word Limit</span>
+                        <div className="word-limit-group">
+                            <button
+                                type="button"
+                                className={`alignment-btn ${wordLimitEnabled ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            wordLimitEnabled: !wordLimitEnabled,
+                                        },
+                                    })
+                                }
+                            >
+                                {wordLimitEnabled ? 'On' : 'Off'}
+                            </button>
+                            {wordLimitEnabled && (
+                                <input
+                                    type="number"
+                                    min="1"
+                                    value={maxWords}
+                                    onChange={(e) =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                maxWords: parseInt(e.target.value) || 0,
+                                            },
+                                        })
+                                    }
+                                    placeholder="Maximum word limit"
+                                    className="word-limit-input"
+                                />
+                            )}
+                        </div>
+                    </label>
+                    <p className="config-hint">Limit the number of words allowed for this field</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     // Render Full Name-specific configuration
     if (selectedField.type === FIELD_TYPES.FULL_NAME) {
         const firstNameLabel = selectedField.metadata?.firstNameLabel || 'First Name';

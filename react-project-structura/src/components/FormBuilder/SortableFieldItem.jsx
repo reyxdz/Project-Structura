@@ -209,6 +209,20 @@ export default function SortableFieldItem({
                     />
                     <p className="short-text-sublabel">{field.metadata?.sublabel || 'Type a sublabel'}</p>
                 </div>
+            ) : field.type === FIELD_TYPES.LONG_TEXT ? (
+                <div className="long-text-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Type a question'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <textarea 
+                        placeholder="" 
+                        disabled 
+                    />
+                    <p className="long-text-sublabel">{field.metadata?.sublabel || 'Type a sublabel'}</p>
+                </div>
             ) : field.type === FIELD_TYPES.SIGNATURE ? (
                 <div className="signature-field-builder">
                     <div className="field-item-header">

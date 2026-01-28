@@ -495,3 +495,43 @@
 .character-limit-input::placeholder {
   color: #999;
 }
+
+/* Word Limit Configuration */
+.word-limit-group {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.word-limit-input {
+  width: 100px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: white;
+  color: #333;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.word-limit-input::-webkit-outer-spin-button,
+.word-limit-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.word-limit-input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.word-limit-input:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.word-limit-input::placeholder {
+  color: #999;
+}

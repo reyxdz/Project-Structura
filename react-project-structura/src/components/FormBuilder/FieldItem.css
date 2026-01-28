@@ -813,3 +813,34 @@
   margin: 0;
   line-height: 1.4;
 }
+
+/* Long Text Field Builder */
+.long-text-field-builder {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.long-text-field-builder .field-item-header {
+  margin-bottom: 8px;
+}
+
+.long-text-field-builder textarea {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #f9f9f9;
+  color: #999;
+  margin-bottom: 8px;
+  height: 132px;
+  font-family: inherit;
+  resize: none;
+}
+
+.long-text-sublabel {
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+  line-height: 1.4;
+}

@@ -114,6 +114,15 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.maxCharacters = 0;
     }
 
+    // Initialize long text field
+    if (type === FIELD_TYPES.LONG_TEXT) {
+        field.label = 'Type a question';
+        field.placeholder = 'Type a question';
+        field.metadata.sublabel = '';
+        field.metadata.wordLimitEnabled = false;
+        field.metadata.maxWords = 0;
+    }
+
     return field;
 };
 
