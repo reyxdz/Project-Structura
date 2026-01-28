@@ -6,7 +6,7 @@ import Canvas from './Canvas';
 import FieldPalette from './FieldPalette';
 import FieldConfigurator from './FieldConfigurator';
 import FormPreview from '../FormPreview/FormPreview';
-import psLogo from '../../images/ps_logo.png';
+import psLogo from '../../images/logo_v2.png';
 import './FormBuilder.css';
 
 export default function FormBuilder() {

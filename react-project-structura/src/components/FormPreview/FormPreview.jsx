@@ -5,7 +5,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useFormStore } from '../../stores/formStore';
 import { FIELD_TYPES } from '../../types/formTypes';
-import { shouldFieldBeVisible, shouldFieldBeEnabled } from '../../utils/conditionalRules';
+import { shouldFieldBeVisible } from '../../utils/conditionalRules';
 import FormField from './FormField';
 import './FormPreview.css';
 
@@ -37,7 +37,6 @@ export default function FormPreview() {
                     {form.fields.map((field) => {
                         // Check if field should be visible based on conditionals
                         const isVisible = shouldFieldBeVisible(field, previewData, form.fields);
-                        const isEnabled = shouldFieldBeEnabled(field, previewData, form.fields);
 
                         if (!isVisible) {
                             return null; // Don't render hiddedn fields
