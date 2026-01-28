@@ -316,8 +316,7 @@
 }
 
 /* Long Text / Paragraph Field */
-.long-text-field-builder textarea,
-.paragraph-field-builder textarea {
+.long-text-field-builder textarea {
   width: 100%;
   padding: 8px 12px;
   border: 1px solid #ddd;

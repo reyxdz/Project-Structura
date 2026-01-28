@@ -17,7 +17,6 @@ import appointmentIcon from '../../icons/appointment.png';
 import signatureIcon from '../../icons/signature.png';
 import shortTextIcon from '../../icons/short_text.png';
 import longTextIcon from '../../icons/long_text.png';
-import paragraphIcon from '../../icons/paragraph.png';
 import dropdownIcon from '../../icons/dropdown.png';
 import singleChoiceIcon from '../../icons/single_choice.png';
 import multipleChoiceIcon from '../../icons/multiple_choice.png';
@@ -53,7 +52,6 @@ const fieldSections = [
         fields: [
             FIELD_TYPES.SHORT_TEXT,
             FIELD_TYPES.LONG_TEXT,
-            FIELD_TYPES.PARAGRAPH,
             FIELD_TYPES.DROPDOWN,
             FIELD_TYPES.SINGLE_CHOICE,
             FIELD_TYPES.MULTIPLE_CHOICE,
@@ -94,7 +92,6 @@ const fieldIcons = {
     [FIELD_TYPES.SIGNATURE]: signatureIcon,
     [FIELD_TYPES.SHORT_TEXT]: shortTextIcon,
     [FIELD_TYPES.LONG_TEXT]: longTextIcon,
-    [FIELD_TYPES.PARAGRAPH]: paragraphIcon,
     [FIELD_TYPES.DROPDOWN]: dropdownIcon,
     [FIELD_TYPES.SINGLE_CHOICE]: singleChoiceIcon,
     [FIELD_TYPES.MULTIPLE_CHOICE]: multipleChoiceIcon,

@@ -207,16 +207,6 @@ export default function DraggableFieldItem({ field, isDragging }) {
                     </div>
                     <textarea placeholder={field.placeholder || ''} rows="4" disabled />
                 </div>
-            ) : field.type === FIELD_TYPES.PARAGRAPH ? (
-                <div className="paragraph-field-builder">
-                    <div className="field-item-header">
-                        <span className="field-label">
-                            {field.label || 'Paragraph'}
-                            {field.required && <span className="required-asterisk">*</span>}
-                        </span>
-                    </div>
-                    <textarea placeholder={field.placeholder || ''} rows={field.metadata?.rows || 6} disabled />
-                </div>
             ) : field.type === FIELD_TYPES.DROPDOWN || field.type === FIELD_TYPES.SELECT ? (
                 <div className="dropdown-field-builder">
                     <div className="field-item-header">

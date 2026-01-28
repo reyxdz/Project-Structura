@@ -192,7 +192,6 @@ export const getFieldTypeLabel = (type) => {
         // Basic Elements
         [FIELD_TYPES.SHORT_TEXT]: 'Short Text',
         [FIELD_TYPES.LONG_TEXT]: 'Long Text',
-        [FIELD_TYPES.PARAGRAPH]: 'Paragraph',
         [FIELD_TYPES.TEXT]: 'Text Input',
         [FIELD_TYPES.DROPDOWN]: 'Dropdown',
         [FIELD_TYPES.SELECT]: 'Select Dropdown',

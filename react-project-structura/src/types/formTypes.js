@@ -88,7 +88,6 @@ export const FIELD_TYPES = {
   // Basic Elements
   SHORT_TEXT: 'shortText',
   LONG_TEXT: 'longText',
-  PARAGRAPH: 'paragraph',
   TEXT: 'text',
   DROPDOWN: 'dropdown',
   SELECT: 'select',
