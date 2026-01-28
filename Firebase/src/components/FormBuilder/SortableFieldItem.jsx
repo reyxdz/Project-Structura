@@ -193,23 +193,7 @@ export default function SortableFieldItem({
                     {field.metadata?.sublabel && (
                         <p className="appointment-sublabel">{field.metadata.sublabel}</p>
                     )}
-                </div>
-            ) : field.type === FIELD_TYPES.SHORT_TEXT ? (
-                <div className="short-text-field-builder">
-                    <div className="field-item-header">
-                        <span className="field-label">
-                            {field.label || 'Type a question'}
-                            {field.required && <span className="required-asterisk">*</span>}
-                        </span>
-                    </div>
-                    <input 
-                        type="text" 
-                        placeholder="" 
-                        disabled 
-                    />
-                    <p className="short-text-sublabel">{field.metadata?.sublabel || 'Type a sublabel'}</p>
-                </div>
-            ) : field.type === FIELD_TYPES.SIGNATURE ? (
+                </div>            ) : field.type === FIELD_TYPES.SIGNATURE ? (
                 <div className="signature-field-builder">
                     <div className="field-item-header">
                         <span className="field-label">

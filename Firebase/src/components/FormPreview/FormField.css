@@ -1,0 +1,1076 @@
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.form-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.required-asterisk {
+  color: #f44336;
+  margin-left: 4px;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.form-field input.input-error,
+.form-field textarea.input-error,
+.form-field select.input-error {
+  border-color: #f44336;
+  background-color: #ffebee;
+}
+
+.form-field input.input-error:focus,
+.form-field textarea.input-error:focus,
+.form-field select.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+.field-help-text {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  padding-top: 2px;
+}
+
+.email-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.email-field-wrapper input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.email-field-wrapper label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.email-field-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.phone-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.phone-field-wrapper input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.phone-field-wrapper label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.phone-field-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.date-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.date-field-wrapper label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.date-field-wrapper input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.date-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.date-input-container input {
+  padding-right: 36px;
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  color: #757575;
+  pointer-events: none;
+}
+
+.date-field-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  padding-top: 4px;
+  line-height: 1.4;
+}
+
+.field-error-message {
+  font-size: 12px;
+  color: #f44336;
+  margin: 0;
+  padding-top: 4px;
+  font-weight: 500;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-field input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.checkbox-field label {
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.radio-field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radio-option input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.radio-option label {
+  margin: 0;
+  cursor: pointer;
+}
+
+.error-message {
+  font-size: 12px;
+  color: #f44336;
+  margin: 0;
+  padding-top: 4px;
+  font-weight: 500;
+}
+
+.help-text {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+  padding-top: 2px;
+}
+
+.full-name-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.full-name-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.full-name-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.full-name-input:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.full-name-input.input-error {
+  border-color: #f44336;
+  background-color: #ffebee;
+}
+
+.full-name-input.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+.full-name-label {
+  font-size: 12px;
+  color: #757575;
+  font-weight: 500;
+  margin: 0;
+}
+
+.heading-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border: 2px solid #0D47A1;
+  border-radius: 4px;
+}
+
+.heading-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.2;
+}
+
+.heading-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: #999;
+  line-height: 1.4;
+}
+
+/* Heading size variants */
+.heading-field.heading-small .heading-title {
+  font-size: 18px;
+}
+
+.heading-field.heading-small .heading-subtitle {
+  font-size: 12px;
+}
+
+.heading-field.heading-default .heading-title {
+  font-size: 28px;
+}
+
+.heading-field.heading-default .heading-subtitle {
+  font-size: 14px;
+}
+
+.heading-field.heading-large .heading-title {
+  font-size: 36px;
+}
+
+.heading-field.heading-large .heading-subtitle {
+  font-size: 16px;
+}
+
+/* Text alignment variants */
+.heading-field.heading-left {
+  text-align: left;
+}
+
+.heading-field.heading-center {
+  text-align: center;
+}
+
+.heading-field.heading-right {
+  text-align: right;
+}
+
+.address-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.address-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.address-field input:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.address-field input.input-error {
+  border-color: #f44336;
+  background-color: #ffebee;
+}
+
+.address-field input.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+.address-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.address-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.address-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.email-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.email-field-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Appointment Field Styles */
+.appointment-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.appointment-main-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  background-color: white !important;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.appointment-calendar-display {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.appointment-date-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.appointment-date-input input {
+  padding-right: 36px;
+  flex: 1;
+  background-color: white !important;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 13px;
+}
+
+.appointment-date-input input:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.appointment-calendar-icon {
+  position: absolute;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  color: #757575;
+  pointer-events: none;
+}
+
+.appointment-month-year-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.appointment-month-btn {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: all 0.2s;
+}
+
+.appointment-month-btn:hover {
+  border-color: #0D47A1;
+  color: #0D47A1;
+  background-color: #f0f5ff;
+}
+
+.appointment-month-year-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+.appointment-month-dropdown,
+.appointment-year-dropdown {
+  flex: 0 0 48%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  color: #333;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 12px;
+  padding-right: 32px;
+}
+
+.appointment-month-dropdown:hover,
+.appointment-year-dropdown:hover {
+  border-color: #0D47A1;
+  background-color: #f9fbff;
+}
+
+.appointment-month-dropdown:focus,
+.appointment-year-dropdown:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.appointment-month-year-display {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.appointment-month-year-display span {
+  min-width: fit-content;
+}
+
+.appointment-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 12px;
+  color: #4a90e2;
+  margin-bottom: 4px;
+}
+
+.appointment-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.appointment-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: white !important;
+  color: #333;
+  transition: all 0.2s;
+}
+
+.appointment-day.clickable {
+  cursor: pointer;
+}
+
+.appointment-day.clickable:hover {
+  border-color: #0D47A1;
+  background-color: #f0f5ff;
+}
+
+.appointment-day.selected {
+  background-color: #0D47A1 !important;
+  border-color: #0D47A1;
+  color: white !important;
+  font-weight: 600;
+}
+
+.appointment-times {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: flex-start;
+}
+
+.appointment-date-display {
+  padding: 8px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+  font-weight: 500;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 12px;
+  min-height: 20px;
+}
+
+.appointment-time-slots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.appointment-time-slot {
+  padding: 10px 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background-color: white !important;
+  color: #333;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.appointment-time-slot:hover {
+  border-color: #0D47A1;
+  background-color: #f0f5ff;
+}
+
+.appointment-time-slot.selected {
+  background-color: #0D47A1 !important;
+  border-color: #0D47A1;
+  color: white !important;
+}
+
+.appointment-no-slots {
+  grid-column: 1 / -1;
+  padding: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+}
+
+.appointment-timezone {
+  font-size: 12px;
+  color: #757575;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.appointment-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 12px 0 0 0;
+  line-height: 1.4;
+}
+
+.appointment-selected-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #0D47A1;
+  color: white;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 16px;
+  gap: 16px;
+}
+
+.appointment-summary-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.appointment-summary-icon {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  flex-shrink: 0;
+  color: white;
+}
+
+.appointment-summary-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.appointment-summary-label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.appointment-summary-value {
+  font-size: 13px;
+  opacity: 0.95;
+}
+
+.appointment-cancel-btn {
+  padding: 8px 16px;
+  background-color: white;
+  color: #0D47A1;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.appointment-cancel-btn:hover {
+  background-color: #f5f5f5;
+}
+
+/* Signature Field Styles */
+.signature-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.signature-canvas {
+  position: relative;
+  width: 100%;
+  min-height: 120px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.signature-placeholder-display {
+  font-size: 16px;
+  color: #b0b0b0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  font-weight: 400;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  letter-spacing: 0.5px;
+}
+
+.signature-icon {
+  position: absolute;
+  right: 20px;
+  width: 28px;
+  height: 28px;
+  color: #ccc;
+  pointer-events: none;
+}
+
+/* Full Name Field Styles */
+.full-name-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.full-name-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.full-name-inputs-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.full-name-preview-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.full-name-preview-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.full-name-label {
+  font-size: 12px;
+  color: #757575;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+
+/* Address Field Styles */
+.address-field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.address-field label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.address-inputs-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.address-input-group-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.address-inputs-preview input {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
+}
+
+.address-row-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.address-col-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.address-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+
+/* Date Field Styles */
+.date-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.date-input-wrapper input {
+  width: 100%;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .form-field label {
+    font-size: 13px;
+  }
+
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .full-name-field {
+    gap: 10px;
+  }
+
+  .full-name-input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .full-name-label {
+    font-size: 11px;
+  }
+
+  .heading-title {
+    font-size: 20px;
+  }
+
+  .heading-subtitle {
+    font-size: 12px;
+  }
+
+  .heading-field.heading-small .heading-title {
+    font-size: 14px;
+  }
+
+  .heading-field.heading-small .heading-subtitle {
+    font-size: 11px;
+  }
+
+  .heading-field.heading-default .heading-title {
+    font-size: 20px;
+  }
+
+  .heading-field.heading-default .heading-subtitle {
+    font-size: 12px;
+  }
+
+  .heading-field.heading-large .heading-title {
+    font-size: 26px;
+  }
+
+  .heading-field.heading-large .heading-subtitle {
+    font-size: 14px;
+  }
+
+  .address-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .appointment-main-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .appointment-month-dropdown,
+  .appointment-year-dropdown {
+    flex: 0 0 48%;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-field {
+    gap: 4px;
+  }
+
+  .form-field label {
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .required-asterisk {
+    margin-left: 2px;
+  }
+
+  .sublabel {
+    font-size: 10px;
+  }
+
+  .field-error-message {
+    font-size: 10px;
+  }
+
+  .full-name-field {
+    gap: 8px;
+  }
+
+  .full-name-input-group {
+    gap: 4px;
+  }
+
+  .full-name-input {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .full-name-label {
+    font-size: 10px;
+  }
+
+  .heading-field {
+    padding: 12px;
+  }
+
+  .heading-title {
+    font-size: 16px;
+  }
+
+  .heading-subtitle {
+    font-size: 11px;
+  }
+
+  .heading-field.heading-small .heading-title {
+    font-size: 12px;
+  }
+
+  .heading-field.heading-small .heading-subtitle {
+    font-size: 9px;
+  }
+
+  .heading-field.heading-default .heading-title {
+    font-size: 16px;
+  }
+
+  .heading-field.heading-default .heading-subtitle {
+    font-size: 11px;
+  }
+
+  .heading-field.heading-large .heading-title {
+    font-size: 22px;
+  }
+
+  .heading-field.heading-large .heading-subtitle {
+    font-size: 12px;
+  }
+
+  .address-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .checkbox-field,
+  .radio-field {
+    gap: 6px;
+  }
+
+  .appointment-field-wrapper {
+    gap: 8px;
+  }
+
+  .appointment-main-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .appointment-month-dropdown,
+  .appointment-year-dropdown {
+    flex: 0 0 48%;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .calendar-icon,
+  .appointment-calendar-icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .signature-icon {
+    width: 20px;
+    height: 20px;
+  }
+}

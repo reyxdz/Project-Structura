@@ -105,15 +105,6 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.placeholder = 'Sign Here';
     }
 
-    // Initialize short text field
-    if (type === FIELD_TYPES.SHORT_TEXT) {
-        field.label = 'Type a question';
-        field.placeholder = 'Type a question';
-        field.metadata.sublabel = '';
-        field.metadata.characterLimitEnabled = false;
-        field.metadata.maxCharacters = 0;
-    }
-
     return field;
 };
 
