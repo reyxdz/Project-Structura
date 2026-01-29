@@ -519,17 +519,6 @@
   color: #999;
 }
 
-/* Time Field */
-.time-field-builder input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 13px;
-  background-color: #f9f9f9;
-  color: #999;
-}
-
 /* Star Rating */
 .stars-preview {
   display: flex;

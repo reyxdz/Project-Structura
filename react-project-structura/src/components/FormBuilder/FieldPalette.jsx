@@ -23,7 +23,6 @@ import multipleChoiceIcon from '../../icons/multiple_choice.png';
 import numberIcon from '../../icons/number.png';
 import imageIcon from '../../icons/image.png';
 import fileUploadIcon from '../../icons/file_upload.png';
-import timeIcon from '../../icons/time.png';
 import captchaIcon from '../../icons/captcha.png';
 import submitIcon from '../../icons/submit.png';
 import inputTableIcon from '../../icons/input_table.png';
@@ -58,7 +57,6 @@ const fieldSections = [
             FIELD_TYPES.NUMBER,
             FIELD_TYPES.IMAGE,
             FIELD_TYPES.FILE,
-            FIELD_TYPES.TIME,
             FIELD_TYPES.CAPTCHA,
             FIELD_TYPES.SUBMIT,
         ],
@@ -98,7 +96,6 @@ const fieldIcons = {
     [FIELD_TYPES.NUMBER]: numberIcon,
     [FIELD_TYPES.IMAGE]: imageIcon,
     [FIELD_TYPES.FILE]: fileUploadIcon,
-    [FIELD_TYPES.TIME]: timeIcon,
     [FIELD_TYPES.CAPTCHA]: captchaIcon,
     [FIELD_TYPES.SUBMIT]: submitIcon,
     [FIELD_TYPES.INPUT_TABLE]: inputTableIcon,

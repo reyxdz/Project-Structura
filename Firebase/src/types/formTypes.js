@@ -99,7 +99,6 @@ export const FIELD_TYPES = {
   NUMBER: 'number',
   IMAGE: 'image',
   FILE: 'file',
-  TIME: 'time',
   CAPTCHA: 'captcha',
   SPINNER: 'spinner',
   SUBMIT: 'submit',

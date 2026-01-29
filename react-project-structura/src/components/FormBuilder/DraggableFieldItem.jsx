@@ -300,16 +300,6 @@ export default function DraggableFieldItem({ field, isDragging }) {
                     </div>
                     <div className="file-placeholder">📎 Click to upload or drag file</div>
                 </div>
-            ) : field.type === FIELD_TYPES.TIME ? (
-                <div className="time-field-builder">
-                    <div className="field-item-header">
-                        <span className="field-label">
-                            {field.label || 'Time'}
-                            {field.required && <span className="required-asterisk">*</span>}
-                        </span>
-                    </div>
-                    <input type="time" disabled />
-                </div>
             ) : field.type === FIELD_TYPES.STAR_RATING ? (
                 <div className="star-rating-field-builder">
                     <div className="field-item-header">

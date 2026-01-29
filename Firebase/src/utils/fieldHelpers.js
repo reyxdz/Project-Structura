@@ -242,7 +242,7 @@ export const getFieldTypeLabel = (type) => {
         [FIELD_TYPES.NUMBER]: 'Number',
         [FIELD_TYPES.IMAGE]: 'Image',
         [FIELD_TYPES.FILE]: 'File Upload',
-        [FIELD_TYPES.TIME]: 'Time',
+
         [FIELD_TYPES.CAPTCHA]: 'Captcha',
         [FIELD_TYPES.SPINNER]: 'Spinner',
         [FIELD_TYPES.SUBMIT]: 'Submit',
