@@ -97,19 +97,6 @@ export default function FormPreview() {
                     })}
                 </div>
             )}
-
-            <div className = "form-actions">
-                <button type = "submit" className = "btn btn-primary">
-                    Submit
-                </button>
-                <button
-                    type = "button"
-                    className = "btn btn-secondary"
-                    onClick = {onClear}
-                >
-                    Clear
-                </button>
-            </div>
         </>
     );
 
