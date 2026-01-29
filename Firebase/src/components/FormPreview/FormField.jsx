@@ -493,6 +493,7 @@ export default function FormField({ field, control, error }) {
                             )
 
                         case FIELD_TYPES.RADIO:
+                        case FIELD_TYPES.SINGLE_CHOICE:
                             return (
                                 <div className = "radio-field">
                                     {field.options?.map((option, idx) => (
@@ -500,7 +501,7 @@ export default function FormField({ field, control, error }) {
                                             <input 
                                                 type = "radio"
                                                 id = {`${field.id}-${idx}`}
-                                                value = {option.value || option}
+                                                value = {option.value || option.label || option}
                                                 {...fieldProps}
                                             />
                                             <label htmlFor = {`${field.id}-${idx}`}>

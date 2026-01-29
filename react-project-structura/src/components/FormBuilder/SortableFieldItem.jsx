@@ -239,6 +239,30 @@ export default function SortableFieldItem({
                     </select>
                     <p className="dropdown-sublabel">{field.metadata?.sublabel || 'Type a sublabel'}</p>
                 </div>
+            ) : field.type === FIELD_TYPES.SINGLE_CHOICE ? (
+                <div className="single-choice-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Type a question'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="radio-options-builder">
+                        {field.options && field.options.length > 0 ? (
+                            field.options.map((option, idx) => (
+                                <div key={idx} className="radio-option-builder">
+                                    <input type="radio" disabled />
+                                    <label>{option.label || option}</label>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="radio-option-builder">
+                                <input type="radio" disabled />
+                                <label>No options yet</label>
+                            </div>
+                        )}
+                    </div>
+                </div>
             ) : field.type === FIELD_TYPES.SIGNATURE ? (
                 <div className="signature-field-builder">
                     <div className="field-item-header">

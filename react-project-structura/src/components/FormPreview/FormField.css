@@ -269,6 +269,7 @@
 .radio-option label {
   margin: 0;
   cursor: pointer;
+  font-weight: 400;
 }
 
 .error-message {

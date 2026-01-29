@@ -231,12 +231,19 @@ export default function DraggableFieldItem({ field, isDragging }) {
                         </span>
                     </div>
                     <div className="radio-options-builder">
-                        {field.options?.map((opt, idx) => (
-                            <div key={idx} className="radio-option-builder">
+                        {field.options && field.options.length > 0 ? (
+                            field.options.map((opt, idx) => (
+                                <div key={idx} className="radio-option-builder">
+                                    <input type="radio" disabled />
+                                    <label>{opt.label || opt}</label>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="radio-option-builder">
                                 <input type="radio" disabled />
-                                <label>{opt.label || opt}</label>
+                                <label>No options yet</label>
                             </div>
-                        ))}
+                        )}
                     </div>
                 </div>
             ) : field.type === FIELD_TYPES.MULTIPLE_CHOICE ? (
