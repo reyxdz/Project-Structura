@@ -413,12 +413,52 @@
 }
 
 /* Image Field */
-.image-placeholder {
-  padding: 16px;
-  text-align: center;
-  background-color: #f0f0f0;
+.image-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.image-placeholder-wrapper {
+  width: 100%;
   border: 2px dashed #ddd;
-  border-radius: 4px;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+}
+
+.image-placeholder-wrapper img {
+  object-fit: contain;
+  display: block;
+  max-height: none;
+  max-width: none;
+  height: 100%;
+  width: 100%;
+}
+
+.image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #999;
+  font-size: 13px;
+}
+
+.image-icon {
+  width: 48px;
+  height: 48px;
+  color: #ddd;
+  flex-shrink: 0;
+}
+
+.image-placeholder p {
+  margin: 0;
+  color: #999;
+}
   font-size: 12px;
   color: #999;
 }

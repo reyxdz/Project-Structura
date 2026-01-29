@@ -251,6 +251,46 @@ export default function SortableFieldItem({
                     <input type="number" placeholder={field.placeholder || 'e.g., 23'} disabled />
                     <p className="field-sublabel">{field.metadata?.sublabel || ''}</p>
                 </div>
+            ) : field.type === FIELD_TYPES.IMAGE ? (
+                <div className="image-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Image'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div 
+                        className="image-placeholder-wrapper"
+                        style={{
+                            justifyContent: 
+                                field.metadata?.imageAlignment === 'left' ? 'flex-start' :
+                                field.metadata?.imageAlignment === 'right' ? 'flex-end' :
+                                'center'
+                        }}
+                    >
+                        {field.metadata?.imageData ? (
+                            <img 
+                                src={field.metadata.imageData} 
+                                alt="Uploaded" 
+                                style={{
+                                    height: `${field.metadata?.imageHeight || 200}px`,
+                                    width: `${field.metadata?.imageWidth || 200}px`,
+                                    objectFit: 'contain',
+                                    display: 'block'
+                                }}
+                            />
+                        ) : (
+                            <div className="image-placeholder">
+                                <svg className="image-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                    <path d="M21 15l-5-5L5 21"></path>
+                                </svg>
+                                <p>No image uploaded</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
             ) : field.type === FIELD_TYPES.SIGNATURE ? (
                 <div className="signature-field-builder">
                     <div className="field-item-header">

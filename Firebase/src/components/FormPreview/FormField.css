@@ -59,6 +59,7 @@
 }
 
 .form-field input[type="number"] {
+  appearance: none;
   -moz-appearance: textfield;
 }
 
@@ -1179,4 +1180,43 @@
     width: 20px;
     height: 20px;
   }
+}
+
+/* Image Field Styles */
+.image-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.image-display-container {
+  width: 100%;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fafafa;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease;
+}
+
+.image-display-container:hover {
+  border-color: #ccc;
+  background-color: #f5f5f5;
+}
+
+.image-display-container img {
+  max-height: 300px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.image-upload-icon {
+  width: 48px;
+  height: 48px;
+  color: #ccc;
+  margin-bottom: 8px;
 }

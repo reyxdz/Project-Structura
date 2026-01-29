@@ -186,6 +186,55 @@ export default function FormField({ field, control, error }) {
         );
     }
 
+    // Handle IMAGE field
+    if (field.type === FIELD_TYPES.IMAGE) {
+        const imageHeight = field.metadata?.imageHeight || 200;
+        const imageWidth = field.metadata?.imageWidth || 200;
+        const imageData = field.metadata?.imageData || null;
+        const imageAlignment = field.metadata?.imageAlignment || 'center';
+
+        return (
+            <div className="image-field-wrapper">
+                <label htmlFor={field.id}>
+                    {field.label}
+                    {field.required && <span className="required-asterisk">*</span>}
+                </label>
+                <div className="image-display-container" style={{
+                    width: '100%',
+                    border: '2px dashed #ccc',
+                    borderRadius: '8px',
+                    padding: '20px',
+                    minHeight: '100px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: imageAlignment === 'left' ? 'flex-start' : imageAlignment === 'right' ? 'flex-end' : 'center'
+                }}>
+                    {imageData ? (
+                        <img 
+                            src={imageData} 
+                            alt="Uploaded" 
+                            style={{
+                                height: `${imageHeight}px`,
+                                width: `${imageWidth}px`,
+                                objectFit: 'contain',
+                                display: 'block'
+                            }}
+                        />
+                    ) : (
+                        <div style={{color: '#999', fontSize: '14px'}}>
+                            <svg className="image-upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{width: '48px', height: '48px', margin: '0 auto 8px', color: '#ccc'}}>
+                                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <path d="M21 15l-5-5L5 21"></path>
+                            </svg>
+                            <p>No image uploaded</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className = "form-field">
             {field.type !== FIELD_TYPES.CHECKBOX && (

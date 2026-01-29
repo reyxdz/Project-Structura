@@ -1536,6 +1536,217 @@ export default function FieldConfigurator() {
         );
     }
 
+    // Render image-specific configuration
+    if (selectedField.type === FIELD_TYPES.IMAGE) {
+        const imageFileName = selectedField.metadata?.imageFileName || '';
+        const imageHeight = selectedField.metadata?.imageHeight || 200;
+        const imageWidth = selectedField.metadata?.imageWidth || 200;
+        const originalImageHeight = selectedField.metadata?.originalImageHeight || 0;
+        const originalImageWidth = selectedField.metadata?.originalImageWidth || 0;
+        
+        const handleImageUpload = (e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    updateField(selectedFieldId, {
+                        metadata: {
+                            ...selectedField.metadata,
+                            imageData: event.target?.result,
+                            imageFileName: file.name,
+                            originalImageHeight: img.height,
+                            originalImageWidth: img.width,
+                            imageHeight: Math.min(img.height, img.height * 5),
+                            imageWidth: Math.min(img.width, img.width * 5),
+                        },
+                    });
+                };
+                img.src = event.target?.result;
+            };
+            reader.readAsDataURL(file);
+        };
+
+        const handleDimensionChange = (value) => {
+            const numValue = parseInt(value) || 0;
+            const maxDimension = Math.max(originalImageHeight, originalImageWidth) * 5 || Infinity;
+            
+            // Enforce min of 0 and max based on original dimensions
+            const constrainedValue = Math.max(0, Math.min(numValue, maxDimension));
+            
+            updateField(selectedFieldId, {
+                metadata: {
+                    ...selectedField.metadata,
+                    imageHeight: constrainedValue,
+                    imageWidth: constrainedValue,
+                },
+            });
+        };
+
+        return (
+            <div className="field-configurator">
+                <h3>Image Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Image"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Image Upload */}
+                <div className="config-section">
+                    <label>
+                        <span>Upload Image</span>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="image-upload-input"
+                        />
+                    </label>
+                    {imageFileName && (
+                        <p className="config-hint">Uploaded: {imageFileName}</p>
+                    )}
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Image Dimensions */}
+                {originalImageHeight > 0 && originalImageWidth > 0 && (
+                    <>
+                        <div className="config-section">
+                            <label>
+                                <span>Image Size (px)</span>
+                                <input
+                                    type="number"
+                                    value={imageHeight}
+                                    onChange={(e) => handleDimensionChange(e.target.value)}
+                                    min="0"
+                                    max={Math.max(originalImageHeight, originalImageWidth) * 5}
+                                />
+                            </label>
+                            <p className="config-hint">Height and width are locked together. Max: {Math.max(originalImageHeight, originalImageWidth) * 5}px (5x original)</p>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Image Alignment */}
+                        <div className="config-section">
+                            <label>
+                                <span>Image Alignment</span>
+                                <div className="alignment-buttons">
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.imageAlignment === 'left' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    imageAlignment: 'left',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Left
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.imageAlignment === 'center' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    imageAlignment: 'center',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Center
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.imageAlignment === 'right' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    imageAlignment: 'right',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Right
+                                    </button>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+                    </>
+                )}}
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required,
+                                })
+                            }
+                        >
+                            {selectedField.required ? 'Required' : 'Optional'}
+                        </button>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     // Render heading-specific configuration
     if (selectedField.type === FIELD_TYPES.HEADING) {
         const headingSize = selectedField.metadata?.headingSize || 'default';

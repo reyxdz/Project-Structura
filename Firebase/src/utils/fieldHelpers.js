@@ -140,6 +140,19 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.maximumValue = 100;
     }
 
+    // Initialize image field
+    if (type === FIELD_TYPES.IMAGE) {
+        field.label = 'Image';
+        field.placeholder = '';
+        field.metadata.imageData = null; // Base64 encoded image
+        field.metadata.imageFileName = '';
+        field.metadata.imageHeight = 200;
+        field.metadata.imageWidth = 200;
+        field.metadata.originalImageHeight = 0;
+        field.metadata.originalImageWidth = 0;
+        field.metadata.imageAlignment = 'center';
+    }
+
     return field;
 };
 

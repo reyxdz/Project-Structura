@@ -676,3 +676,51 @@
 .add-option-input::placeholder {
   color: #999;
 }
+
+/* ===== IMAGE FIELD CONFIGURATION ===== */
+
+.image-dimensions-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.dimension-input-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dimension-input-wrapper label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+}
+
+.dimension-input-wrapper input[type="number"] {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  background-color: #fafafa;
+  color: #333;
+}
+
+.dimension-input-wrapper input[type="number"]:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.image-upload-input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: #fafafa;
+  color: #333;
+  cursor: pointer;
+}
