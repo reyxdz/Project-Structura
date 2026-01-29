@@ -287,6 +287,17 @@ export default function SortableFieldItem({
                         )}
                     </div>
                 </div>
+            ) : field.type === FIELD_TYPES.NUMBER ? (
+                <div className="number-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Number'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <input type="number" placeholder={field.placeholder || 'e.g., 23'} disabled />
+                    <p className="field-sublabel">{field.metadata?.sublabel || ''}</p>
+                </div>
             ) : field.type === FIELD_TYPES.SIGNATURE ? (
                 <div className="signature-field-builder">
                     <div className="field-item-header">

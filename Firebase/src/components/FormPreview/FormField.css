@@ -26,6 +26,7 @@
   font-size: 14px;
   font-family: inherit;
   background-color: white;
+  color: #333;
   box-sizing: border-box;
 }
 
@@ -48,6 +49,17 @@
 .form-field textarea.input-error:focus,
 .form-field select.input-error:focus {
   box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+}
+
+/* Remove number input spinners */
+.form-field input[type="number"]::-webkit-outer-spin-button,
+.form-field input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-field input[type="number"] {
+  -moz-appearance: textfield;
 }
 
 .field-help-text {
@@ -113,6 +125,47 @@
 }
 
 .phone-field-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.number-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.number-field-wrapper input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white !important;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.number-field-wrapper input::-webkit-outer-spin-button,
+.number-field-wrapper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.number-field-wrapper input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.number-field-wrapper label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+}
+
+.number-field-wrapper p {
   font-size: 12px;
   color: #757575;
   margin: 0;

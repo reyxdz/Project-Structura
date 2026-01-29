@@ -388,6 +388,13 @@
 }
 
 /* Number Field */
+.number-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
 .number-field-builder input {
   width: 100%;
   padding: 8px 12px;
@@ -396,6 +403,13 @@
   font-size: 13px;
   background-color: #f9f9f9;
   color: #999;
+}
+
+.field-sublabel {
+  font-size: 12px;
+  color: #757575;
+  margin: 0;
+  line-height: 1.4;
 }
 
 /* Image Field */

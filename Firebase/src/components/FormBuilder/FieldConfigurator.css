@@ -164,6 +164,55 @@
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
+/* ===== NUMBER FIELD CONFIGURATION ===== */
+
+.entry-limits-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.limit-input-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.limit-input-wrapper label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+}
+
+.limit-input-wrapper input[type="number"] {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  background-color: #fafafa;
+  color: #333;
+}
+
+.limit-input-wrapper input[type="number"]:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+/* Remove number input spinners */
+.limit-input-wrapper input[type="number"]::-webkit-outer-spin-button,
+.limit-input-wrapper input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.limit-input-wrapper input[type="number"][type="number"] {
+  -moz-appearance: textfield;
+}
+
 /* ===== APPOINTMENT FIELD CONFIGURATION ===== */
 
 .appointment-duration-buttons {

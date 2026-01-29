@@ -212,15 +212,56 @@ export default function FormField({ field, control, error }) {
                                  />
                             );
 
-                        case FIELD_TYPES.NUMBER:
+                        case FIELD_TYPES.NUMBER: {
+                            const minValue = field.metadata?.minimumValue ?? '';
+                            const maxValue = field.metadata?.maximumValue ?? '';
+                            const sublabel = field.metadata?.sublabel || '';
+                            
+                            let validationError = '';
+                            
+                            if (fieldProps.value !== '' && fieldProps.value !== undefined && fieldProps.value !== null) {
+                                const numVal = parseFloat(fieldProps.value);
+                                if (minValue !== '' && !isNaN(parseFloat(minValue)) && numVal < parseFloat(minValue)) {
+                                    validationError = `Must be at least ${minValue}`;
+                                } else if (maxValue !== '' && !isNaN(parseFloat(maxValue)) && numVal > parseFloat(maxValue)) {
+                                    validationError = `Must not exceed ${maxValue}`;
+                                }
+                            }
+
                             return (
-                                <input
-                                    {...fieldProps}
-                                    type = "number"
-                                    placeholder = {field.placeholder}
-                                    className = {error ? 'input-error' : ''}
-                                />
+                                <div style={{ position: 'relative' }}>
+                                    <input
+                                        {...fieldProps}
+                                        type = "number"
+                                        placeholder = {field.placeholder}
+                                        className = {error ? 'input-error' : ''}
+                                    />
+                                    {validationError && (
+                                        <div style={{
+                                            position: 'absolute',
+                                            bottom: '-28px',
+                                            left: 0,
+                                            fontSize: '12px',
+                                            color: '#f44336',
+                                            fontWeight: '500',
+                                            whiteSpace: 'nowrap'
+                                        }}>
+                                            {validationError}
+                                        </div>
+                                    )}
+                                    {sublabel && !validationError && (
+                                        <p style={{
+                                            fontSize: '12px',
+                                            color: '#757575',
+                                            margin: '6px 0 0 0',
+                                            lineHeight: '1.4'
+                                        }}>
+                                            {sublabel}
+                                        </p>
+                                    )}
+                                </div>
                             );
+                        }
 
                         case FIELD_TYPES.TEXTAREA:
                             return (

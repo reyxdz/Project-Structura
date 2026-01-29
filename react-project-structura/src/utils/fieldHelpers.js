@@ -157,6 +157,15 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         ];
     }
 
+    // Initialize number field
+    if (type === FIELD_TYPES.NUMBER) {
+        field.label = 'Number';
+        field.placeholder = 'e.g., 23';
+        field.metadata.sublabel = '';
+        field.metadata.minimumValue = 0;
+        field.metadata.maximumValue = 100;
+    }
+
     return field;
 };
 

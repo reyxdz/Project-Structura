@@ -1855,6 +1855,140 @@ export default function FieldConfigurator() {
         );
     }
 
+    // Render number-specific configuration
+    if (selectedField.type === FIELD_TYPES.NUMBER) {
+        const sublabel = selectedField.metadata?.sublabel || '';
+        const minimumValue = selectedField.metadata?.minimumValue || '';
+        const maximumValue = selectedField.metadata?.maximumValue || '';
+
+        return (
+            <div className="field-configurator">
+                <h3>Number Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Number"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Entry Limits */}
+                <div className="config-section">
+                    <label>
+                        <span>Entry Limits</span>
+                    </label>
+                    <div className="entry-limits-group">
+                        <div className="limit-input-wrapper">
+                            <label>Minimum</label>
+                            <input
+                                type="number"
+                                value={minimumValue}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: { ...selectedField.metadata, minimumValue: e.target.value },
+                                    })
+                                }
+                                placeholder="No limit"
+                            />
+                        </div>
+                        <div className="limit-input-wrapper">
+                            <label>Maximum</label>
+                            <input
+                                type="number"
+                                value={maximumValue}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: { ...selectedField.metadata, maximumValue: e.target.value },
+                                    })
+                                }
+                                placeholder="No limit"
+                            />
+                        </div>
+                    </div>
+                    <p className="config-hint">Set minimum and maximum values allowed</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required,
+                                })
+                            }
+                        >
+                            {selectedField.required ? 'Required' : 'Optional'}
+                        </button>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Sublabel */}
+                <div className="config-section">
+                    <label>
+                        <span>Sublabel</span>
+                        <input
+                            type="text"
+                            value={sublabel}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    metadata: { ...selectedField.metadata, sublabel: e.target.value },
+                                })
+                            }
+                            placeholder="Type a sublabel"
+                        />
+                    </label>
+                    <p className="config-hint">Additional help text shown below the field</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     // Render heading-specific configuration
     if (selectedField.type === FIELD_TYPES.HEADING) {
         const headingSize = selectedField.metadata?.headingSize || 'default';
