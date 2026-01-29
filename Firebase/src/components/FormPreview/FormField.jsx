@@ -549,6 +549,26 @@ export default function FormField({ field, control, error }) {
                             );
                         }
 
+                        case FIELD_TYPES.MULTIPLE_CHOICE: {
+                            return (
+                                <div className = "checkbox-field">
+                                    {field.options?.map((option, idx) => (
+                                        <div key = {idx} className = "checkbox-option">
+                                            <input 
+                                                type = "checkbox"
+                                                id = {`${field.id}-${idx}`}
+                                                value = {option.label || option}
+                                                {...fieldProps}
+                                            />
+                                            <label htmlFor = {`${field.id}-${idx}`}>
+                                                {option.label || option}
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
+                            );
+                        }
+
                         default:
                             return null;
                     }

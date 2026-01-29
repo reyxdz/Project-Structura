@@ -339,6 +339,22 @@
   color: #999;
 }
 
+/* Single Choice Field */
+.single-choice-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Multiple Choice Field */
+.multiple-choice-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
 /* Radio/Checkbox Options */
 .radio-options-builder,
 .checkbox-options-builder {

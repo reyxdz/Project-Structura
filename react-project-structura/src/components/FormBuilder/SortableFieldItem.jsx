@@ -263,6 +263,30 @@ export default function SortableFieldItem({
                         )}
                     </div>
                 </div>
+            ) : field.type === FIELD_TYPES.MULTIPLE_CHOICE ? (
+                <div className="multiple-choice-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Type a question'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <div className="checkbox-options-builder">
+                        {field.options && field.options.length > 0 ? (
+                            field.options.map((option, idx) => (
+                                <div key={idx} className="checkbox-option-builder">
+                                    <input type="checkbox" disabled />
+                                    <label>{option.label || option}</label>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="checkbox-option-builder">
+                                <input type="checkbox" disabled />
+                                <label>No options yet</label>
+                            </div>
+                        )}
+                    </div>
+                </div>
             ) : field.type === FIELD_TYPES.SIGNATURE ? (
                 <div className="signature-field-builder">
                     <div className="field-item-header">

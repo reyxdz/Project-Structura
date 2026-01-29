@@ -181,6 +181,151 @@ export default function FieldConfigurator() {
         );
     }
 
+    // Render Multiple Choice-specific configuration
+    if (selectedField.type === FIELD_TYPES.MULTIPLE_CHOICE) {
+        const options = selectedField.options || [];
+
+        return (
+            <div className="field-configurator">
+                <h3>Multiple Choice Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="Type a question"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Options */}
+                <div className="config-section">
+                    <label>
+                        <span>Options</span>
+                    </label>
+                    <div className="options-list">
+                        {options.map((option, idx) => (
+                            <div key={idx} className="option-item">
+                                <input
+                                    type="text"
+                                    value={option.label || ''}
+                                    onChange={(e) => {
+                                        const updatedOptions = [...options];
+                                        updatedOptions[idx] = { label: e.target.value };
+                                        updateField(selectedFieldId, { options: updatedOptions });
+                                    }}
+                                    className="option-text-input"
+                                />
+                                <button
+                                    type="button"
+                                    className="option-delete-btn"
+                                    onClick={() => {
+                                        const updatedOptions = options.filter((_, i) => i !== idx);
+                                        updateField(selectedFieldId, { options: updatedOptions });
+                                    }}
+                                    title="Delete option"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                    <div className="add-new-option-group">
+                        <input
+                            type="text"
+                            placeholder="Enter option text"
+                            className="add-option-input"
+                            value={newOptionValue}
+                            onChange={(e) => setNewOptionValue(e.target.value)}
+                            onKeyPress={(e) => {
+                                if (e.key === 'Enter' && newOptionValue.trim()) {
+                                    const newOption = { label: newOptionValue.trim() };
+                                    updateField(selectedFieldId, {
+                                        options: [...options, newOption],
+                                    });
+                                    setNewOptionValue('');
+                                }
+                            }}
+                        />
+                        <button
+                            type="button"
+                            className="btn btn-secondary"
+                            onClick={() => {
+                                if (newOptionValue.trim()) {
+                                    const newOption = { label: newOptionValue.trim() };
+                                    updateField(selectedFieldId, {
+                                        options: [...options, newOption],
+                                    });
+                                    setNewOptionValue('');
+                                }
+                            }}
+                            disabled={!newOptionValue.trim()}
+                        >
+                            Add
+                        </button>
+                    </div>
+                    <p className="config-hint">Add options for users to choose from</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required,
+                                })
+                            }
+                        >
+                            {selectedField.required ? 'Required' : 'Optional'}
+                        </button>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     // Render Full Name-specific configuration
     if (selectedField.type === FIELD_TYPES.FULL_NAME) {
         const firstNameLabel = selectedField.metadata?.firstNameLabel || 'First Name';

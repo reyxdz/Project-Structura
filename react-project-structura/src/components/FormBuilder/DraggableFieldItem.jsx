@@ -250,17 +250,24 @@ export default function DraggableFieldItem({ field, isDragging }) {
                 <div className="multiple-choice-field-builder">
                     <div className="field-item-header">
                         <span className="field-label">
-                            {field.label || 'Multiple Choice'}
+                            {field.label || 'Type a question'}
                             {field.required && <span className="required-asterisk">*</span>}
                         </span>
                     </div>
                     <div className="checkbox-options-builder">
-                        {field.options?.map((opt, idx) => (
-                            <div key={idx} className="checkbox-option-builder">
+                        {field.options && field.options.length > 0 ? (
+                            field.options.map((opt, idx) => (
+                                <div key={idx} className="checkbox-option-builder">
+                                    <input type="checkbox" disabled />
+                                    <label>{opt.label || opt}</label>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="checkbox-option-builder">
                                 <input type="checkbox" disabled />
-                                <label>{opt.label || opt}</label>
+                                <label>No options yet</label>
                             </div>
-                        ))}
+                        )}
                     </div>
                 </div>
             ) : field.type === FIELD_TYPES.NUMBER ? (

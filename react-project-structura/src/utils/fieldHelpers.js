@@ -22,6 +22,7 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         options: type === FIELD_TYPES.SELECT ||
                  type === FIELD_TYPES.RADIO ||
                  type === FIELD_TYPES.SINGLE_CHOICE ||
+                 type === FIELD_TYPES.MULTIPLE_CHOICE ||
                  type === FIELD_TYPES.CHECKBOX ? [] : null,
         validation: [],
         conditional: null,
@@ -134,6 +135,18 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
 
     // Initialize single choice field
     if (type === FIELD_TYPES.SINGLE_CHOICE) {
+        field.label = 'Type a question';
+        field.placeholder = '';
+        field.options = [
+            { label: 'Type option 1' },
+            { label: 'Type option 2' },
+            { label: 'Type option 3' },
+            { label: 'Type option 4' },
+        ];
+    }
+
+    // Initialize multiple choice field
+    if (type === FIELD_TYPES.MULTIPLE_CHOICE) {
         field.label = 'Type a question';
         field.placeholder = '';
         field.options = [
