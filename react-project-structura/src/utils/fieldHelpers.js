@@ -123,6 +123,14 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.maxWords = 0;
     }
 
+    // Initialize dropdown field
+    if (type === FIELD_TYPES.DROPDOWN) {
+        field.label = 'Type a question';
+        field.placeholder = 'Please Select';
+        field.metadata.sublabel = '';
+        field.options = [];
+    }
+
     return field;
 };
 

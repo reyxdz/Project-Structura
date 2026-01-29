@@ -535,3 +535,94 @@
 .word-limit-input::placeholder {
   color: #999;
 }
+
+/* Dropdown Options Management */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.option-item {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.option-text-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: white;
+  color: #333;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.option-text-input:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.option-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  color: #999;
+  font-size: 20px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.option-delete-btn:hover {
+  color: #d32f2f;
+  border-color: #d32f2f;
+  background-color: #fff5f5;
+}
+
+.option-delete-btn:active {
+  color: white;
+  background-color: #d32f2f;
+}
+
+.add-new-option-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.add-option-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: white;
+  color: #333;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.add-option-input:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.add-option-input::placeholder {
+  color: #999;
+}

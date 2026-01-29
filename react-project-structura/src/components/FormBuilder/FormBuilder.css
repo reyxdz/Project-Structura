@@ -154,6 +154,15 @@
   background-color: #e0e0e0;
 }
 
+.btn-secondary:disabled {
+  color: #bbb;
+  cursor: not-allowed;
+}
+
+.btn-secondary:disabled:hover {
+  background-color: #f0f0f0;
+}
+
 .btn-danger {
   background-color: #f44336;
   color: white;

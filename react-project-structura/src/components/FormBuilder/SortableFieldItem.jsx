@@ -223,6 +223,22 @@ export default function SortableFieldItem({
                     />
                     <p className="long-text-sublabel">{field.metadata?.sublabel || 'Type a sublabel'}</p>
                 </div>
+            ) : field.type === FIELD_TYPES.DROPDOWN ? (
+                <div className="dropdown-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'Type a question'}
+                            {field.required && <span className="required-asterisk">*</span>}
+                        </span>
+                    </div>
+                    <select disabled>
+                        <option>Please Select</option>
+                        {field.options?.map((option, idx) => (
+                            <option key={idx}>{option.label || option}</option>
+                        ))}
+                    </select>
+                    <p className="dropdown-sublabel">{field.metadata?.sublabel || 'Type a sublabel'}</p>
+                </div>
             ) : field.type === FIELD_TYPES.SIGNATURE ? (
                 <div className="signature-field-builder">
                     <div className="field-item-header">

@@ -526,6 +526,28 @@ export default function FormField({ field, control, error }) {
                                 </select>
                             );
 
+                        case FIELD_TYPES.DROPDOWN: {
+                            const dropdownSublabel = field.metadata?.sublabel || '';
+                            return (
+                                <div className="dropdown-field-wrapper">
+                                    <select
+                                        {...fieldProps}
+                                        className = {error ? 'input-error' : ''}
+                                    >
+                                        <option value = "">Please Select</option>
+                                        {field.options?.map((option, idx) => (
+                                            <option key = {idx} value = {option.label || option}>
+                                                {option.label || option}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {dropdownSublabel && (
+                                        <p style={{fontSize: '12px', color: '#757575', margin: '6px 0 0 0', lineHeight: '1.4'}}>{dropdownSublabel}</p>
+                                    )}
+                                </div>
+                            );
+                        }
+
                         default:
                             return null;
                     }
