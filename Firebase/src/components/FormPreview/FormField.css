@@ -402,7 +402,6 @@
   gap: 8px;
   padding: 20px;
   background-color: #f8f9fa;
-  border: 2px solid #0D47A1;
   border-radius: 4px;
 }
 
@@ -1220,4 +1219,210 @@
   height: 48px;
   color: #ccc;
   margin-bottom: 8px;
+}
+
+/* Mobile and Tablet Responsive Styles */
+.form-preview-container.mobile-view .form-field {
+  gap: 5px;
+}
+
+.form-preview-container.mobile-view .form-field label {
+  font-size: 13px;
+}
+
+.form-preview-container.mobile-view .form-field input,
+.form-preview-container.mobile-view .form-field textarea,
+.form-preview-container.mobile-view .form-field select {
+  padding: 9px 10px;
+  font-size: 13px;
+}
+
+.form-preview-container.mobile-view .field-help-text {
+  font-size: 11px;
+}
+
+.form-preview-container.mobile-view .form-heading {
+  margin-bottom: 16px;
+}
+
+.form-preview-container.mobile-view .form-heading h2 {
+  font-size: 22px;
+}
+
+.form-preview-container.mobile-view .form-heading h3 {
+  font-size: 18px;
+}
+
+.form-preview-container.mobile-view .form-heading h4 {
+  font-size: 14px;
+}
+
+.form-preview-container.mobile-view .email-field-wrapper input {
+  font-size: 13px;
+  padding: 9px 10px;
+}
+
+.form-preview-container.mobile-view .email-field-wrapper label {
+  font-size: 13px;
+}
+
+.form-preview-container.mobile-view .email-field-sublabel {
+  font-size: 11px;
+}
+
+.form-preview-container.mobile-view .phone-field-wrapper {
+  gap: 10px;
+}
+
+.form-preview-container.mobile-view .phone-field-wrapper input {
+  font-size: 13px;
+  padding: 9px 10px;
+}
+
+.form-preview-container.mobile-view .checkbox-group,
+.form-preview-container.mobile-view .radio-group {
+  gap: 10px;
+}
+
+.form-preview-container.mobile-view .checkbox-option,
+.form-preview-container.mobile-view .radio-option {
+  font-size: 13px;
+  gap: 8px;
+}
+
+.form-preview-container.mobile-view .checkbox-option input,
+.form-preview-container.mobile-view .radio-option input {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+}
+
+.form-preview-container.mobile-view .date-picker-wrapper input {
+  font-size: 13px;
+  padding: 9px 10px;
+}
+
+.form-preview-container.mobile-view .appointment-field-wrapper input,
+.form-preview-container.mobile-view .appointment-field-wrapper select {
+  font-size: 13px;
+  padding: 9px 10px;
+}
+
+.form-preview-container.mobile-view .number-field-wrapper input {
+  font-size: 13px;
+  padding: 9px 10px;
+}
+
+.form-preview-container.mobile-view .field-sublabel {
+  font-size: 11px;
+}
+
+/* Tablet responsive styles */
+.form-preview-container.tablet-view .form-field {
+  gap: 6px;
+}
+
+.form-preview-container.tablet-view .form-field label {
+  font-size: 14px;
+}
+
+.form-preview-container.tablet-view .form-field input,
+.form-preview-container.tablet-view .form-field textarea,
+.form-preview-container.tablet-view .form-field select {
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.form-preview-container.tablet-view .field-help-text {
+  font-size: 12px;
+}
+
+.form-preview-container.tablet-view .form-heading {
+  margin-bottom: 20px;
+}
+
+.form-preview-container.tablet-view .form-heading h2 {
+  font-size: 26px;
+}
+
+.form-preview-container.tablet-view .form-heading h3 {
+  font-size: 20px;
+}
+
+.form-preview-container.tablet-view .form-heading h4 {
+  font-size: 16px;
+}
+
+.form-preview-container.tablet-view .checkbox-group,
+.form-preview-container.tablet-view .radio-group {
+  gap: 12px;
+}
+
+.form-preview-container.tablet-view .checkbox-option,
+.form-preview-container.tablet-view .radio-option {
+  font-size: 14px;
+  gap: 10px;
+}
+
+/* Heading field responsive */
+.heading-field {
+  width: 100%;
+}
+
+.heading-field h2,
+.heading-field h3,
+.heading-field h4 {
+  margin: 0;
+}
+
+.form-preview-container.mobile-view .heading-field h2,
+.form-preview-container.mobile-view .heading-field h3,
+.form-preview-container.mobile-view .heading-field h4 {
+  margin: 12px 0;
+}
+
+.form-preview-container.tablet-view .heading-field h2,
+.form-preview-container.tablet-view .heading-field h3,
+.form-preview-container.tablet-view .heading-field h4 {
+  margin: 16px 0;
+}
+
+/* Image field responsive */
+.form-preview-container.mobile-view .image-display-container {
+  min-height: 100px;
+  padding: 16px;
+}
+
+.form-preview-container.mobile-view .image-display-container img {
+  max-height: 250px;
+}
+
+.form-preview-container.tablet-view .image-display-container {
+  min-height: 120px;
+  padding: 20px;
+}
+
+/* File upload field responsive */
+.form-preview-container.mobile-view .file-upload-container {
+  padding: 30px 12px;
+  min-height: 120px;
+}
+
+.form-preview-container.mobile-view .file-upload-placeholder {
+  font-size: 13px;
+  gap: 12px;
+}
+
+.form-preview-container.mobile-view .file-upload-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.form-preview-container.mobile-view .file-upload-placeholder p {
+  font-size: 12px;
+}
+
+.form-preview-container.tablet-view .file-upload-container {
+  padding: 40px 20px;
+  min-height: 140px;
 }

@@ -116,7 +116,7 @@
   background-color: white;
   border: 12px solid #333;
   border-radius: 40px;
-  padding: 20px;
+  padding: 16px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   position: relative;
   box-sizing: border-box;
@@ -139,6 +139,10 @@
   z-index: 10;
 }
 
+.form-preview-container.mobile-view .form-fields {
+  gap: 16px;
+}
+
 .form-preview-container.tablet-view .form-preview-body {
   width: 768px;
   height: 1024px;
@@ -147,13 +151,17 @@
   background-color: white;
   border: 16px solid #555;
   border-radius: 20px;
-  padding: 20px;
+  padding: 24px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
 
 .form-preview-container.tablet-view .form-preview-body::-webkit-scrollbar {
   display: none;
+}
+
+.form-preview-container.tablet-view .form-fields {
+  gap: 20px;
 }
 
 .form-preview-container.desktop-view .form-preview-body {
