@@ -179,6 +179,15 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.imageAlignment = 'center';
     }
 
+    // Initialize file upload field
+    if (type === FIELD_TYPES.FILE) {
+        field.label = 'File Upload';
+        field.placeholder = '';
+        field.metadata.maxFileSize = 5;
+        field.metadata.maxFileSizeUnit = 'mb'; // 'kb' or 'mb'
+        field.metadata.acceptedFileTypes = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'png', 'jpg', 'jpeg']; // Array of accepted file types
+    }
+
     return field;
 };
 

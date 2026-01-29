@@ -2180,6 +2180,143 @@ export default function FieldConfigurator() {
         );
     }
 
+    // Render file-specific configuration
+    if (selectedField.type === FIELD_TYPES.FILE) {
+        const fileAlignment = selectedField.metadata?.fileAlignment || 'center';
+        const maxFileSize = selectedField.metadata?.maxFileSize || 5;
+        const maxFileSizeUnit = selectedField.metadata?.maxFileSizeUnit || 'mb';
+        const acceptedFileTypes = selectedField.metadata?.acceptedFileTypes || [];
+        
+        const availableFileTypes = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'png', 'jpg', 'jpeg', 'gif', 'txt', 'csv'];
+        
+        const handleFileTypeToggle = (fileType) => {
+            const newTypes = acceptedFileTypes.includes(fileType)
+                ? acceptedFileTypes.filter(t => t !== fileType)
+                : [...acceptedFileTypes, fileType];
+            
+            updateField(selectedFieldId, {
+                metadata: {
+                    ...selectedField.metadata,
+                    acceptedFileTypes: newTypes,
+                },
+            });
+        };
+
+        return (
+            <div className="field-configurator">
+                <h3>File Upload Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={handleLabelChange}
+                            placeholder="File Upload"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Max File Size */}
+                <div className="config-section">
+                    <label>
+                        <span>Maximum File Size</span>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <input
+                                type="number"
+                                value={maxFileSize}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            maxFileSize: parseInt(e.target.value) || 0,
+                                        },
+                                    })
+                                }
+                                placeholder="5"
+                                className="file-size-input"
+                            />
+                            <select
+                                value={maxFileSizeUnit}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            maxFileSizeUnit: e.target.value,
+                                        },
+                                    })
+                                }
+                                className="file-size-unit"
+                            >
+                                <option value="kb">KB</option>
+                                <option value="mb">MB</option>
+                            </select>
+                        </div>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Accepted File Types */}
+                <div className="config-section">
+                    <label>
+                        <span>Accepted File Types</span>
+                    </label>
+                    <div className="file-types-checklist">
+                        {availableFileTypes.map(fileType => (
+                            <div key={fileType} style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                <input
+                                    type="checkbox"
+                                    id={`file-type-${fileType}`}
+                                    checked={acceptedFileTypes.includes(fileType)}
+                                    onChange={() => handleFileTypeToggle(fileType)}
+                                    style={{ cursor: 'pointer' }}
+                                />
+                                <label htmlFor={`file-type-${fileType}`} style={{ cursor: 'pointer', flex: 1, margin: 0, color: '#333', fontSize: '13px' }}>
+                                    {fileType.toUpperCase()}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     // Render heading-specific configuration
     if (selectedField.type === FIELD_TYPES.HEADING) {
         const headingSize = selectedField.metadata?.headingSize || 'default';

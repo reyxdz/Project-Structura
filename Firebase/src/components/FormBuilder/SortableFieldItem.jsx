@@ -291,6 +291,32 @@ export default function SortableFieldItem({
                         )}
                     </div>
                 </div>
+            ) : field.type === FIELD_TYPES.FILE ? (
+                <div className="file-field-builder">
+                    <div className="field-item-header">
+                        <span className="field-label">
+                            {field.label || 'File Upload'}
+                        </span>
+                    </div>
+                    <div 
+                        className="file-upload-placeholder-wrapper"
+                        style={{
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <div className="file-upload-placeholder">
+                            <svg className="file-upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <div>
+                                <p>Browse Files</p>
+                                <p className="file-upload-hint">Drag and drop files here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             ) : field.type === FIELD_TYPES.SIGNATURE ? (
                 <div className="signature-field-builder">
                     <div className="field-item-header">

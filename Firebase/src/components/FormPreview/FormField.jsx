@@ -235,6 +235,58 @@ export default function FormField({ field, control, error }) {
         );
     }
 
+    if (field.type === FIELD_TYPES.FILE) {
+        const maxFileSize = field.metadata?.maxFileSize || 5;
+        const maxFileSizeUnit = field.metadata?.maxFileSizeUnit || 'mb';
+        const acceptedFileTypes = field.metadata?.acceptedFileTypes || [];
+
+        return (
+            <div className="file-field-wrapper">
+                <label htmlFor={field.id}>
+                    {field.label}
+                </label>
+                <div className="file-upload-container" style={{
+                    width: '100%',
+                    border: '2px solid #aaa',
+                    borderRadius: '12px',
+                    padding: '40px',
+                    minHeight: '140px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                    background: '#fff',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                }}>
+                    <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'flex-start',
+                        gap: '20px',
+                        color: '#333', 
+                        fontSize: '14px',
+                        width: '100%'
+                    }}>
+                        <svg style={{width: '56px', height: '56px', color: '#888', flexShrink: 0, marginTop: '2px'}} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                        <div>
+                            <p style={{ margin: '0 0 4px 0', fontWeight: '500', color: '#333' }}>Browse Files</p>
+                            <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#666', fontWeight: '400' }}>Drag and drop files here</p>
+                            {acceptedFileTypes.length > 0 && (
+                                <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#666' }}>
+                                    Accepted: {acceptedFileTypes.join(', ').toUpperCase()}<br />
+                                    Max: {maxFileSize} {maxFileSizeUnit.toUpperCase()}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className = "form-field">
             {field.type !== FIELD_TYPES.CHECKBOX && (

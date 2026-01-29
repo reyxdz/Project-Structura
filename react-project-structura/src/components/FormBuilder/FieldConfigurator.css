@@ -93,33 +93,39 @@
   line-height: 1.4;
 }
 
-.alignment-buttons {
-  display: flex;
-  gap: 8px;
-}
-
-.alignment-btn {
-  flex: 1;
-  padding: 8px 12px;
+/* File Size Input */
+.file-size-input {
+  width: 80px;
+  padding: 6px 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: white;
-  cursor: pointer;
   font-size: 13px;
-  font-weight: 500;
-  color: #666;
-  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
-.alignment-btn:hover {
-  border-color: #999;
-  background-color: #f9f9f9;
+.file-size-input::-webkit-outer-spin-button,
+.file-size-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.alignment-btn.active {
-  background-color: #0D47A1;
-  border-color: #0D47A1;
-  color: white;
+.file-size-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.file-size-unit {
+  min-width: 80px;
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+}
+
+.file-types-checklist {
+  padding: 8px 0;
 }
 
 .btn-block {

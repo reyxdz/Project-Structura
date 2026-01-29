@@ -463,15 +463,53 @@
   color: #999;
 }
 
-/* File Upload Field */
-.file-placeholder {
-  padding: 16px;
-  text-align: center;
-  background-color: #f0f0f0;
-  border: 2px dashed #ddd;
-  border-radius: 4px;
-  font-size: 12px;
-  color: #999;
+/* File Upload Field Styles */
+.file-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.file-upload-placeholder-wrapper {
+  width: 100%;
+  border: 2px solid #aaa;
+  border-radius: 12px;
+  padding: 40px;
+  background: #fff;
+  display: flex;
+  align-items: flex-start;
+  min-height: 140px;
+}
+
+.file-upload-placeholder {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  color: #333;
+  font-size: 14px;
+  width: 100%;
+}
+
+.file-upload-icon {
+  width: 56px;
+  height: 56px;
+  color: #888;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.file-upload-placeholder p {
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+}
+
+.file-upload-placeholder .file-upload-hint {
+  color: #666;
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 4px;
 }
 
 /* Time Field */
