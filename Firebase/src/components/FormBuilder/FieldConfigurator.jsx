@@ -2021,15 +2021,6 @@ export default function FieldConfigurator() {
 
                 <div className="config-divider" />
 
-                {/* Hide Field */}
-                <div className="config-section">
-                    <button className="btn btn-secondary btn-block">
-                        Hide Field
-                    </button>
-                </div>
-
-                <div className="config-divider" />
-
                 {/* Delete Field */}
                 <div className="config-section">
                     <button className="btn btn-danger btn-block" onClick={handleRemove}>
