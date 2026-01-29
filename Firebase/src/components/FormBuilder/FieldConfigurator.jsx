@@ -1696,26 +1696,6 @@ export default function FieldConfigurator() {
                     </>
                 )}}
 
-                {/* Required */}
-                <div className="config-section">
-                    <label>
-                        <span>Required</span>
-                        <button
-                            type="button"
-                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
-                            onClick={() =>
-                                updateField(selectedFieldId, {
-                                    required: !selectedField.required,
-                                })
-                            }
-                        >
-                            {selectedField.required ? 'Required' : 'Optional'}
-                        </button>
-                    </label>
-                </div>
-
-                <div className="config-divider" />
-
                 {/* Duplicate Field */}
                 <div className="config-section">
                     <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
