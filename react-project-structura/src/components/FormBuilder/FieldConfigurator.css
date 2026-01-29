@@ -93,6 +93,35 @@
   line-height: 1.4;
 }
 
+.alignment-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.alignment-btn {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.alignment-btn:hover {
+  border-color: #999;
+  background-color: #f9f9f9;
+}
+
+.alignment-btn.active {
+  background-color: #0D47A1;
+  border-color: #0D47A1;
+  color: white;
+}
+
 /* File Size Input */
 .file-size-input {
   width: 80px;
@@ -110,6 +139,7 @@
 }
 
 .file-size-input[type=number] {
+  appearance: none;
   -moz-appearance: textfield;
 }
 
