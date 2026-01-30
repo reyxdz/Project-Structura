@@ -1426,3 +1426,10 @@
   padding: 40px 20px;
   min-height: 140px;
 }
+
+/* Submit Button Field */
+.submit-field-wrapper {
+  display: flex;
+  width: 100%;
+  gap: 0;
+}

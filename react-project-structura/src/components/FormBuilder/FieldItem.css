@@ -620,8 +620,14 @@
 }
 
 /* Submit Button */
-.submit-button-preview {
+.submit-field-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   width: 100%;
+}
+
+.submit-button-preview {
   padding: 10px 16px;
   background-color: #0D47A1;
   color: white;
@@ -631,6 +637,26 @@
   font-weight: 600;
   cursor: default;
 }
+
+.submit-button-preview.primary {
+  background-color: #0D47A1;
+  color: white;
+}
+
+.submit-button-preview.secondary {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.submit-button-preview.full-width {
+  width: 100%;
+}
+
+.submit-button-preview.auto-width {
+  width: auto;
+  align-self: flex-start;
+}
+
 .phone-field-builder {
   display: flex;
   flex-direction: column;

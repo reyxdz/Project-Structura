@@ -374,9 +374,51 @@ export default function DraggableFieldItem({ field, isDragging }) {
                 </div>
             ) : field.type === FIELD_TYPES.SUBMIT ? (
                 <div className="submit-field-builder">
-                    <button className="submit-button-preview" disabled>
-                        {field.label || 'Submit'}
-                    </button>
+                    {(() => {
+                        const buttonWidth = field.metadata?.buttonWidth || '';
+                        const buttonHeight = field.metadata?.buttonHeight || '';
+                        const backgroundColor = field.metadata?.backgroundColor || '#0D47A1';
+                        const fontColor = field.metadata?.fontColor || '#FFFFFF';
+                        const borderStyle = field.metadata?.borderStyle || 'none';
+                        const borderColor = field.metadata?.borderColor || '#000000';
+                        const fontWeight = field.metadata?.fontWeight || '600';
+                        const buttonAlignment = field.metadata?.buttonAlignment || 'center';
+                        
+                        const buttonHeightNum = buttonHeight ? parseInt(buttonHeight) : null;
+                        const fontSize = buttonHeightNum ? Math.max(12, Math.floor(buttonHeightNum * 0.4)) : 'inherit';
+                        
+                        const buttonStyles = {
+                            width: buttonWidth ? `${buttonWidth}%` : 'auto',
+                            height: buttonHeight ? `${buttonHeight}%` : 'auto',
+                            backgroundColor: backgroundColor,
+                            color: fontColor,
+                            borderStyle: borderStyle === 'none' ? 'none' : borderStyle,
+                            borderWidth: borderStyle === 'none' ? '0' : '2px',
+                            borderColor: borderStyle === 'none' ? 'transparent' : borderColor,
+                            fontWeight: fontWeight,
+                            fontSize: fontSize,
+                            padding: buttonHeight ? '0 16px' : '10px 24px',
+                            cursor: 'not-allowed',
+                            transition: 'all 0.3s ease',
+                            borderRadius: '4px',
+                        };
+                        
+                        // Determine alignment
+                        let justifyContent = 'center';
+                        if (buttonAlignment === 'left') justifyContent = 'flex-start';
+                        else if (buttonAlignment === 'right') justifyContent = 'flex-end';
+                        
+                        return (
+                            <div style={{ display: 'flex', width: '100%', justifyContent }}>
+                                <button 
+                                    style={buttonStyles}
+                                    disabled
+                                >
+                                    {field.label || 'Submit'}
+                                </button>
+                            </div>
+                        );
+                    })()}
                 </div>
             ) : (
                 <>

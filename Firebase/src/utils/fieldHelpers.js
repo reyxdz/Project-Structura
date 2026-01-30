@@ -162,6 +162,20 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.acceptedFileTypes = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'png', 'jpg', 'jpeg']; // Array of accepted file types
     }
 
+    // Initialize submit field
+    if (type === FIELD_TYPES.SUBMIT) {
+        field.label = 'Submit';
+        field.placeholder = '';
+        field.metadata.buttonWidth = ''; // numeric value in px or empty for auto
+        field.metadata.buttonHeight = ''; // numeric value in px or empty for auto
+        field.metadata.backgroundColor = '#0D47A1'; // default blue
+        field.metadata.fontColor = '#FFFFFF'; // default white
+        field.metadata.borderStyle = 'none'; // 'none' | 'solid' | 'dashed'
+        field.metadata.borderColor = '#000000'; // default black
+        field.metadata.fontWeight = '600'; // '400' | '600' | '700'
+        field.metadata.buttonAlignment = 'center'; // 'left' | 'center' | 'right'
+    }
+
     return field;
 };
 

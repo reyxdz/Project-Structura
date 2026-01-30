@@ -287,6 +287,55 @@ export default function FormField({ field, control, error }) {
         );
     }
 
+    // Handle SUBMIT field
+    if (field.type === FIELD_TYPES.SUBMIT) {
+        const buttonWidth = field.metadata?.buttonWidth || '';
+        const buttonHeight = field.metadata?.buttonHeight || '';
+        const backgroundColor = field.metadata?.backgroundColor || '#0D47A1';
+        const fontColor = field.metadata?.fontColor || '#FFFFFF';
+        const borderStyle = field.metadata?.borderStyle || 'none';
+        const borderColor = field.metadata?.borderColor || '#000000';
+        const fontWeight = field.metadata?.fontWeight || '600';
+        const buttonAlignment = field.metadata?.buttonAlignment || 'center';
+        
+        // Calculate font size based on button height if provided
+        const buttonHeightNum = buttonHeight ? parseInt(buttonHeight) : null;
+        const fontSize = buttonHeightNum ? Math.max(12, Math.floor(buttonHeightNum * 0.4)) : 'inherit';
+        
+        // Build button styles
+        const buttonStyles = {
+            width: buttonWidth ? `${buttonWidth}%` : 'auto',
+            height: buttonHeight ? `${buttonHeight}%` : 'auto',
+            backgroundColor: backgroundColor,
+            color: fontColor,
+            borderStyle: borderStyle === 'none' ? 'none' : borderStyle,
+            borderWidth: borderStyle === 'none' ? '0' : '2px',
+            borderColor: borderStyle === 'none' ? 'transparent' : borderColor,
+            fontWeight: fontWeight,
+            fontSize: fontSize,
+            padding: buttonHeight ? '0 16px' : '10px 24px',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            borderRadius: '4px',
+        };
+        
+        // Determine alignment
+        let justifyContent = 'center';
+        if (buttonAlignment === 'left') justifyContent = 'flex-start';
+        else if (buttonAlignment === 'right') justifyContent = 'flex-end';
+        
+        return (
+            <div className="submit-field-wrapper" style={{ justifyContent }}>
+                <button 
+                    type="submit"
+                    style={buttonStyles}
+                >
+                    {field.label || 'Submit'}
+                </button>
+            </div>
+        );
+    }
+
     return (
         <div className = "form-field">
             {field.type !== FIELD_TYPES.CHECKBOX && (

@@ -122,6 +122,42 @@
   color: white;
 }
 
+/* Number inputs for width and height */
+.config-section input[type="number"] {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  background-color: white;
+  color: #333;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.config-section input[type="number"]::-webkit-outer-spin-button,
+.config-section input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.config-section input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.config-section input[type="number"]:focus {
+  outline: none;
+  border-color: #0D47A1;
+  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+/* Color input styling */
+.config-section input[type="color"] {
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
 /* File Size Input */
 .file-size-input {
   width: 80px;
