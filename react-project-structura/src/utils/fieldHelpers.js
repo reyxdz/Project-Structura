@@ -206,18 +206,14 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
     if (type === FIELD_TYPES.DIVIDER) {
         field.label = ''; // No label for divider
         field.placeholder = '';
-        field.metadata.lineColor = '#cccccc';
+        field.metadata.lineColor = '#cccccc'; // default light gray
         field.metadata.dividerStyle = 'solid'; // 'solid' | 'dashed' | 'dots'
-        field.metadata.dividerHeight = 1; // 1-10 px
-        field.metadata.spaceBelow = 0; // 0-100 px
-        field.metadata.spaceAbove = 0; // 0-100 px
+        field.metadata.dividerHeight = 1; // Height in px
+        field.metadata.spaceAbove = 0; // Padding above in px
+        field.metadata.spaceBelow = 0; // Padding below in px
     }
 
-    // Initialize page break field
-    if (type === FIELD_TYPES.PAGE_BREAK) {
-        field.label = ''; // No label for page break
-        field.placeholder = '';
-    }
+    return field;
 };
 
 /**

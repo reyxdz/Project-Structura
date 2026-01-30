@@ -90,7 +90,9 @@ export default function FieldPalette() {
     const addField = useFormStore((state) => state.addField);
 
     // Fields that are disabled (not yet implemented)
-    const disabledFields = [];
+    const disabledFields = [
+        FIELD_TYPES.PAGE_BREAK,
+    ];
 
     const handleAddField = (fieldType) => {
         addField(fieldType);
