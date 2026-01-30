@@ -202,7 +202,6 @@ None. Uses Zustand store.
 | PARAGRAPH | Paragraph | Description |
 | DIVIDER | Line | Visual separator |
 | PAGE_BREAK | Page | Multi-page break |
-| CAPTCHA | Shield | Bot prevention |
 
 ### Drag Data Structure
 

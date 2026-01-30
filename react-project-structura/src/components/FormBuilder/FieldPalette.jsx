@@ -23,10 +23,8 @@ import multipleChoiceIcon from '../../icons/multiple_choice.png';
 import numberIcon from '../../icons/number.png';
 import imageIcon from '../../icons/image.png';
 import fileUploadIcon from '../../icons/file_upload.png';
-import captchaIcon from '../../icons/captcha.png';
 import submitIcon from '../../icons/submit.png';
 import dividerIcon from '../../icons/divider.png';
-import sectionCollapseIcon from '../../icons/section_collapse.png';
 import pageBreakIcon from '../../icons/page_break.png';
 
 const fieldSections = [
@@ -54,7 +52,6 @@ const fieldSections = [
             FIELD_TYPES.NUMBER,
             FIELD_TYPES.IMAGE,
             FIELD_TYPES.FILE,
-            FIELD_TYPES.CAPTCHA,
             FIELD_TYPES.SUBMIT,
         ],
     },
@@ -62,7 +59,6 @@ const fieldSections = [
         name: 'PAGE ELEMENTS',
         fields: [
             FIELD_TYPES.DIVIDER,
-            FIELD_TYPES.SECTION_COLLAPSE,
             FIELD_TYPES.PAGE_BREAK,
         ],
     },
@@ -85,10 +81,8 @@ const fieldIcons = {
     [FIELD_TYPES.NUMBER]: numberIcon,
     [FIELD_TYPES.IMAGE]: imageIcon,
     [FIELD_TYPES.FILE]: fileUploadIcon,
-    [FIELD_TYPES.CAPTCHA]: captchaIcon,
     [FIELD_TYPES.SUBMIT]: submitIcon,
     [FIELD_TYPES.DIVIDER]: dividerIcon,
-    [FIELD_TYPES.SECTION_COLLAPSE]: sectionCollapseIcon,
     [FIELD_TYPES.PAGE_BREAK]: pageBreakIcon,
 };
 
@@ -98,7 +92,6 @@ export default function FieldPalette() {
     // Fields that are disabled (not yet implemented)
     const disabledFields = [
         FIELD_TYPES.DIVIDER,
-        FIELD_TYPES.SECTION_COLLAPSE,
         FIELD_TYPES.PAGE_BREAK,
     ];
 

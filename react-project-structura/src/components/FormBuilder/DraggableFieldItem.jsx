@@ -304,29 +304,12 @@ export default function DraggableFieldItem({ field, isDragging }) {
                 <div className="divider-field-builder">
                     <hr className="divider-preview" />
                 </div>
-            ) : field.type === FIELD_TYPES.SECTION_COLLAPSE ? (
-                <div className="section-collapse-field-builder">
-                    <div className="collapse-header-preview">
-                        <span>▶</span>
-                        <span className="collapse-title">{field.label || 'Collapsible Section'}</span>
-                    </div>
-                </div>
             ) : field.type === FIELD_TYPES.PAGE_BREAK ? (
                 <div className="page-break-field-builder">
                     <div className="page-break-preview">
                         <div className="page-break-line" />
                         <span>Page Break</span>
                     </div>
-                </div>
-            ) : field.type === FIELD_TYPES.CAPTCHA ? (
-                <div className="captcha-field-builder">
-                    <div className="field-item-header">
-                        <span className="field-label">
-                            {field.label || 'CAPTCHA'}
-                            {field.required && <span className="required-asterisk">*</span>}
-                        </span>
-                    </div>
-                    <div className="captcha-preview">🔒 reCAPTCHA</div>
                 </div>
             ) : field.type === FIELD_TYPES.SUBMIT ? (
                 <div className="submit-field-builder">

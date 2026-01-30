@@ -282,13 +282,11 @@ export const getFieldTypeLabel = (type) => {
         [FIELD_TYPES.IMAGE]: 'Image',
         [FIELD_TYPES.FILE]: 'File Upload',
 
-        [FIELD_TYPES.CAPTCHA]: 'Captcha',
         [FIELD_TYPES.SPINNER]: 'Spinner',
         [FIELD_TYPES.SUBMIT]: 'Submit',
         
         // Page Elements
         [FIELD_TYPES.DIVIDER]: 'Divider',
-        [FIELD_TYPES.SECTION_COLLAPSE]: 'Section Collapse',
         [FIELD_TYPES.PAGE_BREAK]: 'Page Break',
         
         // Legacy

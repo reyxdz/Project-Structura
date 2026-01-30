@@ -98,13 +98,11 @@ export const FIELD_TYPES = {
   NUMBER: 'number',
   IMAGE: 'image',
   FILE: 'file',
-  CAPTCHA: 'captcha',
   SPINNER: 'spinner',
   SUBMIT: 'submit',
   
   // Page Elements
   DIVIDER: 'divider',
-  SECTION_COLLAPSE: 'sectionCollapse',
   PAGE_BREAK: 'pageBreak',
   
   // Legacy

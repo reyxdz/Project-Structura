@@ -341,7 +341,6 @@ The form structure is designed for MongoDB storage:
 | PARAGRAPH | Paragraph element | Descriptive text |
 | DIVIDER | HR element | Visual separator |
 | PAGE_BREAK | Custom component | Multi-page form break |
-| CAPTCHA | Custom component | Bot prevention |
 
 ---
 
