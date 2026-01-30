@@ -17,6 +17,20 @@ export default function FormField({ field, control, error }) {
         currentYear: new Date().getFullYear(),
     }));
 
+    // Signature field state
+    const [isDrawing, setIsDrawing] = React.useState(false);
+    const [hasSignature, setHasSignature] = React.useState(false);
+    const canvasRef = React.useRef(null);
+
+    // Date field state
+    const [selectedDate, setSelectedDate] = React.useState(null);
+    const [showCalendar, setShowCalendar] = React.useState(false);
+    const [showYearPicker, setShowYearPicker] = React.useState(false);
+    const [displayMonth, setDisplayMonth] = React.useState(new Date().getMonth());
+    const [displayYear, setDisplayYear] = React.useState(new Date().getFullYear());
+    const dateInputRef = React.useRef(null);
+    const calendarRef = React.useRef(null);
+
     // Handle non-input fields (like HEADING) that don't need form control
     if (field.type === FIELD_TYPES.HEADING) {
         const headingSize = field.metadata?.headingSize || 'default';
@@ -74,9 +88,6 @@ export default function FormField({ field, control, error }) {
     // Handle SIGNATURE field
     if (field.type === FIELD_TYPES.SIGNATURE) {
         const placeholder = field.placeholder || 'Sign Here';
-        const [isDrawing, setIsDrawing] = React.useState(false);
-        const [hasSignature, setHasSignature] = React.useState(false);
-        const canvasRef = React.useRef(null);
 
         const getMousePos = (e) => {
             const canvas = canvasRef.current;
@@ -322,18 +333,314 @@ export default function FormField({ field, control, error }) {
         const dateSublabel = field.metadata?.sublabel || '';
         const separator = field.metadata?.separator || '/';
         const placeholder = `MM${separator}DD${separator}YYYY`;
+
+        const formatDate = (date) => {
+            if (!date) return '';
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${month}${separator}${day}${separator}${year}`;
+        };
+
+        const parseDate = (dateString) => {
+            const parts = dateString.replace(/\D/g, '').split('');
+            if (parts.length === 8) {
+                const month = parseInt(parts.slice(0, 2).join(''));
+                const day = parseInt(parts.slice(2, 4).join(''));
+                const year = parseInt(parts.slice(4, 8).join(''));
+                if (month >= 1 && month <= 12 && day >= 1 && day <= 31) {
+                    const date = new Date(year, month - 1, day);
+                    if (date.getMonth() === month - 1) {
+                        return date;
+                    }
+                }
+            }
+            return null;
+        };
+
+        const handleInputChange = (e) => {
+            const value = e.target.value.replace(/\D/g, '');
+            let formatted = '';
+            
+            if (value.length > 0) {
+                // Extract month, day, year
+                let monthStr = value.slice(0, 2);
+                let dayStr = value.slice(2, 4);
+                let yearStr = value.slice(4, 8);
+                
+                // Validate month (1-12)
+                if (monthStr) {
+                    const month = parseInt(monthStr);
+                    if (month > 12) {
+                        monthStr = '12';
+                    } else if (month === 0 && monthStr.length > 1) {
+                        monthStr = monthStr.slice(-1);
+                    }
+                }
+                
+                formatted = monthStr;
+                if (value.length > 2) {
+                    // Validate day based on selected month
+                    let month = parseInt(monthStr || '1');
+                    if (month < 1) month = 1;
+                    if (month > 12) month = 12;
+                    
+                    const daysInSelectedMonth = new Date(yearStr || 2024, month, 0).getDate();
+                    let day = parseInt(dayStr || '1');
+                    
+                    if (day > daysInSelectedMonth) {
+                        dayStr = String(daysInSelectedMonth).padStart(2, '0');
+                    } else if (day === 0 && dayStr.length > 1) {
+                        dayStr = dayStr.slice(-1);
+                    }
+                    
+                    formatted += separator + dayStr;
+                }
+                if (value.length > 4) {
+                    formatted += separator + yearStr;
+                }
+            }
+            
+            dateInputRef.current.value = formatted;
+
+            if (formatted.replace(/\D/g, '').length === 8) {
+                const date = parseDate(formatted);
+                if (date) {
+                    setSelectedDate(date);
+                    setDisplayMonth(date.getMonth());
+                    setDisplayYear(date.getFullYear());
+                }
+            }
+        };
+
+        const handleCalendarClick = () => {
+            setShowCalendar(!showCalendar);
+        };
+
+        const handleDateSelect = (day) => {
+            const date = new Date(displayYear, displayMonth, day);
+            setSelectedDate(date);
+            dateInputRef.current.value = formatDate(date);
+            setShowCalendar(false);
+        };
+
+        const handleMonthChange = (offset) => {
+            let newMonth = displayMonth + offset;
+            let newYear = displayYear;
+            if (newMonth < 0) {
+                newMonth = 11;
+                newYear--;
+            } else if (newMonth > 11) {
+                newMonth = 0;
+                newYear++;
+            }
+            setDisplayMonth(newMonth);
+            setDisplayYear(newYear);
+        };
+
+        const handlePrevMonth = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleMonthChange(-1);
+        };
+
+        const handleNextMonth = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleMonthChange(1);
+        };
+
+        const handleYearClick = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setShowYearPicker(!showYearPicker);
+        };
+
+        const handleYearSelect = (year) => {
+            setDisplayYear(year);
+            setShowYearPicker(false);
+        };
+
+        const getDaysInMonth = (year, month) => {
+            return new Date(year, month + 1, 0).getDate();
+        };
+
+        const getFirstDayOfMonth = (year, month) => {
+            return new Date(year, month, 1).getDay();
+        };
+
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'];
+
+        const calendarDays = [];
+        const firstDay = getFirstDayOfMonth(displayYear, displayMonth);
+        const daysInMonth = getDaysInMonth(displayYear, displayMonth);
+        
+        for (let i = 0; i < firstDay; i++) {
+            calendarDays.push(null);
+        }
+        for (let i = 1; i <= daysInMonth; i++) {
+            calendarDays.push(i);
+        }
+
         return (
             <div className="date-field-wrapper">
                 <label htmlFor={field.id}>
                     {field.label}
                     {field.required && <span className="required-asterisk">*</span>}
                 </label>
-                <div className="date-input-wrapper">
-                    <input type="text" placeholder={placeholder} />
-                    <svg className="calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                        <path d="M16 2v4M8 2v4M3 10h18"></path>
-                    </svg>
+                <div style={{position: 'relative', overflow: 'visible'}}>
+                    <div className="date-input-wrapper" style={{position: 'relative', overflow: 'visible'}}>
+                        <input 
+                            ref={dateInputRef}
+                            type="text" 
+                            placeholder={placeholder}
+                            onChange={handleInputChange}
+                            maxLength="10"
+                        />
+                        <svg 
+                            className="calendar-icon" 
+                            viewBox="0 0 24 24" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            strokeWidth="2"
+                            onClick={handleCalendarClick}
+                            style={{
+                                cursor: 'pointer',
+                                pointerEvents: 'auto'
+                            }}
+                        >
+                            <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                            <path d="M16 2v4M8 2v4M3 10h18"></path>
+                        </svg>
+                    </div>
+                    {showCalendar && (
+                        <div ref={calendarRef} style={{
+                            position: 'absolute',
+                            top: 'calc(100% + 8px)',
+                            left: '0',
+                            backgroundColor: '#fff',
+                            border: '1px solid #ccc',
+                            borderRadius: '4px',
+                            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                            padding: '12px',
+                            zIndex: 1000,
+                            minWidth: '320px',
+                            overflow: 'visible'
+                        }}>
+                            {!showYearPicker ? (
+                            <>
+                            <div style={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                marginBottom: '12px',
+                                paddingBottom: '8px',
+                                borderBottom: '1px solid #eee'
+                            }}>
+                                <button type="button" onClick={handlePrevMonth} style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    fontSize: '18px',
+                                    padding: '0 8px',
+                                    color: '#333'
+                                }}>←</button>
+                                <div style={{minWidth: '180px', textAlign: 'center'}}>
+                                    <span style={{fontWeight: 'bold', fontSize: '16px', color: '#333'}}>
+                                        {monthNames[displayMonth]}
+                                    </span>
+                                    <span 
+                                        onClick={handleYearClick}
+                                        style={{fontWeight: 'bold', fontSize: '16px', color: '#0D47A1', cursor: 'pointer', marginLeft: '8px'}}
+                                    >
+                                        {displayYear}
+                                    </span>
+                                </div>
+                                <button type="button" onClick={handleNextMonth} style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    fontSize: '18px',
+                                    padding: '0 8px',
+                                    color: '#333'
+                                }}>→</button>
+                            </div>
+                            <div style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(7, 1fr)',
+                                gap: '4px',
+                                marginBottom: '12px'
+                            }}>
+                                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                                    <div key={day} style={{
+                                        textAlign: 'center',
+                                        fontWeight: 'bold',
+                                        fontSize: '12px',
+                                        padding: '6px',
+                                        color: '#333'
+                                    }}>
+                                        {day}
+                                    </div>
+                                ))}
+                                {calendarDays.map((day, idx) => (
+                                    <div key={idx} style={{
+                                        textAlign: 'center',
+                                        padding: '6px',
+                                        cursor: day ? 'pointer' : 'default',
+                                        backgroundColor: day === selectedDate?.getDate() && 
+                                            selectedDate?.getMonth() === displayMonth && 
+                                            selectedDate?.getFullYear() === displayYear ? '#0D47A1' : 'transparent',
+                                        color: day === selectedDate?.getDate() && 
+                                            selectedDate?.getMonth() === displayMonth && 
+                                            selectedDate?.getFullYear() === displayYear ? '#fff' : '#333',
+                                        borderRadius: '4px',
+                                        fontSize: '14px'
+                                    }} onClick={() => day && handleDateSelect(day)}>
+                                        {day}
+                                    </div>
+                                ))}
+                            </div>
+                            </>
+                            ) : (
+                                <div>
+                                    <button type="button" onClick={handleYearClick} style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        fontSize: '16px',
+                                        color: '#0D47A1',
+                                        marginBottom: '12px'
+                                    }}>← Back</button>
+                                    <div style={{
+                                        display: 'grid',
+                                        gridTemplateColumns: 'repeat(4, 1fr)',
+                                        gap: '8px'
+                                    }}>
+                                        {Array.from({ length: 20 }, (_, i) => displayYear - 10 + i).map(year => (
+                                            <button 
+                                                key={year}
+                                                type="button"
+                                                onClick={() => handleYearSelect(year)}
+                                                style={{
+                                                    padding: '8px',
+                                                    border: year === displayYear ? '2px solid #0D47A1' : '1px solid #ddd',
+                                                    borderRadius: '4px',
+                                                    backgroundColor: year === displayYear ? '#0D47A1' : '#fff',
+                                                    color: year === displayYear ? '#fff' : '#333',
+                                                    cursor: 'pointer',
+                                                    fontSize: '14px',
+                                                    fontWeight: year === displayYear ? 'bold' : 'normal'
+                                                }}
+                                            >
+                                                {year}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
                 {dateSublabel && (
                     <p style={{fontSize: '12px', color: '#757575', margin: '6px 0 0 0', lineHeight: '1.4'}}>{dateSublabel}</p>
