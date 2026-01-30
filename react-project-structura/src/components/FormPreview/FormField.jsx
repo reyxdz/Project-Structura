@@ -479,6 +479,39 @@ export default function FormField({ field, control, error }) {
         );
     }
 
+    // Handle DIVIDER field
+    if (field.type === FIELD_TYPES.DIVIDER) {
+        const lineColor = field.metadata?.lineColor || '#cccccc';
+        const dividerStyle = field.metadata?.dividerStyle || 'solid';
+        const dividerHeight = field.metadata?.dividerHeight || 1;
+        const spaceBelow = field.metadata?.spaceBelow || 0;
+        const spaceAbove = field.metadata?.spaceAbove || 0;
+
+        let borderStyle = 'solid';
+        if (dividerStyle === 'dashed') {
+            borderStyle = 'dashed';
+        } else if (dividerStyle === 'dots') {
+            borderStyle = 'dotted';
+        }
+
+        return (
+            <div style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                paddingTop: `${spaceAbove}px`,
+                paddingBottom: `${spaceBelow}px`,
+                minHeight: `${Math.max(dividerHeight + spaceAbove + spaceBelow, 2)}px`
+            }}>
+                <div style={{
+                    width: '100%',
+                    borderTop: `${dividerHeight}px ${borderStyle} ${lineColor}`,
+                    margin: 0
+                }} />
+            </div>
+        );
+    }
+
     // Handle SUBMIT field
     if (field.type === FIELD_TYPES.SUBMIT) {
         const buttonWidth = field.metadata?.buttonWidth || '';
@@ -525,6 +558,20 @@ export default function FormField({ field, control, error }) {
                     {field.label || 'Submit'}
                 </button>
             </div>
+        );
+    }
+
+    // Handle PAGE_BREAK field
+    if (field.type === FIELD_TYPES.PAGE_BREAK) {
+        return (
+            <div style={{
+                width: '100%',
+                height: '2px',
+                backgroundColor: '#ddd',
+                margin: '20px 0',
+                position: 'relative',
+                pageBreakAfter: 'always',
+            }} />
         );
     }
 

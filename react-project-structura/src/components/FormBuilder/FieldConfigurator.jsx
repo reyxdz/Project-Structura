@@ -2858,6 +2858,211 @@ export default function FieldConfigurator() {
         );
     }
 
+    // Render divider-specific configuration
+    if (selectedField.type === FIELD_TYPES.DIVIDER) {
+        const lineColor = selectedField.metadata?.lineColor || '#cccccc';
+        const dividerStyle = selectedField.metadata?.dividerStyle || 'solid';
+        const dividerHeight = selectedField.metadata?.dividerHeight || 1;
+        const spaceBelow = selectedField.metadata?.spaceBelow || 0;
+        const spaceAbove = selectedField.metadata?.spaceAbove || 0;
+
+        return (
+            <div className="field-configurator">
+                <h3>Divider Configuration</h3>
+
+                {/* Line Color */}
+                <div className="config-section">
+                    <label>
+                        <span>Line Color</span>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <input
+                                type="color"
+                                value={lineColor}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            lineColor: e.target.value,
+                                        },
+                                    })
+                                }
+                                style={{ width: '50px', height: '40px', cursor: 'pointer' }}
+                            />
+                            <span style={{ fontSize: '12px', color: '#666' }}>{lineColor}</span>
+                        </div>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Divider Style */}
+                <div className="config-section">
+                    <label>
+                        <span>Divider Style</span>
+                        <div className="alignment-buttons">
+                            <button
+                                type="button"
+                                className={`alignment-btn ${dividerStyle === 'solid' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            dividerStyle: 'solid',
+                                        },
+                                    })
+                                }
+                            >
+                                Solid
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${dividerStyle === 'dashed' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            dividerStyle: 'dashed',
+                                        },
+                                    })
+                                }
+                            >
+                                Dashed
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${dividerStyle === 'dots' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            dividerStyle: 'dots',
+                                        },
+                                    })
+                                }
+                            >
+                                Dots
+                            </button>
+                        </div>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Divider Height */}
+                <div className="config-section">
+                    <label>
+                        <span>Divider Height</span>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <input
+                                type="number"
+                                value={dividerHeight}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            dividerHeight: parseInt(e.target.value) || 1,
+                                        },
+                                    })
+                                }
+                                min="1"
+                                max="10"
+                                style={{ width: '80px' }}
+                            />
+                            <span style={{ fontSize: '12px', color: '#999' }}>PX</span>
+                        </div>
+                    </label>
+                    <p className="config-hint">Enter the divider height</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Space Below */}
+                <div className="config-section">
+                    <label>
+                        <span>Space Below</span>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <input
+                                type="number"
+                                value={spaceBelow}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            spaceBelow: parseInt(e.target.value) || 0,
+                                        },
+                                    })
+                                }
+                                min="0"
+                                max="100"
+                                style={{ width: '80px' }}
+                            />
+                            <span style={{ fontSize: '12px', color: '#999' }}>PX</span>
+                        </div>
+                    </label>
+                    <p className="config-hint">Add space below the divider</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Space Above */}
+                <div className="config-section">
+                    <label>
+                        <span>Space Above</span>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <input
+                                type="number"
+                                value={spaceAbove}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            spaceAbove: parseInt(e.target.value) || 0,
+                                        },
+                                    })
+                                }
+                                min="0"
+                                max="100"
+                                style={{ width: '80px' }}
+                            />
+                            <span style={{ fontSize: '12px', color: '#999' }}>PX</span>
+                        </div>
+                    </label>
+                    <p className="config-hint">Add space above the divider</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete this divider? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     return (
         <div className = "field-configurator">
             <h3>Field Configuration</h3>

@@ -610,10 +610,34 @@
 }
 
 /* Divider */
-.divider-preview {
-  margin: 8px 0;
+.field-item.field-item-divider {
+  background-color: transparent;
   border: none;
-  border-top: 1px solid #ddd;
+  padding: 8px 0;
+  box-shadow: none;
+}
+
+.field-item.field-item-divider:hover {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.field-item.field-item-divider.selected {
+  background-color: transparent;
+  border: none;
+  border-top: 1px solid #0D47A1;
+  border-bottom: 1px solid #0D47A1;
+  padding: 8px 0;
+  box-shadow: none;
+}
+
+.divider-field-builder {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  flex: 1;
+  min-height: 30px;
 }
 
 /* Page Break */

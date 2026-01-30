@@ -202,7 +202,22 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.buttonAlignment = 'center'; // 'left' | 'center' | 'right'
     }
 
-    return field;
+    // Initialize divider field
+    if (type === FIELD_TYPES.DIVIDER) {
+        field.label = ''; // No label for divider
+        field.placeholder = '';
+        field.metadata.lineColor = '#cccccc';
+        field.metadata.dividerStyle = 'solid'; // 'solid' | 'dashed' | 'dots'
+        field.metadata.dividerHeight = 1; // 1-10 px
+        field.metadata.spaceBelow = 0; // 0-100 px
+        field.metadata.spaceAbove = 0; // 0-100 px
+    }
+
+    // Initialize page break field
+    if (type === FIELD_TYPES.PAGE_BREAK) {
+        field.label = ''; // No label for page break
+        field.placeholder = '';
+    }
 };
 
 /**

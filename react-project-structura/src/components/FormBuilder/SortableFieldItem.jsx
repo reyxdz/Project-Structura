@@ -35,7 +35,7 @@ export default function SortableFieldItem({
         <div
             ref = {setNodeRef}
             style = {style}
-            className = {`field-item ${isSelected ? 'selected' : ''} ${
+            className = {`field-item ${field.type === FIELD_TYPES.DIVIDER ? 'field-item-divider' : ''} ${isSelected ? 'selected' : ''} ${
                 isSortableDragging ? 'dragging' : ''
             }`}
             onClick = {handleClick}
@@ -427,6 +427,47 @@ export default function SortableFieldItem({
                             </div>
                         );
                     })()}
+                </div>
+            ) : field.type === FIELD_TYPES.DIVIDER ? (
+                <div className="divider-field-builder">
+                    {(() => {
+                        const lineColor = field.metadata?.lineColor || '#cccccc';
+                        const dividerStyle = field.metadata?.dividerStyle || 'solid';
+                        const dividerHeight = field.metadata?.dividerHeight || 1;
+                        const spaceBelow = field.metadata?.spaceBelow || 0;
+                        const spaceAbove = field.metadata?.spaceAbove || 0;
+
+                        let borderStyle = 'solid';
+                        if (dividerStyle === 'dashed') {
+                            borderStyle = 'dashed';
+                        } else if (dividerStyle === 'dots') {
+                            borderStyle = 'dotted';
+                        }
+
+                        return (
+                            <div style={{
+                                width: '100%',
+                                display: 'flex',
+                                alignItems: 'center',
+                                paddingTop: `${spaceAbove}px`,
+                                paddingBottom: `${spaceBelow}px`,
+                                minHeight: `${Math.max(dividerHeight + 8, 24)}px`
+                            }}>
+                                <div style={{
+                                    width: '100%',
+                                    borderTop: `${dividerHeight}px ${borderStyle} ${lineColor}`,
+                                    margin: 0
+                                }} />
+                            </div>
+                        );
+                    })()}
+                </div>
+            ) : field.type === FIELD_TYPES.PAGE_BREAK ? (
+                <div className="page-break-field-builder">
+                    <div className="page-break-preview">
+                        <div className="page-break-line" />
+                        <span>Page Break</span>
+                    </div>
                 </div>
             ) : (
                 <>
