@@ -105,6 +105,10 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
     if (type === FIELD_TYPES.SIGNATURE) {
         field.label = 'Signature';
         field.placeholder = 'Sign Here';
+        field.metadata.clearButtonLabel = 'Clear';
+        field.metadata.clearButtonAlignment = 'center'; // 'left' | 'center' | 'right'
+        field.metadata.clearButtonBgColor = '#FFFFFF'; // default white
+        field.metadata.clearButtonFontColor = '#000000'; // default black
     }
 
     // Initialize short text field

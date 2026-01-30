@@ -74,20 +74,138 @@ export default function FormField({ field, control, error }) {
     // Handle SIGNATURE field
     if (field.type === FIELD_TYPES.SIGNATURE) {
         const placeholder = field.placeholder || 'Sign Here';
+        const [isDrawing, setIsDrawing] = React.useState(false);
+        const [hasSignature, setHasSignature] = React.useState(false);
+        const canvasRef = React.useRef(null);
+
+        const getMousePos = (e) => {
+            const canvas = canvasRef.current;
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+            return { x, y };
+        };
+
+        const startDrawing = (e) => {
+            setIsDrawing(true);
+            if (!hasSignature) {
+                setHasSignature(true);
+            }
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext('2d');
+            const { x, y } = getMousePos(e);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        };
+
+        const draw = (e) => {
+            if (!isDrawing) return;
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext('2d');
+            const { x, y } = getMousePos(e);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+        };
+
+        const stopDrawing = () => {
+            setIsDrawing(false);
+        };
+
+        const clearSignature = () => {
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            setHasSignature(false);
+        };
+
+        const initializeCanvas = (canvas) => {
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.strokeStyle = '#000000';
+            }
+        };
+
+        const clearButtonAlignment = field.metadata?.clearButtonAlignment || 'center';
+        const clearButtonLabel = field.metadata?.clearButtonLabel || 'Clear';
+        const clearButtonBgColor = field.metadata?.clearButtonBgColor || '#FFFFFF';
+        const clearButtonFontColor = field.metadata?.clearButtonFontColor || '#000000';
+
+        let justifyContent = 'center';
+        if (clearButtonAlignment === 'left') justifyContent = 'flex-start';
+        else if (clearButtonAlignment === 'right') justifyContent = 'flex-end';
         return (
             <div className="form-field">
                 <label htmlFor={field.id}>
                     {field.label}
                     {field.required && <span className="required-asterisk">*</span>}
                 </label>
-                <div className="signature-field-wrapper">
-                    <div className="signature-canvas">
-                        <div className="signature-placeholder-display">{placeholder}</div>
-                        <svg className="signature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
-                    </div>
+                <div className="signature-field-wrapper" style={{ position: 'relative', display: 'block', width: '100%' }}>
+                    <canvas
+                        ref={canvasRef}
+                        className="signature-canvas"
+                        width={600}
+                        height={200}
+                        onMouseDown={startDrawing}
+                        onMouseMove={draw}
+                        onMouseUp={stopDrawing}
+                        onMouseLeave={stopDrawing}
+                        style={{
+                            border: '1px solid #ccc',
+                            borderRadius: '4px',
+                            cursor: 'crosshair',
+                            display: 'block',
+                            backgroundColor: '#fff',
+                            width: '100%'
+                        }}
+                        onLoad={() => initializeCanvas(canvasRef.current)}
+                    />
+                    {!hasSignature && (
+                        <div style={{
+                            position: 'absolute',
+                            top: '0',
+                            left: '0',
+                            right: '0',
+                            bottom: '0',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            pointerEvents: 'none'
+                        }}>
+                            <span style={{
+                                color: '#ccc',
+                                fontSize: '16px',
+                                whiteSpace: 'nowrap'
+                            }}>{placeholder}</span>
+                        </div>
+                    )}
+                </div>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: justifyContent,
+                    marginTop: '12px'
+                }}>
+                    <button
+                        type="button"
+                        onClick={clearSignature}
+                        style={{
+                            backgroundColor: clearButtonBgColor,
+                            color: clearButtonFontColor,
+                            border: '1px solid #ccc',
+                            padding: '8px 16px',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            fontWeight: '500',
+                            transition: 'all 0.3s ease'
+                        }}
+                    >
+                        {clearButtonLabel}
+                    </button>
                 </div>
             </div>
         );

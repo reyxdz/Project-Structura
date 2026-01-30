@@ -365,19 +365,73 @@ export default function SortableFieldItem({
                     </div>
                 </div>
             ) : field.type === FIELD_TYPES.SIGNATURE ? (
-                <div className="signature-field-builder">
+                <div style={{
+                    position: 'relative',
+                    display: 'block',
+                    width: '100%'
+                }}>
                     <div className="field-item-header">
                         <span className="field-label">
                             {field.label || 'Signature'}
                             {field.required && <span className="required-asterisk">*</span>}
                         </span>
                     </div>
-                    <div className="signature-canvas-preview">
-                        <div className="signature-placeholder-text">{field.placeholder || 'Sign Here'}</div>
-                        <svg className="signature-pen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                        </svg>
+                    <div style={{
+                        position: 'relative',
+                        display: 'block',
+                        width: '100%'
+                    }}>
+                        <canvas
+                            className="signature-canvas"
+                            width={600}
+                            height={200}
+                            style={{
+                                border: '1px solid #ccc',
+                                borderRadius: '4px',
+                                cursor: 'crosshair',
+                                display: 'block',
+                                backgroundColor: '#fff',
+                                width: '100%'
+                            }}
+                        />
+                        {!field.metadata?.signatureCanvas && (
+                            <div style={{
+                                position: 'absolute',
+                                top: '0',
+                                left: '0',
+                                right: '0',
+                                bottom: '0',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                pointerEvents: 'none'
+                            }}>
+                                <span style={{
+                                    color: '#ccc',
+                                    fontSize: '16px',
+                                    whiteSpace: 'nowrap'
+                                }}>{field.placeholder || 'Sign Here'}</span>
+                            </div>
+                        )}
+                    </div>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: field.metadata?.clearButtonAlignment || 'center',
+                        marginTop: '12px'
+                    }}>
+                        <button
+                            type="button"
+                            style={{
+                                backgroundColor: field.metadata?.clearButtonBgColor || '#FFFFFF',
+                                color: field.metadata?.clearButtonFontColor || '#000000',
+                                border: '1px solid #ccc',
+                                padding: '8px 16px',
+                                borderRadius: '4px',
+                                cursor: 'pointer'
+                            }}
+                        >
+                            {field.metadata?.clearButtonLabel || 'Clear'}
+                        </button>
                     </div>
                 </div>
             ) : field.type === FIELD_TYPES.SUBMIT ? (

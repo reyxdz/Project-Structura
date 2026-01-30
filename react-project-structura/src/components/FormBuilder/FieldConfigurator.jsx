@@ -1413,6 +1413,15 @@ export default function FieldConfigurator() {
                     <p className="config-hint">Duplicate this field with all saved settings</p>
                 </div>
 
+                <div className="config-divider" />
+
+                {/* Delete Field */}
+                <div className="config-section">
+                    <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                        Delete Field
+                    </button>
+                </div>
+
                 <ConfirmModal
                     isOpen={showDeleteModal}
                     title="Delete Field"
@@ -1999,9 +2008,13 @@ export default function FieldConfigurator() {
         );
     }
 
-    // Render signature-specific configuration
+    // Render Signature-specific configuration
     if (selectedField.type === FIELD_TYPES.SIGNATURE) {
         const placeholder = selectedField.placeholder || 'Sign Here';
+        const clearButtonLabel = selectedField.metadata?.clearButtonLabel || 'Clear';
+        const clearButtonAlignment = selectedField.metadata?.clearButtonAlignment || 'center';
+        const clearButtonBgColor = selectedField.metadata?.clearButtonBgColor || '#FFFFFF';
+        const clearButtonFontColor = selectedField.metadata?.clearButtonFontColor || '#000000';
 
         return (
             <div className="field-configurator">
@@ -2059,6 +2072,157 @@ export default function FieldConfigurator() {
                         </button>
                     </label>
                     <p className="config-hint">Prevent submission if this field is empty</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Clear Button Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Clear Button Label</span>
+                        <input
+                            type="text"
+                            value={clearButtonLabel}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    metadata: {
+                                        ...selectedField.metadata,
+                                        clearButtonLabel: e.target.value,
+                                    },
+                                })
+                            }
+                            placeholder="Clear"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Clear Button Alignment */}
+                <div className="config-section">
+                    <label>
+                        <span>Clear Button Alignment</span>
+                        <div className="alignment-buttons">
+                            <button
+                                type="button"
+                                className={`alignment-btn ${clearButtonAlignment === 'left' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            clearButtonAlignment: 'left',
+                                        },
+                                    })
+                                }
+                            >
+                                Left
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${clearButtonAlignment === 'center' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            clearButtonAlignment: 'center',
+                                        },
+                                    })
+                                }
+                            >
+                                Center
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${clearButtonAlignment === 'right' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            clearButtonAlignment: 'right',
+                                        },
+                                    })
+                                }
+                            >
+                                Right
+                            </button>
+                        </div>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Clear Button Background Color */}
+                <div className="config-section">
+                    <label>
+                        <span>Clear Button Background Color</span>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <input
+                                type="color"
+                                value={clearButtonBgColor}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            clearButtonBgColor: e.target.value,
+                                        },
+                                    })
+                                }
+                                style={{ width: '50px', height: '40px', cursor: 'pointer' }}
+                            />
+                            <input
+                                type="text"
+                                value={clearButtonBgColor}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            clearButtonBgColor: e.target.value,
+                                        },
+                                    })
+                                }
+                                placeholder="#FFFFFF"
+                                style={{ flex: 1 }}
+                            />
+                        </div>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Clear Button Font Color */}
+                <div className="config-section">
+                    <label>
+                        <span>Clear Button Font Color</span>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <input
+                                type="color"
+                                value={clearButtonFontColor}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            clearButtonFontColor: e.target.value,
+                                        },
+                                    })
+                                }
+                                style={{ width: '50px', height: '40px', cursor: 'pointer' }}
+                            />
+                            <input
+                                type="text"
+                                value={clearButtonFontColor}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            clearButtonFontColor: e.target.value,
+                                        },
+                                    })
+                                }
+                                placeholder="#000000"
+                                style={{ flex: 1 }}
+                            />
+                        </div>
+                    </label>
                 </div>
 
                 <div className="config-divider" />
