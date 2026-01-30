@@ -25,7 +25,7 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
                  type === FIELD_TYPES.MULTIPLE_CHOICE ||
                  type === FIELD_TYPES.CHECKBOX ? [] : null,
         validation: [],
-        conditional: null,
+        conditionals: null,
         helpText: '',
         metadata: {
             createdAt: new Date().toISOString(),
@@ -305,75 +305,7 @@ export const getFieldTypeLabel = (type) => {
 }
 
 
-
 /**
- * Check if field type accepts options (select, radio, checkbox)
- * @param {string} type - Field type
- * @returns {boolean}
- */
-
-export const fieldTypeAcceptsOptions = (type) => {
-    return [
-        FIELD_TYPES.SELECT,
-        FIELD_TYPES.RADIO,
-        FIELD_TYPES.CHECKBOX,
-    ].includes(type);
-};
-
-
-
-/**
- * Validate field configuration
- * @param {Object} field - Field object to validate
- * @returns {Object} { valid: boolean, errors: Array<string> }
- */
-
-export const validateFieldConfig = (field) => {
-    const errors = [];
-
-    if(!field.label || field.label.trim() === ''){
-        errors.push('Field label is required.');
-    }
-
-    if(!field.type){
-        errors.push('Field type is required.');
-    }
-
-    if(fieldTypeAcceptsOptions(field.type)){
-        if(!field.options || field.options.length === 0){
-            errors.push('Field must have at least one option');
-        }
-    }
-
-    return {
-        valid: errors.length === 0,
-        errors,
-    };
-};
-
-
-
-/**
- * Clone a field (create copy with new ID)
- * @param {Object} field - Field to clone
- * @returns {Object} Clone field
- */
-
-export const cloneField = (field) => {
-    return{
-        ...field,
-        id: uuidv4(),
-        metadata:{
-            ...field.metadata,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-        },
-    };
-};
-
-
-
-/** 
  * Update field in array
  * @param {Array} fields - Array of fields
  * @param {string} fieldId - ID of field to update

@@ -1,20 +1,8 @@
 // Full drag-and-drop implementation
 
 import React, { useState, useRef } from 'react';
-import {
-    DndContext,
-    closestCenter,
-    KeyboardSensor,
-    PointerSensor,
-    useSensor,
-    useSensors,
-    DragOverlay,
-} from '@dnd-kit/core';
-import {
-    SortableContext,
-    sortableKeyboardCoordinates,
-    verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
+import { DndContext,closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useFormStore } from '../../stores/formStore';
 import DraggableFieldItem from './DraggableFieldItem';
 import SortableFieldItem from './SortableFieldItem';

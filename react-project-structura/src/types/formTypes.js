@@ -130,26 +130,6 @@ export const VALIDATION_TYPES = {
   CUSTOM: 'custom',
 };
 
-// Export operators for conditionals
-export const OPERATORS = {
-  EQUALS: 'equals',
-  NOT_EQUALS: 'notEquals',
-  CONTAINS: 'contains',
-  GREATER_THAN: 'greaterThan',
-  LESS_THAN: 'lessThan',
-  IS_EMPTY: 'isEmpty',
-  IS_NOT_EMPTY: 'isNotEmpty',
-};
-
-// Export actions for conditionals
-export const ACTIONS = {
-  SHOW: 'show',
-  HIDE: 'hide',
-  ENABLE: 'enable',
-  DISABLE: 'disable',
-  SET_VALUE: 'setValue',
-};
-
 // Phase 3 - 1.1 - Add existing exports
 export const CONDITIONAL_OPERATORS = {
   EQUALS: 'equals',

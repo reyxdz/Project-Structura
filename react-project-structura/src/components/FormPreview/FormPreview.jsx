@@ -10,7 +10,7 @@ import FormField from './FormField';
 import './FormPreview.css';
 
 export default function FormPreview() {
-    const { form, previewData, setPreviewData, clearPreviewData } = useFormStore();
+    const { form, previewData, setPreviewData } = useFormStore();
     const { handleSubmit, control } = useForm({
         mode: 'onChange',
     });
@@ -62,13 +62,8 @@ export default function FormPreview() {
 
     const onSubmit = (data) => {
         setPreviewData(data);
-        alert('Form submitted! Check console for data.');
-        console.log('Form Data: ', data);
+        alert('Form submitted!');
     };
-
-    const onClear = () => {
-        clearPreviewData();
-    }
 
     const renderFormContent = () => (
         <>

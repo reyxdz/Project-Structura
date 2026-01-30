@@ -64,7 +64,6 @@ export const evaluateOperator = (fieldValue, operator, compareValue) => {
                 const regex = new RegExp(compareValue);
                 return regex.test(String(fieldValue));
             } catch {
-                console.error('Invalid regex pattern: ', compareValue);
                 return false;
             }
 
@@ -134,35 +133,6 @@ export const shouldFieldBeVisible = (field, previewData, allFields) => {
     return field.conditionals.every((conditionalLogic) =>
         evaluateConditionalLogic(conditionalLogic, previewData, field, allFields)
     );
-};
-
-/**
- * Determine if a field should be enabled based on conditional actions
- * @param {Object} field - Field object with conditionals array
- * @param {Object} previewData - Current form data
- * @param {Array} allFields - All fields in the form
- * @returns {boolean} Whether field should be enabled
- */ 
-
-export const shouldFieldBeEnabled = (field, previewData, allFields) => {
-    if (!field.conditionals || field.conditionals.length === 0) {
-        return true;
-    }
-
-    // Check if any rule has a DISABLE action and is true
-    for (const conditionalLogic of field.conditionals) {
-        const isMet = evaluateConditionalLogic(conditionalLogic, previewData, field, allFields);
-
-        if (isMet) {
-            for (const rule of conditionalLogic.rules) {
-                if(rule.action === CONDITIONAL_ACTIONS.DISABLE) {
-                    return false;
-                }
-            }
-        }
-    }
-
-    return true;
 };
 
 /**
@@ -295,3 +265,4 @@ export const detectCircularDependencies = (field, allFields) => {
 
     return circularPaths;
 };
+

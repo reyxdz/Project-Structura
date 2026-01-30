@@ -2,18 +2,8 @@
 
 import React from 'react';
 import { useFormStore } from '../../stores/formStore';
-import {
-    CONDITIONAL_OPERATORS,
-    CONDITIONAL_ACTIONS,
-    CONDITIONAL_LOGIC_TYPES,
-} from '../../types/formTypes';
-import {
-    createConditionalRule,
-    createConditionalLogicGroup,
-    getOperatorLabel,
-    getActionLabel,
-    detectCircularDependencies,
-} from '../../utils/conditionalRules';
+import { CONDITIONAL_OPERATORS, CONDITIONAL_ACTIONS, CONDITIONAL_LOGIC_TYPES } from '../../types/formTypes';
+import { createConditionalRule, createConditionalLogicGroup, getOperatorLabel, getActionLabel, detectCircularDependencies } from '../../utils/conditionalRules';
 import './ConditionalRuleBuilder.css';
 
 export default function ConditionalRuleBuilder({ fieldId }) {
@@ -85,7 +75,7 @@ export default function ConditionalRuleBuilder({ fieldId }) {
     };
 
     const handleRemoveAllConditionals = () => {
-        if(confirm('Remove all conditional rules from this field>')) {
+        if(confirm('Remove all conditional rules from this field?')) {
             removeAllConditionals(fieldId);
         }
     };
@@ -231,7 +221,7 @@ function ConditionalRuleRow({
 
                 <select
                     className = "rule-action-select"
-                    valye = {rule.action}
+                    value = {rule.action}
                     onChange = {(e) => onRuleChange (conditionalIndex, ruleIndex, 'action', e.target.value)}
                 >
                     {Object.entries(CONDITIONAL_ACTIONS).map(([value]) => (
