@@ -239,25 +239,151 @@ export default function FormField({ field, control, error }) {
         const maxFileSize = field.metadata?.maxFileSize || 5;
         const maxFileSizeUnit = field.metadata?.maxFileSizeUnit || 'mb';
         const acceptedFileTypes = field.metadata?.acceptedFileTypes || [];
+        const [uploadedFiles, setUploadedFiles] = React.useState([]);
+        const [dragActive, setDragActive] = React.useState(false);
+        const [errorMessage, setErrorMessage] = React.useState('');
+        const fileInputRef = React.useRef(null);
+
+        // Convert file size to bytes
+        const getMaxSizeInBytes = () => {
+            const size = parseInt(maxFileSize);
+            return maxFileSizeUnit === 'kb' ? size * 1024 : size * 1024 * 1024;
+        };
+
+        // Get MIME types from extensions
+        const getMimeTypesFromExtensions = () => {
+            const mimeMap = {
+                'pdf': 'application/pdf',
+                'doc': 'application/msword',
+                'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'xls': 'application/vnd.ms-excel',
+                'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'ppt': 'application/vnd.ms-powerpoint',
+                'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+                'png': 'image/png',
+                'jpg': 'image/jpeg',
+                'jpeg': 'image/jpeg',
+                'gif': 'image/gif',
+                'txt': 'text/plain',
+                'csv': 'text/csv'
+            };
+            return acceptedFileTypes.map(type => mimeMap[type] || type).filter(Boolean);
+        };
+
+        const validateFile = (file) => {
+            // Check file size
+            if (file.size > getMaxSizeInBytes()) {
+                return `File "${file.name}" exceeds maximum size of ${maxFileSize} ${maxFileSizeUnit.toUpperCase()}`;
+            }
+
+            // Check file type
+            if (acceptedFileTypes.length > 0) {
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+                if (!acceptedFileTypes.includes(fileExtension)) {
+                    return `File type "${fileExtension.toUpperCase()}" is not accepted. Allowed types: ${acceptedFileTypes.map(t => t.toUpperCase()).join(', ')}`;
+                }
+            }
+
+            return null;
+        };
+
+        const handleFiles = (files) => {
+            setErrorMessage('');
+            const fileArray = Array.from(files);
+            const validFiles = [];
+            let firstError = null;
+
+            fileArray.forEach(file => {
+                const error = validateFile(file);
+                if (error) {
+                    if (!firstError) firstError = error;
+                } else {
+                    validFiles.push({
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        file: file
+                    });
+                }
+            });
+
+            if (firstError) {
+                setErrorMessage(firstError);
+            }
+
+            if (validFiles.length > 0) {
+                setUploadedFiles([...uploadedFiles, ...validFiles]);
+            }
+        };
+
+        const handleDrag = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.type === 'dragenter' || e.type === 'dragover') {
+                setDragActive(true);
+            } else if (e.type === 'dragleave') {
+                setDragActive(false);
+            }
+        };
+
+        const handleDrop = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setDragActive(false);
+            handleFiles(e.dataTransfer.files);
+        };
+
+        const handleChange = (e) => {
+            handleFiles(e.target.files);
+        };
+
+        const removeFile = (index) => {
+            setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
+        };
+
+        const formatFileSize = (bytes) => {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
+        };
 
         return (
             <div className="file-field-wrapper">
                 <label htmlFor={field.id}>
                     {field.label}
+                    {field.required && <span className="required-asterisk">*</span>}
                 </label>
-                <div className="file-upload-container" style={{
-                    width: '100%',
-                    border: '2px solid #aaa',
-                    borderRadius: '12px',
-                    padding: '40px',
-                    minHeight: '140px',
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    justifyContent: 'center',
-                    background: '#fff',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease'
-                }}>
+                <div
+                    className="file-upload-container"
+                    style={{
+                        width: '100%',
+                        border: dragActive ? '2px dashed #0D47A1' : '2px solid #aaa',
+                        borderRadius: '12px',
+                        padding: '40px',
+                        minHeight: '140px',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        justifyContent: 'center',
+                        background: dragActive ? '#f5f5f5' : '#fff',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
+                    }}
+                    onDragEnter={handleDrag}
+                    onDragLeave={handleDrag}
+                    onDragOver={handleDrag}
+                    onDrop={handleDrop}
+                    onClick={() => fileInputRef.current?.click()}
+                >
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        multiple
+                        onChange={handleChange}
+                        style={{ display: 'none' }}
+                        accept={acceptedFileTypes.length > 0 ? acceptedFileTypes.map(t => `.${t}`).join(',') : undefined}
+                    />
                     <div style={{ 
                         display: 'flex', 
                         alignItems: 'flex-start',
@@ -276,13 +402,79 @@ export default function FormField({ field, control, error }) {
                             <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#666', fontWeight: '400' }}>Drag and drop files here</p>
                             {acceptedFileTypes.length > 0 && (
                                 <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#666' }}>
-                                    Accepted: {acceptedFileTypes.join(', ').toUpperCase()}<br />
+                                    Accepted: {acceptedFileTypes.map(t => t.toUpperCase()).join(', ')}<br />
                                     Max: {maxFileSize} {maxFileSizeUnit.toUpperCase()}
                                 </p>
                             )}
                         </div>
                     </div>
                 </div>
+                {errorMessage && (
+                    <div style={{ 
+                        marginTop: '8px', 
+                        padding: '8px 12px', 
+                        backgroundColor: '#ffebee', 
+                        color: '#c62828', 
+                        borderRadius: '4px',
+                        fontSize: '12px'
+                    }}>
+                        {errorMessage}
+                    </div>
+                )}
+                {uploadedFiles.length > 0 && (
+                    <div style={{ marginTop: '16px' }}>
+                        <p style={{ fontSize: '12px', fontWeight: '500', color: '#333', marginBottom: '8px' }}>
+                            Uploaded Files ({uploadedFiles.length})
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {uploadedFiles.map((file, index) => (
+                                <div 
+                                    key={index}
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        padding: '12px',
+                                        backgroundColor: '#f5f5f5',
+                                        borderRadius: '4px',
+                                        fontSize: '13px'
+                                    }}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+                                        <svg style={{width: '16px', height: '16px', color: '#888', flexShrink: 0}} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                            <polyline points="13 2 13 9 20 9"></polyline>
+                                        </svg>
+                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                            <p style={{ margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#333' }}>
+                                                {file.name}
+                                            </p>
+                                            <p style={{ margin: '4px 0 0 0', color: '#999', fontSize: '12px' }}>
+                                                {formatFileSize(file.size)}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeFile(index)}
+                                        style={{
+                                            background: 'none',
+                                            border: 'none',
+                                            color: '#f44336',
+                                            cursor: 'pointer',
+                                            padding: '4px',
+                                            fontSize: '18px',
+                                            lineHeight: 1,
+                                            flexShrink: 0
+                                        }}
+                                    >
+                                        ×
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
         );
     }
