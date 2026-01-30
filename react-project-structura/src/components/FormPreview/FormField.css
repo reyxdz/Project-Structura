@@ -372,7 +372,7 @@
 
 .radio-option input[type="radio"]:checked {
   border-color: #0D47A1;
-  background: radial-gradient(circle, #0D47A1 37%, white 37%);
+  background-color: #0D47A1 !important;
 }
 
 .radio-option input[type="radio"]:focus {

@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- Background circle -->
-  <circle cx="100" cy="100" r="100" fill="#0D47A1"/>
-  
-  <!-- PS text -->
-  <text x="100" y="130" font-family="Arial, sans-serif" font-size="90" font-weight="bold" text-anchor="middle" fill="#FFFFFF">PS</text>
-</svg>

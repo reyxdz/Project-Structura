@@ -406,7 +406,7 @@
 
 .radio-option-builder input:checked {
   border-color: #0D47A1;
-  background: radial-gradient(circle, #0D47A1 30%, white 30%);
+  background-color: #0D47A1;
 }
 
 .radio-option-builder input:focus,
