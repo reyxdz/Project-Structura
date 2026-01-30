@@ -1247,7 +1247,7 @@ export default function FieldConfigurator() {
                                     },
                                 })
                             }
-                            placeholder="(000) 000-0000"
+                            placeholder="(+63) 000-0000-0000"
                         />
                     </label>
                     <p className="config-hint">Add a short description below the field</p>
@@ -1445,7 +1445,7 @@ export default function FieldConfigurator() {
         const slotDuration = selectedField.metadata?.slotDuration || '30';
         const customSlotDuration = selectedField.metadata?.customSlotDuration || '';
         const intervals = selectedField.metadata?.intervals || [];
-        const timezone = selectedField.metadata?.timezone || 'America/New York';
+        const timezone = selectedField.metadata?.timezone || 'Philippines/Cebu';
         const daysOfWeekOptions = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
         const handleSlotDurationChange = (duration) => {
@@ -1993,7 +1993,6 @@ export default function FieldConfigurator() {
     if (selectedField.type === FIELD_TYPES.IMAGE) {
         const imageFileName = selectedField.metadata?.imageFileName || '';
         const imageHeight = selectedField.metadata?.imageHeight || 200;
-        const imageWidth = selectedField.metadata?.imageWidth || 200;
         const originalImageHeight = selectedField.metadata?.originalImageHeight || 0;
         const originalImageWidth = selectedField.metadata?.originalImageWidth || 0;
         
@@ -2147,7 +2146,7 @@ export default function FieldConfigurator() {
 
                         <div className="config-divider" />
                     </>
-                )}}
+                )}
 
                 {/* Duplicate Field */}
                 <div className="config-section">
@@ -2182,7 +2181,6 @@ export default function FieldConfigurator() {
 
     // Render file-specific configuration
     if (selectedField.type === FIELD_TYPES.FILE) {
-        const fileAlignment = selectedField.metadata?.fileAlignment || 'center';
         const maxFileSize = selectedField.metadata?.maxFileSize || 5;
         const maxFileSizeUnit = selectedField.metadata?.maxFileSizeUnit || 'mb';
         const acceptedFileTypes = selectedField.metadata?.acceptedFileTypes || [];
