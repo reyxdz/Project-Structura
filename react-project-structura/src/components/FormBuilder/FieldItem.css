@@ -360,21 +360,59 @@
 .checkbox-options-builder {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  margin-left: 2px;
 }
 
 .radio-option-builder,
 .checkbox-option-builder {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .radio-option-builder input,
 .checkbox-option-builder input {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 2px solid #d0d0d0;
+  border-radius: 4px;
+  background-color: white;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.radio-option-builder input {
+  border-radius: 50%;
+}
+
+.radio-option-builder input:hover,
+.checkbox-option-builder input:hover {
+  border-color: #0D47A1;
+}
+
+.checkbox-option-builder input:checked {
+  background-color: #0D47A1;
+  border-color: #0D47A1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 12px;
+}
+
+.radio-option-builder input:checked {
+  border-color: #0D47A1;
+  background: radial-gradient(circle, #0D47A1 30%, white 30%);
+}
+
+.radio-option-builder input:focus,
+.checkbox-option-builder input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
 }
 
 .radio-option-builder label,
@@ -384,6 +422,9 @@
   margin: 0;
   cursor: pointer;
   font-weight: 400;
+  display: flex;
+  align-items: center;
+  user-select: none;
 }
 
 /* Number Field */

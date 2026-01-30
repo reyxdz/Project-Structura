@@ -68,7 +68,7 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
     // Initialize phone field
     if (type === FIELD_TYPES.PHONE) {
         field.label = 'Phone Number';
-        field.placeholder = '(000) 000-0000';
+        field.placeholder = '(+63) 000-0000-0000';
         field.metadata.sublabel = 'Please enter a valid phone number';
     }
 
@@ -94,7 +94,7 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
                 daysOfWeek: ['MON', 'TUE', 'WED', 'THU', 'FRI']
             }
         ];
-        field.metadata.timezone = 'America/New York';
+        field.metadata.timezone = 'Philippines/Cebu';
         field.metadata.sublabel = 'Select your preferred appointment date and time';
         // Runtime state (not persisted)
         field.metadata.selectedDate = null;

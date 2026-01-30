@@ -20,4 +20,3 @@ export const getInsertIndex = (items, overId) => {
     const index = items.findIndex((item) => item.id === overId);
     return index >= 0 ? index : items.length;
 };
-

@@ -428,7 +428,7 @@ export default function FormField({ field, control, error }) {
                             const slotDuration = field.metadata?.slotDuration || '30';
                             const customSlotDuration = field.metadata?.customSlotDuration || '';
                             const intervals = field.metadata?.intervals || [];
-                            const timezone = field.metadata?.timezone || 'America/New York';
+                            const timezone = field.metadata?.timezone || 'Philippines/Cebu';
 
                             const getSlotMinutes = () => {
                                 if (slotDuration === 'custom') {

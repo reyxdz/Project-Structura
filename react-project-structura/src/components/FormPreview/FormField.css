@@ -284,19 +284,47 @@
 .checkbox-field {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  margin-left: 2px;
 }
 
 .checkbox-option {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .checkbox-field input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+  width: 16px !important;
+  height: 16px !important;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1.5px solid #d0d0d0 !important;
+  border-radius: 3px;
+  background-color: white;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  padding: 0 !important;
+}
+
+.checkbox-field input[type="checkbox"]:hover {
+  border-color: #0D47A1;
+}
+
+.checkbox-field input[type="checkbox"]:checked {
+  background-color: #0D47A1;
+  border-color: #0D47A1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='white'%3E%3Cpath fill-rule='evenodd' d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' clip-rule='evenodd'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 10px;
+}
+
+.checkbox-field input[type="checkbox"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
 }
 
 .checkbox-field label {
@@ -307,31 +335,60 @@
   color: #333;
   display: flex;
   align-items: center;
-  gap: 4px;
+  user-select: none;
 }
 
 .radio-field {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  margin-left: 2px;
 }
 
 .radio-option {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .radio-option input[type="radio"] {
-  width: 18px;
-  height: 18px;
+  width: 16px !important;
+  height: 16px !important;
   cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border: 1.5px solid #d0d0d0 !important;
+  border-radius: 50%;
+  background-color: white;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  padding: 0 !important;
+}
+
+.radio-option input[type="radio"]:hover {
+  border-color: #0D47A1;
+}
+
+.radio-option input[type="radio"]:checked {
+  border-color: #0D47A1;
+  background: radial-gradient(circle, #0D47A1 37%, white 37%);
+}
+
+.radio-option input[type="radio"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
 }
 
 .radio-option label {
   margin: 0;
   cursor: pointer;
   font-weight: 400;
+  font-size: 14px;
+  color: #333;
+  display: flex;
+  align-items: center;
+  user-select: none;
 }
 
 .error-message {
