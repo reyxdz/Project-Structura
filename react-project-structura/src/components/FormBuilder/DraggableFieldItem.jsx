@@ -300,50 +300,6 @@ export default function DraggableFieldItem({ field, isDragging }) {
                     </div>
                     <div className="file-placeholder">📎 Click to upload or drag file</div>
                 </div>
-            ) : field.type === FIELD_TYPES.STAR_RATING ? (
-                <div className="star-rating-field-builder">
-                    <div className="field-item-header">
-                        <span className="field-label">
-                            {field.label || 'Star Rating'}
-                            {field.required && <span className="required-asterisk">*</span>}
-                        </span>
-                    </div>
-                    <div className="stars-preview">
-                        {Array.from({length: field.metadata?.maxRating || 5}).map((_, i) => (
-                            <span key={i} className="star">★</span>
-                        ))}
-                    </div>
-                </div>
-            ) : field.type === FIELD_TYPES.SCALE_RATING ? (
-                <div className="scale-rating-field-builder">
-                    <div className="field-item-header">
-                        <span className="field-label">
-                            {field.label || 'Scale Rating'}
-                            {field.required && <span className="required-asterisk">*</span>}
-                        </span>
-                    </div>
-                    <div className="scale-labels-preview">
-                        <span>{field.metadata?.minLabel || 'Not Satisfied'}</span>
-                        <span>{field.metadata?.maxLabel || 'Very Satisfied'}</span>
-                    </div>
-                    <div className="scale-numbers">
-                        {Array.from({length: field.metadata?.scaleRange || 5}).map((_, i) => (
-                            <span key={i} className="scale-num">{i + 1}</span>
-                        ))}
-                    </div>
-                </div>
-            ) : field.type === FIELD_TYPES.INPUT_TABLE ? (
-                <div className="input-table-field-builder">
-                    <div className="field-item-header">
-                        <span className="field-label">
-                            {field.label || 'Input Table'}
-                            {field.required && <span className="required-asterisk">*</span>}
-                        </span>
-                    </div>
-                    <div className="table-preview">
-                        <strong>Table with {field.metadata?.columns?.length || 0} columns × {field.metadata?.rows || 3} rows</strong>
-                    </div>
-                </div>
             ) : field.type === FIELD_TYPES.DIVIDER ? (
                 <div className="divider-field-builder">
                     <hr className="divider-preview" />

@@ -25,9 +25,6 @@ import imageIcon from '../../icons/image.png';
 import fileUploadIcon from '../../icons/file_upload.png';
 import captchaIcon from '../../icons/captcha.png';
 import submitIcon from '../../icons/submit.png';
-import inputTableIcon from '../../icons/input_table.png';
-import starRatingIcon from '../../icons/star_rating.png';
-import scaleRatingIcon from '../../icons/scale_rating.png';
 import dividerIcon from '../../icons/divider.png';
 import sectionCollapseIcon from '../../icons/section_collapse.png';
 import pageBreakIcon from '../../icons/page_break.png';
@@ -62,14 +59,6 @@ const fieldSections = [
         ],
     },
     {
-        name: 'SURVEY ELEMENTS',
-        fields: [
-            FIELD_TYPES.INPUT_TABLE,
-            FIELD_TYPES.STAR_RATING,
-            FIELD_TYPES.SCALE_RATING,
-        ],
-    },
-    {
         name: 'PAGE ELEMENTS',
         fields: [
             FIELD_TYPES.DIVIDER,
@@ -98,9 +87,6 @@ const fieldIcons = {
     [FIELD_TYPES.FILE]: fileUploadIcon,
     [FIELD_TYPES.CAPTCHA]: captchaIcon,
     [FIELD_TYPES.SUBMIT]: submitIcon,
-    [FIELD_TYPES.INPUT_TABLE]: inputTableIcon,
-    [FIELD_TYPES.STAR_RATING]: starRatingIcon,
-    [FIELD_TYPES.SCALE_RATING]: scaleRatingIcon,
     [FIELD_TYPES.DIVIDER]: dividerIcon,
     [FIELD_TYPES.SECTION_COLLAPSE]: sectionCollapseIcon,
     [FIELD_TYPES.PAGE_BREAK]: pageBreakIcon,
@@ -111,9 +97,6 @@ export default function FieldPalette() {
 
     // Fields that are disabled (not yet implemented)
     const disabledFields = [
-        FIELD_TYPES.INPUT_TABLE,
-        FIELD_TYPES.STAR_RATING,
-        FIELD_TYPES.SCALE_RATING,
         FIELD_TYPES.DIVIDER,
         FIELD_TYPES.SECTION_COLLAPSE,
         FIELD_TYPES.PAGE_BREAK,

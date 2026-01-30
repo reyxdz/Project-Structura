@@ -102,11 +102,6 @@ export const FIELD_TYPES = {
   SPINNER: 'spinner',
   SUBMIT: 'submit',
   
-  // Survey Elements
-  INPUT_TABLE: 'inputTable',
-  STAR_RATING: 'starRating',
-  SCALE_RATING: 'scaleRating',
-  
   // Page Elements
   DIVIDER: 'divider',
   SECTION_COLLAPSE: 'sectionCollapse',

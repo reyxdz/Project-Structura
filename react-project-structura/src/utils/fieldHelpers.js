@@ -286,11 +286,6 @@ export const getFieldTypeLabel = (type) => {
         [FIELD_TYPES.SPINNER]: 'Spinner',
         [FIELD_TYPES.SUBMIT]: 'Submit',
         
-        // Survey Elements
-        [FIELD_TYPES.INPUT_TABLE]: 'Input Table',
-        [FIELD_TYPES.STAR_RATING]: 'Star Rating',
-        [FIELD_TYPES.SCALE_RATING]: 'Scale Rating',
-        
         // Page Elements
         [FIELD_TYPES.DIVIDER]: 'Divider',
         [FIELD_TYPES.SECTION_COLLAPSE]: 'Section Collapse',
