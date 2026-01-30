@@ -362,6 +362,30 @@ export default function FormField({ field, control, error }) {
                                  />
                             );
 
+                        case FIELD_TYPES.SHORT_TEXT: {
+                            const sublabel = field.metadata?.sublabel || '';
+                            return (
+                                <div style={{ position: 'relative' }}>
+                                    <input
+                                        {...fieldProps}
+                                        type = "text"
+                                        placeholder = {field.placeholder}
+                                        className = {error ? 'input-error' : ''}
+                                    />
+                                    {sublabel && (
+                                        <p style={{
+                                            fontSize: '12px',
+                                            color: '#757575',
+                                            margin: '6px 0 0 0',
+                                            lineHeight: '1.4'
+                                        }}>
+                                            {sublabel}
+                                        </p>
+                                    )}
+                                </div>
+                            );
+                        }
+
                         case FIELD_TYPES.NUMBER: {
                             const minValue = field.metadata?.minimumValue ?? '';
                             const maxValue = field.metadata?.maximumValue ?? '';
@@ -422,6 +446,30 @@ export default function FormField({ field, control, error }) {
                                     className = {error ? 'input-error' : ''}
                                 />
                             );
+
+                        case FIELD_TYPES.LONG_TEXT: {
+                            const sublabel = field.metadata?.sublabel || '';
+                            return (
+                                <div style={{ position: 'relative' }}>
+                                    <textarea 
+                                        {...fieldProps}
+                                        placeholder = {field.placeholder}
+                                        rows = "4"
+                                        className = {error ? 'input-error' : ''}
+                                    />
+                                    {sublabel && (
+                                        <p style={{
+                                            fontSize: '12px',
+                                            color: '#757575',
+                                            margin: '6px 0 0 0',
+                                            lineHeight: '1.4'
+                                        }}>
+                                            {sublabel}
+                                        </p>
+                                    )}
+                                </div>
+                            );
+                        }
 
                         case FIELD_TYPES.APPOINTMENT: {
                             const appointmentSublabel = field.metadata?.sublabel || '';
