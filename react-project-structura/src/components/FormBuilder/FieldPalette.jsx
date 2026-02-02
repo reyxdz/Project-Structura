@@ -55,6 +55,13 @@ const fieldSections = [
             FIELD_TYPES.DIVIDER,
         ],
     },
+    {
+        name: 'SPECIAL FIELDS',
+        fields: [
+            FIELD_TYPES.MULTI_FIELDS,
+            FIELD_TYPES.TABLE,
+        ]
+    }
 ];
 
 const fieldIcons = {
@@ -81,9 +88,6 @@ const fieldIcons = {
 export default function FieldPalette() {
     const addField = useFormStore((state) => state.addField);
 
-    // Fields that are disabled (not yet implemented)
-    const disabledFields = [];
-
     const handleAddField = (fieldType) => {
         addField(fieldType);
     }
@@ -108,12 +112,11 @@ export default function FieldPalette() {
                             {section.fields.map((fieldType) => (
                                 <button
                                     key={fieldType}
-                                    className={`field-button ${disabledFields.includes(fieldType) ? 'disabled' : ''}`}
-                                    onClick={() => !disabledFields.includes(fieldType) && handleAddField(fieldType)}
-                                    draggable={!disabledFields.includes(fieldType)}
-                                    onDragStart={(e) => !disabledFields.includes(fieldType) && handleDragStart(e, fieldType)}
+                                    className={`field-button`}
+                                    onClick={() => handleAddField(fieldType)}
+                                    draggable
+                                    onDragStart={(e) => handleDragStart(e, fieldType)}
                                     title={`Add ${getFieldTypeLabel(fieldType)}`}
-                                    disabled={disabledFields.includes(fieldType)}
                                 >
                                     {fieldIcons[fieldType] && (
                                         <img src={fieldIcons[fieldType]} alt="" className="field-icon" />
