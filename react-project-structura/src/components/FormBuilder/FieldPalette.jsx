@@ -25,7 +25,6 @@ import imageIcon from '../../icons/image.png';
 import fileUploadIcon from '../../icons/file_upload.png';
 import submitIcon from '../../icons/submit.png';
 import dividerIcon from '../../icons/divider.png';
-import pageBreakIcon from '../../icons/page_break.png';
 
 const fieldSections = [
     {
@@ -53,13 +52,7 @@ const fieldSections = [
             FIELD_TYPES.IMAGE,
             FIELD_TYPES.FILE,
             FIELD_TYPES.SUBMIT,
-        ],
-    },
-    {
-        name: 'PAGE ELEMENTS',
-        fields: [
             FIELD_TYPES.DIVIDER,
-            FIELD_TYPES.PAGE_BREAK,
         ],
     },
 ];
@@ -83,16 +76,13 @@ const fieldIcons = {
     [FIELD_TYPES.FILE]: fileUploadIcon,
     [FIELD_TYPES.SUBMIT]: submitIcon,
     [FIELD_TYPES.DIVIDER]: dividerIcon,
-    [FIELD_TYPES.PAGE_BREAK]: pageBreakIcon,
 };
 
 export default function FieldPalette() {
     const addField = useFormStore((state) => state.addField);
 
     // Fields that are disabled (not yet implemented)
-    const disabledFields = [
-        FIELD_TYPES.PAGE_BREAK,
-    ];
+    const disabledFields = [];
 
     const handleAddField = (fieldType) => {
         addField(fieldType);

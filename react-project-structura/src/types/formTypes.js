@@ -103,7 +103,6 @@ export const FIELD_TYPES = {
   
   // Page Elements
   DIVIDER: 'divider',
-  PAGE_BREAK: 'pageBreak',
   
   // Legacy
   TEXTAREA: 'textarea',

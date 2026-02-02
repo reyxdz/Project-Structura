@@ -302,7 +302,6 @@ export const getFieldTypeLabel = (type) => {
         
         // Page Elements
         [FIELD_TYPES.DIVIDER]: 'Divider',
-        [FIELD_TYPES.PAGE_BREAK]: 'Page Break',
         
         // Legacy
         [FIELD_TYPES.TEXTAREA]: 'Text Area',

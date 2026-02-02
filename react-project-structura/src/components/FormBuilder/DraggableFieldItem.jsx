@@ -304,13 +304,7 @@ export default function DraggableFieldItem({ field, isDragging }) {
                 <div className="divider-field-builder">
                     <hr className="divider-preview" />
                 </div>
-            ) : field.type === FIELD_TYPES.PAGE_BREAK ? (
-                <div className="page-break-field-builder">
-                    <div className="page-break-preview">
-                        <div className="page-break-line" />
-                        <span>Page Break</span>
-                    </div>
-                </div>
+
             ) : field.type === FIELD_TYPES.SUBMIT ? (
                 <div className="submit-field-builder">
                     {(() => {
