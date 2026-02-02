@@ -525,7 +525,7 @@ export default function SortableFieldItem({
                     }}>
                         <thead>
                             <tr style={{ backgroundColor: '#f5f5f5' }}>
-                                {(field.metadata?.columns || ['Column 1', 'Column 2', 'Column 3']).map((col, idx) => (
+                                {Array.from({ length: field.metadata?.columns || 3 }, (_, idx) => (
                                     <th key={idx} style={{
                                         padding: '12px',
                                         textAlign: 'left',
@@ -533,7 +533,7 @@ export default function SortableFieldItem({
                                         fontWeight: '600',
                                         fontSize: '14px'
                                     }}>
-                                        {col}
+                                        {(field.metadata?.columnHeaders || [])[idx] || `Column ${idx + 1}`}
                                     </th>
                                 ))}
                             </tr>
@@ -541,7 +541,7 @@ export default function SortableFieldItem({
                         <tbody>
                             {[0, 1, 2].map((rowIdx) => (
                                 <tr key={rowIdx}>
-                                    {(field.metadata?.columns || ['Column 1', 'Column 2', 'Column 3']).map((col, colIdx) => (
+                                    {Array.from({ length: field.metadata?.columns || 3 }, (_, colIdx) => (
                                         <td key={colIdx} style={{
                                             padding: '12px',
                                             borderBottom: '1px solid #eee',

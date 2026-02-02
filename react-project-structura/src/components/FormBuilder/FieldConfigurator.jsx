@@ -3840,6 +3840,261 @@ export default function FieldConfigurator() {
         );
     }
 
+    // Render TABLE-specific configuration
+    if (selectedField.type === FIELD_TYPES.TABLE) {
+        const columns = selectedField.metadata?.columns || 3;
+        const rows = selectedField.metadata?.rows || 5;
+        const columnHeaders = selectedField.metadata?.columnHeaders || ['Column 1', 'Column 2', 'Column 3'];
+        const headingSize = selectedField.metadata?.headingSize || 'default';
+        const textAlignment = selectedField.metadata?.textAlignment || 'left';
+
+        return (
+            <div className="field-configurator">
+                <h3>Table Configuration</h3>
+
+                {/* Field Label */}
+                <div className="config-section">
+                    <label>
+                        <span>Field Label</span>
+                        <input
+                            type="text"
+                            value={selectedField.label}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    label: e.target.value
+                                })
+                            }
+                            placeholder="Field label"
+                        />
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <span>Required</span>
+                        <button
+                            type="button"
+                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
+                            onClick={() =>
+                                updateField(selectedFieldId, {
+                                    required: !selectedField.required
+                                })
+                            }
+                        >
+                            {selectedField.required ? 'Required' : 'Optional'}
+                        </button>
+                    </label>
+                    <p className="config-hint">Prevent submission if this field is empty</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Heading Size */}
+                <div className="config-section">
+                    <label>
+                        <span>Label Size</span>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            {['small', 'default', 'large'].map((size) => (
+                                <button
+                                    key={size}
+                                    type="button"
+                                    className={`alignment-btn ${headingSize === size ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                headingSize: size,
+                                            }
+                                        })
+                                    }
+                                    style={{ flex: 1 }}
+                                >
+                                    {size.charAt(0).toUpperCase() + size.slice(1)}
+                                </button>
+                            ))}
+                        </div>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Text Alignment */}
+                <div className="config-section">
+                    <label>
+                        <span>Label Alignment</span>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            {['left', 'center', 'right'].map((align) => (
+                                <button
+                                    key={align}
+                                    type="button"
+                                    className={`alignment-btn ${textAlignment === align ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                textAlignment: align,
+                                            }
+                                        })
+                                    }
+                                    style={{ flex: 1 }}
+                                >
+                                    {align.charAt(0).toUpperCase() + align.slice(1)}
+                                </button>
+                            ))}
+                        </div>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Columns */}
+                <div className="config-section">
+                    <label>
+                        <span>Columns (Max: 4)</span>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            columns: Math.max(1, columns - 1),
+                                        }
+                                    })
+                                }
+                                style={{ flex: 1 }}
+                            >
+                                -
+                            </button>
+                            <input
+                                type="number"
+                                value={columns}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            columns: Math.min(4, Math.max(1, parseInt(e.target.value) || 1)),
+                                        }
+                                    })
+                                }
+                                min="1"
+                                max="4"
+                                style={{ width: '60px', textAlign: 'center' }}
+                            />
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            columns: Math.min(4, columns + 1),
+                                        }
+                                    })
+                                }
+                                style={{ flex: 1 }}
+                                disabled={columns >= 4}
+                            >
+                                +
+                            </button>
+                        </div>
+                    </label>
+                    <p className="config-hint">Number of columns in the table</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Rows */}
+                <div className="config-section">
+                    <label>
+                        <span>Rows</span>
+                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            rows: Math.max(1, rows - 1),
+                                        }
+                                    })
+                                }
+                                style={{ flex: 1 }}
+                            >
+                                -
+                            </button>
+                            <input
+                                type="number"
+                                value={rows}
+                                onChange={(e) =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            rows: Math.max(1, parseInt(e.target.value) || 1),
+                                        }
+                                    })
+                                }
+                                min="1"
+                                style={{ width: '60px', textAlign: 'center' }}
+                            />
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            rows: rows + 1,
+                                        }
+                                    })
+                                }
+                                style={{ flex: 1 }}
+                            >
+                                +
+                            </button>
+                        </div>
+                    </label>
+                    <p className="config-hint">Number of rows in the table</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Help Text */}
+                <div className="config-section">
+                    <label>
+                        <span>Help Text</span>
+                        <textarea
+                            value={selectedField.helpText || ''}
+                            onChange={(e) =>
+                                updateField(selectedFieldId, {
+                                    helpText: e.target.value
+                                })
+                            }
+                            placeholder="Help text for users"
+                            rows="3"
+                        />
+                    </label>
+                </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
     return (
         <div className = "field-configurator">
             <h3>Field Configuration</h3>

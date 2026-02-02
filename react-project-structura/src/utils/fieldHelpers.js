@@ -230,6 +230,17 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0, slotIndex = n
         field.metadata.textAlignment = 'left'; // 'left' | 'center' | 'right'
     }
 
+    // Initialize table field
+    if (type === FIELD_TYPES.TABLE) {
+        field.label = 'Table';
+        field.placeholder = '';
+        field.metadata.columns = 3;
+        field.metadata.rows = 5;
+        field.metadata.columnHeaders = ['Column 1', 'Column 2', 'Column 3'];
+        field.metadata.headingSize = 'default'; // 'small' | 'default' | 'large'
+        field.metadata.textAlignment = 'left'; // 'left' | 'center' | 'right'
+    }
+
     return field;
 };
 

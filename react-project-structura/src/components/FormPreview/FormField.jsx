@@ -113,15 +113,37 @@ export default function FormField({ field, control, error }) {
 
     // Handle TABLE field
     if (field.type === FIELD_TYPES.TABLE) {
-        const columns = field.metadata?.columns || ['Column 1', 'Column 2', 'Column 3'];
+        const columns = field.metadata?.columns || 3;
         const rows = field.metadata?.rows || 5;
+        const columnHeaders = field.metadata?.columnHeaders || Array.from({ length: columns }, (_, i) => `Column ${i + 1}`);
+        const headingSize = field.metadata?.headingSize || 'default';
+        const textAlignment = field.metadata?.textAlignment || 'left';
 
         return (
             <div className="form-field">
-                <label htmlFor={field.id}>
-                    {field.label}
-                    {field.required && <span className="required-asterisk">*</span>}
-                </label>
+                <div style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 
+                        textAlignment === 'left' ? 'flex-start' :
+                        textAlignment === 'center' ? 'center' :
+                        textAlignment === 'right' ? 'flex-end' : 'flex-start',
+                    alignItems: 'center',
+                    marginBottom: '12px'
+                }}>
+                    <label htmlFor={field.id} style={{
+                        fontSize: 
+                            headingSize === 'small' ? '14px' :
+                            headingSize === 'large' ? '20px' :
+                            '16px',
+                        fontWeight: '500',
+                        color: '#333',
+                        margin: 0
+                    }}>
+                        {field.label}
+                        {field.required && <span className="required-asterisk">*</span>}
+                    </label>
+                </div>
                 <div style={{ overflowX: 'auto' }}>
                     <table style={{
                         width: '100%',
@@ -131,7 +153,7 @@ export default function FormField({ field, control, error }) {
                     }}>
                         <thead>
                             <tr style={{ backgroundColor: '#f5f5f5' }}>
-                                {columns.map((col, idx) => (
+                                {columnHeaders.map((header, idx) => (
                                     <th key={idx} style={{
                                         padding: '12px',
                                         textAlign: 'left',
@@ -139,7 +161,7 @@ export default function FormField({ field, control, error }) {
                                         fontWeight: '600',
                                         fontSize: '14px'
                                     }}>
-                                        {col}
+                                        {header}
                                     </th>
                                 ))}
                             </tr>
@@ -147,7 +169,7 @@ export default function FormField({ field, control, error }) {
                         <tbody>
                             {Array.from({ length: rows }, (_, rowIdx) => (
                                 <tr key={rowIdx}>
-                                    {columns.map((col, colIdx) => (
+                                    {Array.from({ length: columns }, (_, colIdx) => (
                                         <td key={colIdx} style={{
                                             padding: '12px',
                                             borderBottom: '1px solid #eee',
