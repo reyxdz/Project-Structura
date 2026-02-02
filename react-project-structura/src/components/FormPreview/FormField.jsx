@@ -31,7 +31,147 @@ export default function FormField({ field, control, error }) {
     const dateInputRef = React.useRef(null);
     const calendarRef = React.useRef(null);
 
-    // Handle non-input fields (like HEADING) that don't need form control
+    // File field state
+    const [uploadedFiles, setUploadedFiles] = React.useState([]);
+    const [dragActive, setDragActive] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState('');
+    const fileInputRef = React.useRef(null);
+
+    // Handle non-input fields before the form controller
+    if (field.type === FIELD_TYPES.MULTI_FIELDS) {
+        const columns = field.metadata?.columns || 1;
+        const rows = field.metadata?.rows || 1;
+        const headingSize = field.metadata?.headingSize || 'default';
+        const textAlignment = field.metadata?.textAlignment || 'left';
+        const nestedFields = field.metadata?.nestedFields || [];
+        const totalSlots = rows * columns;
+
+        return (
+            <div className="form-field">
+                <div style={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 
+                        textAlignment === 'left' ? 'flex-start' :
+                        textAlignment === 'center' ? 'center' :
+                        textAlignment === 'right' ? 'flex-end' : 'flex-start',
+                    alignItems: 'center',
+                    marginBottom: '12px'
+                }}>
+                    <label htmlFor={field.id} style={{
+                        fontSize: 
+                            headingSize === 'small' ? '14px' :
+                            headingSize === 'large' ? '20px' :
+                            '16px',
+                        fontWeight: '500',
+                        color: '#333',
+                        margin: 0
+                    }}>
+                        {field.label}
+                        {field.required && <span className="required-asterisk">*</span>}
+                    </label>
+                </div>
+                <div style={{
+                    border: '1px solid #d0d0d0',
+                    borderRadius: '4px',
+                    padding: '16px',
+                    backgroundColor: '#f8f8f8'
+                }}>
+                    <div 
+                        className="multi-field-grid"
+                        style={{
+                            gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                            padding: '0'
+                        }}
+                    >
+                        {Array.from({ length: totalSlots }, (_, idx) => {
+                            // Find the field that belongs in this slot by slotIndex
+                            const nestedField = nestedFields.find(f => f && f.metadata?.slotIndex === idx);
+                            return (
+                                <div
+                                    key={idx}
+                                    style={{
+                                        border: '1px solid #B3E5FC',
+                                        borderRadius: '3px',
+                                        padding: '12px',
+                                        backgroundColor: '#fff',
+                                        marginTop: '12px',
+                                        minHeight: '50px'
+                                    }}
+                                >
+                                    {nestedField && nestedField !== undefined ? (
+                                        <FormField field={nestedField} control={control} error={null} />
+                                    ) : null}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Handle TABLE field
+    if (field.type === FIELD_TYPES.TABLE) {
+        const columns = field.metadata?.columns || ['Column 1', 'Column 2', 'Column 3'];
+        const rows = field.metadata?.rows || 5;
+
+        return (
+            <div className="form-field">
+                <label htmlFor={field.id}>
+                    {field.label}
+                    {field.required && <span className="required-asterisk">*</span>}
+                </label>
+                <div style={{ overflowX: 'auto' }}>
+                    <table style={{
+                        width: '100%',
+                        borderCollapse: 'collapse',
+                        border: '1px solid #ddd',
+                        marginTop: '12px'
+                    }}>
+                        <thead>
+                            <tr style={{ backgroundColor: '#f5f5f5' }}>
+                                {columns.map((col, idx) => (
+                                    <th key={idx} style={{
+                                        padding: '12px',
+                                        textAlign: 'left',
+                                        borderBottom: '2px solid #ddd',
+                                        fontWeight: '600',
+                                        fontSize: '14px'
+                                    }}>
+                                        {col}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {Array.from({ length: rows }, (_, rowIdx) => (
+                                <tr key={rowIdx}>
+                                    {columns.map((col, colIdx) => (
+                                        <td key={colIdx} style={{
+                                            padding: '12px',
+                                            borderBottom: '1px solid #eee',
+                                            fontSize: '14px'
+                                        }}>
+                                            <input type="text" placeholder="" style={{
+                                                width: '100%',
+                                                padding: '6px',
+                                                border: '1px solid #ddd',
+                                                borderRadius: '2px',
+                                                fontSize: '13px'
+                                            }} />
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        );
+    }
+
+    // Handle non-input fields (like HEADING, DIVIDER) that don't need form control
     if (field.type === FIELD_TYPES.HEADING) {
         const headingSize = field.metadata?.headingSize || 'default';
         const textAlignment = field.metadata?.textAlignment || 'left';
@@ -702,35 +842,11 @@ export default function FormField({ field, control, error }) {
         const maxFileSize = field.metadata?.maxFileSize || 5;
         const maxFileSizeUnit = field.metadata?.maxFileSizeUnit || 'mb';
         const acceptedFileTypes = field.metadata?.acceptedFileTypes || [];
-        const [uploadedFiles, setUploadedFiles] = React.useState([]);
-        const [dragActive, setDragActive] = React.useState(false);
-        const [errorMessage, setErrorMessage] = React.useState('');
-        const fileInputRef = React.useRef(null);
 
         // Convert file size to bytes
         const getMaxSizeInBytes = () => {
             const size = parseInt(maxFileSize);
             return maxFileSizeUnit === 'kb' ? size * 1024 : size * 1024 * 1024;
-        };
-
-        // Get MIME types from extensions
-        const getMimeTypesFromExtensions = () => {
-            const mimeMap = {
-                'pdf': 'application/pdf',
-                'doc': 'application/msword',
-                'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'xls': 'application/vnd.ms-excel',
-                'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                'ppt': 'application/vnd.ms-powerpoint',
-                'pptx': 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
-                'png': 'image/png',
-                'jpg': 'image/jpeg',
-                'jpeg': 'image/jpeg',
-                'gif': 'image/gif',
-                'txt': 'text/plain',
-                'csv': 'text/csv'
-            };
-            return acceptedFileTypes.map(type => mimeMap[type] || type).filter(Boolean);
         };
 
         const validateFile = (file) => {

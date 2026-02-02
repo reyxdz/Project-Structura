@@ -7,10 +7,11 @@ import {FIELD_TYPES, VALIDATION_TYPES } from '../types/formTypes';
  * Create a new field with default values
  * @param {string} type - Field type
  * @param {number} order - Field order in form
+ * @param {number} slotIndex - Slot index for nested fields (optional)
  * @returns {Object} New field object
  */
 
-export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
+export const createNewField = (type = FIELD_TYPES.TEXT, order = 0, slotIndex = null) => {
     const field = {
         id: uuidv4(),
         type,
@@ -30,6 +31,7 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         metadata: {
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
+            slotIndex: slotIndex, // Store the slot position
         },
     };
 
@@ -217,6 +219,17 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0) => {
         field.metadata.spaceBelow = 0; // Padding below in px
     }
 
+    // Initialize multi fields container
+    if (type === FIELD_TYPES.MULTI_FIELDS) {
+        field.label = 'Multi Fields';
+        field.placeholder = '';
+        field.metadata.columns = 1;
+        field.metadata.rows = 1;
+        field.metadata.nestedFields = [];
+        field.metadata.headingSize = 'default'; // 'small' | 'default' | 'large'
+        field.metadata.textAlignment = 'left'; // 'left' | 'center' | 'right'
+    }
+
     return field;
 };
 
@@ -302,6 +315,10 @@ export const getFieldTypeLabel = (type) => {
         
         // Page Elements
         [FIELD_TYPES.DIVIDER]: 'Divider',
+        
+        // Special Fields
+        [FIELD_TYPES.MULTI_FIELDS]: 'Multi Fields',
+        [FIELD_TYPES.TABLE]: 'Table',
         
         // Legacy
         [FIELD_TYPES.TEXTAREA]: 'Text Area',

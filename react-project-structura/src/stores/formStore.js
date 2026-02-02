@@ -7,6 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { createNewField, reorderFields, updateFieldInArray, removeFieldFromArray } from '../utils/fieldHelpers';
 // Phase 3.3.3:1
 import { detectCircularDependencies } from '../utils/conditionalRules';
+import { FIELD_TYPES } from '../types/formTypes';
 
 const initialFormState = {
     id: uuidv4(),
@@ -413,6 +414,154 @@ export const useFormStore = create((set, get) => ({
         });
     },
 
+
+    // Nested fields (for Multi Fields container)
+    addNestedField: (parentFieldId, fieldType, slotIndex) => {
+        set((state) => {
+            const updatedFields = state.form.fields.map((field) => {
+                if (field.id === parentFieldId && field.type === FIELD_TYPES.MULTI_FIELDS) {
+                    const nestedFields = field.metadata?.nestedFields || [];
+                    // Create field with slotIndex in metadata
+                    const newNestedField = createNewField(fieldType, nestedFields.length, slotIndex);
+                    return {
+                        ...field,
+                        metadata: {
+                            ...field.metadata,
+                            nestedFields: [...nestedFields, newNestedField],
+                            updatedAt: new Date().toISOString(),
+                        },
+                    };
+                }
+                return field;
+            });
+
+            const updatedForm = {
+                ...state.form,
+                fields: updatedFields,
+                metadata: {
+                    ...state.form.metadata,
+                    updatedAt: new Date().toISOString(),
+                },
+            };
+
+            return {
+                form: updatedForm,
+                history: [...state.history.slice(0, state.historyIndex + 1), updatedForm],
+                historyIndex: state.historyIndex + 1,
+            };
+        });
+    },
+
+    removeNestedField: (parentFieldId, nestedFieldId) => {
+        set((state) => {
+            const updatedFields = state.form.fields.map((field) => {
+                if (field.id === parentFieldId && field.type === FIELD_TYPES.MULTI_FIELDS) {
+                    const nestedFields = field.metadata?.nestedFields || [];
+                    return {
+                        ...field,
+                        metadata: {
+                            ...field.metadata,
+                            nestedFields: nestedFields.filter((f) => f.id !== nestedFieldId),
+                            updatedAt: new Date().toISOString(),
+                        },
+                    };
+                }
+                return field;
+            });
+
+            const updatedForm = {
+                ...state.form,
+                fields: updatedFields,
+                metadata: {
+                    ...state.form.metadata,
+                    updatedAt: new Date().toISOString(),
+                },
+            };
+
+            return {
+                form: updatedForm,
+                history: [...state.history.slice(0, state.historyIndex + 1), updatedForm],
+                historyIndex: state.historyIndex + 1,
+            };
+        });
+    },
+
+    replaceNestedField: (parentFieldId, slotIndex, fieldType) => {
+        set((state) => {
+            const updatedFields = state.form.fields.map((field) => {
+                if (field.id === parentFieldId && field.type === FIELD_TYPES.MULTI_FIELDS) {
+                    const nestedFields = field.metadata?.nestedFields || [];
+                    const newNestedField = createNewField(fieldType, slotIndex, slotIndex);
+                    
+                    // Find the field that has this slotIndex and replace it
+                    const updatedNestedFields = nestedFields.map((f) => 
+                        f && f.metadata?.slotIndex === slotIndex ? newNestedField : f
+                    );
+                    
+                    return {
+                        ...field,
+                        metadata: {
+                            ...field.metadata,
+                            nestedFields: updatedNestedFields,
+                            updatedAt: new Date().toISOString(),
+                        },
+                    };
+                }
+                return field;
+            });
+
+            const updatedForm = {
+                ...state.form,
+                fields: updatedFields,
+                metadata: {
+                    ...state.form.metadata,
+                    updatedAt: new Date().toISOString(),
+                },
+            };
+
+            return {
+                form: updatedForm,
+                history: [...state.history.slice(0, state.historyIndex + 1), updatedForm],
+                historyIndex: state.historyIndex + 1,
+            };
+        });
+    },
+
+    updateNestedField: (parentFieldId, nestedFieldId, updates) => {
+        set((state) => {
+            const updatedFields = state.form.fields.map((field) => {
+                if (field.id === parentFieldId && field.type === FIELD_TYPES.MULTI_FIELDS) {
+                    const nestedFields = field.metadata?.nestedFields || [];
+                    return {
+                        ...field,
+                        metadata: {
+                            ...field.metadata,
+                            nestedFields: nestedFields.map((f) =>
+                                f.id === nestedFieldId ? { ...f, ...updates } : f
+                            ),
+                            updatedAt: new Date().toISOString(),
+                        },
+                    };
+                }
+                return field;
+            });
+
+            const updatedForm = {
+                ...state.form,
+                fields: updatedFields,
+                metadata: {
+                    ...state.form.metadata,
+                    updatedAt: new Date().toISOString(),
+                },
+            };
+
+            return {
+                form: updatedForm,
+                history: [...state.history.slice(0, state.historyIndex + 1), updatedForm],
+                historyIndex: state.historyIndex + 1,
+            };
+        });
+    },
 
     // Selection
     selectField: (fieldId) => set({ selectedFieldId: fieldId}),

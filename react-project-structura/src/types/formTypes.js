@@ -104,6 +104,10 @@ export const FIELD_TYPES = {
   // Page Elements
   DIVIDER: 'divider',
   
+  // Special Fields
+  MULTI_FIELDS: 'multiFields',
+  TABLE: 'table',
+  
   // Legacy
   TEXTAREA: 'textarea',
   PASSWORD: 'password',

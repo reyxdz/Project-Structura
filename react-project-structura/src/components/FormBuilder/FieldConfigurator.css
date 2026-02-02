@@ -796,3 +796,21 @@
   color: #333;
   cursor: pointer;
 }
+
+/* Custom scrollbar styling for multi-field tabs */
+.multi-field-tabs-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.multi-field-tabs-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.multi-field-tabs-container::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 3px;
+}
+
+.multi-field-tabs-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

@@ -16,9 +16,12 @@ export default function FieldConfigurator() {
     const updateField = useFormStore((state) => state.updateField);
     const removeField = useFormStore((state) => state.removeField);
     const duplicateField = useFormStore((state) => state.duplicateField);
+    const updateNestedField = useFormStore((state) => state.updateNestedField);
+    const removeNestedField = useFormStore((state) => state.removeNestedField);
     const [showValidationPanel, setShowValidationPanel] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [newOptionValue, setNewOptionValue] = useState('');
+    const [selectedNestedFieldId, setSelectedNestedFieldId] = useState(null);
 
     const selectedField = form.fields.find((f) => f.id === selectedFieldId);
 
@@ -3246,6 +3249,582 @@ export default function FieldConfigurator() {
                         Delete Field
                     </button>
                 </div>
+
+                <ConfirmModal
+                    isOpen={showDeleteModal}
+                    title="Delete Field"
+                    message={`Are you sure you want to delete "${selectedField.label}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    cancelText="Cancel"
+                    isDangerous={true}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={handleCancelDelete}
+                />
+            </div>
+        );
+    }
+
+    // Render MULTI_FIELDS-specific configuration
+    if (selectedField.type === FIELD_TYPES.MULTI_FIELDS) {
+        const columns = selectedField.metadata?.columns || 1;
+        const rows = selectedField.metadata?.rows || 1;
+        const totalSlots = rows * columns;
+        const headingSize = selectedField.metadata?.headingSize || 'default';
+        const textAlignment = selectedField.metadata?.textAlignment || 'left';
+        const nestedFields = selectedField.metadata?.nestedFields || [];
+        
+        // Only allow selecting nested fields that are within grid capacity
+        const validNestedFields = nestedFields.slice(0, totalSlots);
+        const selectedNestedField = validNestedFields.find((f) => f.id === selectedNestedFieldId);
+        
+        // If selected field is out of bounds, reset selection
+        if (selectedNestedFieldId && !selectedNestedField && selectedNestedFieldId !== null) {
+            setSelectedNestedFieldId(null);
+        }
+
+        return (
+            <div className="field-configurator">
+                {/* Navigation Tabs */}
+                <div className="multi-field-tabs-container" style={{
+                    display: 'flex',
+                    gap: '8px',
+                    marginBottom: '20px',
+                    paddingBottom: '12px',
+                    borderBottom: '2px solid #e0e0e0',
+                    overflowX: 'auto'
+                }}>
+                    {/* Settings Tab */}
+                    <button
+                        type="button"
+                        onClick={() => setSelectedNestedFieldId(null)}
+                        style={{
+                            padding: '8px 16px',
+                            border: selectedNestedFieldId === null ? '2px solid #0D47A1' : '1px solid #ddd',
+                            borderRadius: '4px 4px 0 0',
+                            backgroundColor: selectedNestedFieldId === null ? '#0D47A1' : '#f5f5f5',
+                            color: selectedNestedFieldId === null ? '#fff' : '#333',
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            fontWeight: selectedNestedFieldId === null ? '600' : '400',
+                            whiteSpace: 'nowrap',
+                            transition: 'all 0.2s ease'
+                        }}
+                    >
+                        Multi Field
+                    </button>
+
+                    {/* Nested Field Tabs */}
+                    {nestedFields.slice(0, rows * columns).filter(f => f !== undefined && f !== null).map((field, idx) => (
+                        <button
+                            key={field.id}
+                            type="button"
+                            onClick={() => setSelectedNestedFieldId(field.id)}
+                            style={{
+                                padding: '8px 16px',
+                                border: selectedNestedFieldId === field.id ? '2px solid #0D47A1' : '1px solid #ddd',
+                                borderRadius: '4px 4px 0 0',
+                                backgroundColor: selectedNestedFieldId === field.id ? '#0D47A1' : '#f5f5f5',
+                                color: selectedNestedFieldId === field.id ? '#fff' : '#333',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                                fontWeight: selectedNestedFieldId === field.id ? '600' : '400',
+                                whiteSpace: 'nowrap',
+                                transition: 'all 0.2s ease'
+                            }}
+                        >
+                            {field.label || `Field ${idx + 1}`}
+                        </button>
+                    ))}
+                </div>
+
+                {selectedNestedFieldId === null ? (
+                    <>
+                        <h3>Multi Fields Configuration</h3>
+
+                        {/* Field Label */}
+                        <div className="config-section">
+                            <label>
+                                <span>Field Label</span>
+                                <input
+                                    type="text"
+                                    value={selectedField.label}
+                                    onChange={handleLabelChange}
+                                    placeholder="Multi Fields"
+                                />
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Heading Size */}
+                        <div className="config-section">
+                            <label>
+                                <span>Label Size</span>
+                                <div className="alignment-buttons">
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${headingSize === 'small' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    headingSize: 'small',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Small
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${headingSize === 'default' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    headingSize: 'default',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Default
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${headingSize === 'large' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    headingSize: 'large',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Large
+                                    </button>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Text Alignment */}
+                        <div className="config-section">
+                            <label>
+                                <span>Label Alignment</span>
+                                <div className="alignment-buttons">
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${textAlignment === 'left' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    textAlignment: 'left',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Left
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${textAlignment === 'center' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    textAlignment: 'center',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Center
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${textAlignment === 'right' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    textAlignment: 'right',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Right
+                                    </button>
+                                </div>
+                            </label>
+                            <p className="config-hint">Select how the label is aligned horizontally</p>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Add Columns */}
+                        <div className="config-section">
+                            <label>
+                                <span>Columns (Max: 4)</span>
+                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                    <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    columns: Math.max(1, columns - 1),
+                                                },
+                                            })
+                                        }
+                                        style={{ flex: 1 }}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="number"
+                                        value={columns}
+                                        onChange={(e) =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    columns: Math.min(4, Math.max(1, parseInt(e.target.value) || 1)),
+                                                },
+                                            })
+                                        }
+                                        min="1"
+                                        max="4"
+                                        style={{ width: '60px', textAlign: 'center' }}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    columns: Math.min(4, columns + 1),
+                                                },
+                                            })
+                                        }
+                                        style={{ flex: 1 }}
+                                        disabled={columns >= 4}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            </label>
+                            <p className="config-hint">Each column can hold one field</p>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Add Rows */}
+                        <div className="config-section">
+                            <label>
+                                <span>Rows</span>
+                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                    <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    rows: Math.max(1, rows - 1),
+                                                },
+                                            })
+                                        }
+                                        style={{ flex: 1 }}
+                                    >
+                                        -
+                                    </button>
+                                    <input
+                                        type="number"
+                                        value={rows}
+                                        onChange={(e) =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    rows: Math.max(1, parseInt(e.target.value) || 1),
+                                                },
+                                            })
+                                        }
+                                        min="1"
+                                        style={{ width: '60px', textAlign: 'center' }}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    rows: rows + 1,
+                                                },
+                                            })
+                                        }
+                                        style={{ flex: 1 }}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                            </label>
+                            <p className="config-hint">Each row can hold one field</p>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Duplicate Field */}
+                        <div className="config-section">
+                            <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                                Duplicate Field
+                            </button>
+                            <p className="config-hint">Duplicate this field with all saved settings</p>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Delete Field */}
+                        <div className="config-section">
+                            <button className="btn btn-danger btn-block" onClick={handleRemove}>
+                                Delete Field
+                            </button>
+                        </div>
+                    </>
+                ) : selectedNestedField ? (
+                    <>
+                        <h3>Edit {selectedNestedField.label}</h3>
+
+                        {/* Nested Field Label */}
+                        <div className="config-section">
+                            <label>
+                                <span>Field Label</span>
+                                <input
+                                    type="text"
+                                    value={selectedNestedField.label}
+                                    onChange={(e) =>
+                                        updateNestedField(selectedFieldId, selectedNestedFieldId, {
+                                            label: e.target.value
+                                        })
+                                    }
+                                    placeholder="Field label"
+                                />
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Required */}
+                        <div className="config-section">
+                            <label>
+                                <span>Required</span>
+                                <button
+                                    type="button"
+                                    className={`alignment-btn ${selectedNestedField.required ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateNestedField(selectedFieldId, selectedNestedFieldId, {
+                                            required: !selectedNestedField.required
+                                        })
+                                    }
+                                >
+                                    {selectedNestedField.required ? 'Required' : 'Optional'}
+                                </button>
+                            </label>
+                            <p className="config-hint">Prevent submission if this field is empty</p>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Nested Field Placeholder */}
+                        <div className="config-section">
+                            <label>
+                                <span>Placeholder</span>
+                                <input
+                                    type="text"
+                                    value={selectedNestedField.placeholder || ''}
+                                    onChange={(e) =>
+                                        updateNestedField(selectedFieldId, selectedNestedFieldId, {
+                                            placeholder: e.target.value
+                                        })
+                                    }
+                                    placeholder="Placeholder text"
+                                />
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Sublabel (for fields that support it) */}
+                        {[FIELD_TYPES.SHORT_TEXT, FIELD_TYPES.LONG_TEXT, FIELD_TYPES.EMAIL, FIELD_TYPES.PHONE, FIELD_TYPES.DATE, FIELD_TYPES.DROPDOWN].includes(selectedNestedField.type) && (
+                            <>
+                                <div className="config-section">
+                                    <label>
+                                        <span>Sublabel</span>
+                                        <input
+                                            type="text"
+                                            value={selectedNestedField.metadata?.sublabel || ''}
+                                            onChange={(e) =>
+                                                updateNestedField(selectedFieldId, selectedNestedFieldId, {
+                                                    metadata: {
+                                                        ...selectedNestedField.metadata,
+                                                        sublabel: e.target.value
+                                                    }
+                                                })
+                                            }
+                                            placeholder="Type a sublabel"
+                                        />
+                                    </label>
+                                    <p className="config-hint">Add a short description below the field</p>
+                                </div>
+                                <div className="config-divider" />
+                            </>
+                        )}
+
+                        {/* Character Limit (for SHORT_TEXT) */}
+                        {selectedNestedField.type === FIELD_TYPES.SHORT_TEXT && (
+                            <>
+                                <div className="config-section">
+                                    <label>
+                                        <span>Character Limit</span>
+                                        <div className="character-limit-group">
+                                            <button
+                                                type="button"
+                                                className={`alignment-btn ${selectedNestedField.metadata?.characterLimitEnabled ? 'active' : ''}`}
+                                                onClick={() =>
+                                                    updateNestedField(selectedFieldId, selectedNestedFieldId, {
+                                                        metadata: {
+                                                            ...selectedNestedField.metadata,
+                                                            characterLimitEnabled: !selectedNestedField.metadata?.characterLimitEnabled
+                                                        }
+                                                    })
+                                                }
+                                            >
+                                                {selectedNestedField.metadata?.characterLimitEnabled ? 'On' : 'Off'}
+                                            </button>
+                                            {selectedNestedField.metadata?.characterLimitEnabled && (
+                                                <input
+                                                    type="number"
+                                                    min="1"
+                                                    value={selectedNestedField.metadata?.maxCharacters || ''}
+                                                    onChange={(e) =>
+                                                        updateNestedField(selectedFieldId, selectedNestedFieldId, {
+                                                            metadata: {
+                                                                ...selectedNestedField.metadata,
+                                                                maxCharacters: parseInt(e.target.value) || 0
+                                                            }
+                                                        })
+                                                    }
+                                                    placeholder="Maximum character limit"
+                                                    className="character-limit-input"
+                                                />
+                                            )}
+                                        </div>
+                                    </label>
+                                    <p className="config-hint">Limit the number of characters allowed for this field</p>
+                                </div>
+                                <div className="config-divider" />
+                            </>
+                        )}
+
+                        {/* Word Limit (for LONG_TEXT) */}
+                        {selectedNestedField.type === FIELD_TYPES.LONG_TEXT && (
+                            <>
+                                <div className="config-section">
+                                    <label>
+                                        <span>Word Limit</span>
+                                        <div className="character-limit-group">
+                                            <button
+                                                type="button"
+                                                className={`alignment-btn ${selectedNestedField.metadata?.wordLimitEnabled ? 'active' : ''}`}
+                                                onClick={() =>
+                                                    updateNestedField(selectedFieldId, selectedNestedFieldId, {
+                                                        metadata: {
+                                                            ...selectedNestedField.metadata,
+                                                            wordLimitEnabled: !selectedNestedField.metadata?.wordLimitEnabled
+                                                        }
+                                                    })
+                                                }
+                                            >
+                                                {selectedNestedField.metadata?.wordLimitEnabled ? 'On' : 'Off'}
+                                            </button>
+                                            {selectedNestedField.metadata?.wordLimitEnabled && (
+                                                <input
+                                                    type="number"
+                                                    min="1"
+                                                    value={selectedNestedField.metadata?.maxWords || ''}
+                                                    onChange={(e) =>
+                                                        updateNestedField(selectedFieldId, selectedNestedFieldId, {
+                                                            metadata: {
+                                                                ...selectedNestedField.metadata,
+                                                                maxWords: parseInt(e.target.value) || 0
+                                                            }
+                                                        })
+                                                    }
+                                                    placeholder="Maximum word limit"
+                                                    className="character-limit-input"
+                                                />
+                                            )}
+                                        </div>
+                                    </label>
+                                    <p className="config-hint">Limit the number of words allowed for this field</p>
+                                </div>
+                                <div className="config-divider" />
+                            </>
+                        )}
+
+                        {/* Help Text */}
+                        <div className="config-section">
+                            <label>
+                                <span>Help Text</span>
+                                <textarea
+                                    value={selectedNestedField.helpText || ''}
+                                    onChange={(e) =>
+                                        updateNestedField(selectedFieldId, selectedNestedFieldId, {
+                                            helpText: e.target.value
+                                        })
+                                    }
+                                    placeholder="Help text for users"
+                                    rows="3"
+                                />
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Field Type Info */}
+                        <div className="config-section">
+                            <label>
+                                <span>Field Type</span>
+                                <input 
+                                    type="text"
+                                    value={selectedNestedField.type}
+                                    disabled
+                                    style={{ backgroundColor: '#f5f5f5', cursor: 'not-allowed' }}
+                                />
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Remove Nested Field */}
+                        <div className="config-section">
+                            <button
+                                type="button"
+                                className="btn btn-danger btn-block"
+                                onClick={() => {
+                                    removeNestedField(selectedFieldId, selectedNestedFieldId);
+                                    setSelectedNestedFieldId(null);
+                                }}
+                            >
+                                Remove Field
+                            </button>
+                            <p className="config-hint">Remove this field from the Multi Fields container</p>
+                        </div>
+                    </>
+                ) : null}
 
                 <ConfirmModal
                     isOpen={showDeleteModal}

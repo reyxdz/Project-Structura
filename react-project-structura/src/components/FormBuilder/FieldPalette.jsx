@@ -25,6 +25,8 @@ import imageIcon from '../../icons/image.png';
 import fileUploadIcon from '../../icons/file_upload.png';
 import submitIcon from '../../icons/submit.png';
 import dividerIcon from '../../icons/divider.png';
+import multiFieldIcon from '../../icons/multi_field.png';
+import tableIcon from '../../icons/table.png';
 
 const fieldSections = [
     {
@@ -83,6 +85,8 @@ const fieldIcons = {
     [FIELD_TYPES.FILE]: fileUploadIcon,
     [FIELD_TYPES.SUBMIT]: submitIcon,
     [FIELD_TYPES.DIVIDER]: dividerIcon,
+    [FIELD_TYPES.MULTI_FIELDS]: multiFieldIcon,
+    [FIELD_TYPES.TABLE]: tableIcon,
 };
 
 export default function FieldPalette() {

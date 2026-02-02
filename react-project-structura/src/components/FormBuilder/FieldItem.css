@@ -1027,3 +1027,94 @@
   margin: 0;
   line-height: 1.4;
 }
+
+/* Nested field styling for Multi Fields container */
+.nested-field-slot {
+  border: 1px solid #B3E5FC;
+  border-radius: 3px;
+  padding: 12px;
+  background-color: #fff;
+  min-height: 100px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+
+.nested-field-slot.drag-over {
+  border: 2px dashed #0D47A1;
+  background-color: #e3f2fd;
+}
+
+/* Ensure nested field content displays properly */
+.nested-field-content {
+  width: 100%;
+  text-align: left;
+}
+
+.nested-field-content .field-item-header {
+  margin-bottom: 8px;
+}
+
+.nested-field-content .heading-field-builder {
+  display: flex;
+  width: 100%;
+}
+
+.nested-field-content .full-name-inputs-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.nested-field-content .address-inputs-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nested-field-content .address-row-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.nested-field-content input,
+.nested-field-content textarea,
+.nested-field-content select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  background-color: #f9f9f9;
+  color: #999;
+  font-family: inherit;
+}
+
+/* Multi-field responsive grid styling */
+.multi-field-grid {
+  display: grid;
+  gap: 12px;
+}
+
+/* Desktop: Keep configured columns */
+@media (min-width: 1024px) {
+  .multi-field-grid {
+    grid-template-columns: inherit;
+  }
+}
+
+/* Tablet: 2 columns maximum */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .multi-field-grid {
+    grid-template-columns: repeat(min(2, var(--columns, 2)), 1fr) !important;
+  }
+}
+
+/* Mobile: 1 column */
+@media (max-width: 767px) {
+  .multi-field-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
