@@ -107,6 +107,7 @@ export const FIELD_TYPES = {
   // Special Fields
   MULTI_FIELDS: 'multiFields',
   TABLE: 'table',
+
   
   // Legacy
   TEXTAREA: 'textarea',

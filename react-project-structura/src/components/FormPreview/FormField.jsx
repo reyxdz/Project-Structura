@@ -1,14 +1,10 @@
 // Individual form field renderer
 
 import React from 'react';
-import { Controller } from 'react-hook-form';
 import { FIELD_TYPES } from '../../types/formTypes';
-import { buildValidationRules } from '../../utils/ValidationRules';
 import './FormField.css';
 
-export default function FormField({ field, control, error }) {
-    const validationRules = buildValidationRules(field);
-
+export default function FormField({ field, error, isEditMode = false }) {
     // Appointment field state
     const [appointmentState, setAppointmentState] = React.useState(() => ({
         selectedDate: null,
@@ -81,29 +77,16 @@ export default function FormField({ field, control, error }) {
                         className="multi-field-grid"
                         style={{
                             gridTemplateColumns: `repeat(${columns}, 1fr)`,
-                            padding: '0'
+                            padding: '0',
+                            gap: '12px'
                         }}
                     >
                         {Array.from({ length: totalSlots }, (_, idx) => {
                             // Find the field that belongs in this slot by slotIndex
                             const nestedField = nestedFields.find(f => f && f.metadata?.slotIndex === idx);
-                            return (
-                                <div
-                                    key={idx}
-                                    style={{
-                                        border: '1px solid #B3E5FC',
-                                        borderRadius: '3px',
-                                        padding: '12px',
-                                        backgroundColor: '#fff',
-                                        marginTop: '12px',
-                                        minHeight: '50px'
-                                    }}
-                                >
-                                    {nestedField && nestedField !== undefined ? (
-                                        <FormField field={nestedField} control={control} error={null} />
-                                    ) : null}
-                                </div>
-                            );
+                            return nestedField ? (
+                                <FormField key={idx} field={nestedField} error={null} isEditMode={isEditMode} />
+                            ) : null;
                         })}
                     </div>
                 </div>
@@ -111,13 +94,22 @@ export default function FormField({ field, control, error }) {
         );
     }
 
-    // Handle TABLE field
+    // Handle TABLE field - Editable table with headers and cell data
     if (field.type === FIELD_TYPES.TABLE) {
-        const columns = field.metadata?.columns || 3;
-        const rows = field.metadata?.rows || 5;
-        const columnHeaders = field.metadata?.columnHeaders || Array.from({ length: columns }, (_, i) => `Column ${i + 1}`);
+        const columns = field.metadata?.columns || 2;
+        const rows = field.metadata?.rows || 3;
         const headingSize = field.metadata?.headingSize || 'default';
         const textAlignment = field.metadata?.textAlignment || 'left';
+        
+        // Initialize headers with proper defaults
+        const currentHeaders = field.metadata?.headers || [];
+        const headers = Array.from({ length: columns }, (_, idx) => 
+            currentHeaders[idx] || `Column ${idx + 1}`
+        );
+        
+        // Initialize table data with proper defaults - ensure data structure is correct
+        const currentData = field.metadata?.tableData || Array.from({ length: rows }, () => Array.from({ length: columns }, () => ''));
+        const tableData = Array.isArray(currentData) ? currentData : [];
 
         return (
             <div className="form-field">
@@ -131,7 +123,7 @@ export default function FormField({ field, control, error }) {
                     alignItems: 'center',
                     marginBottom: '12px'
                 }}>
-                    <label htmlFor={field.id} style={{
+                    <label style={{
                         fontSize: 
                             headingSize === 'small' ? '14px' :
                             headingSize === 'large' ? '20px' :
@@ -144,48 +136,52 @@ export default function FormField({ field, control, error }) {
                         {field.required && <span className="required-asterisk">*</span>}
                     </label>
                 </div>
-                <div style={{ overflowX: 'auto' }}>
-                    <table style={{
-                        width: '100%',
-                        borderCollapse: 'collapse',
-                        border: '1px solid #ddd',
-                        marginTop: '12px'
-                    }}>
+                <div className="table-container" style={{
+                    overflowX: 'auto',
+                    border: '1px solid #d0d0d0',
+                    borderRadius: '4px',
+                    backgroundColor: '#ffffff'
+                }}>
+                    <table className="editable-table">
                         <thead>
-                            <tr style={{ backgroundColor: '#f5f5f5' }}>
-                                {columnHeaders.map((header, idx) => (
-                                    <th key={idx} style={{
-                                        padding: '12px',
-                                        textAlign: 'left',
-                                        borderBottom: '2px solid #ddd',
-                                        fontWeight: '600',
-                                        fontSize: '14px'
-                                    }}>
+                            <tr>
+                                {headers.map((header, idx) => (
+                                    <th key={idx} className="table-header-cell">
                                         {header}
                                     </th>
                                 ))}
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.from({ length: rows }, (_, rowIdx) => (
-                                <tr key={rowIdx}>
-                                    {Array.from({ length: columns }, (_, colIdx) => (
-                                        <td key={colIdx} style={{
-                                            padding: '12px',
-                                            borderBottom: '1px solid #eee',
-                                            fontSize: '14px'
-                                        }}>
-                                            <input type="text" placeholder="" style={{
-                                                width: '100%',
-                                                padding: '6px',
-                                                border: '1px solid #ddd',
-                                                borderRadius: '2px',
-                                                fontSize: '13px'
-                                            }} />
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))}
+                            {tableData && tableData.length > 0 ? (
+                                tableData.map((row, rIdx) => (
+                                    <tr key={`row-${rIdx}`}>
+                                        {Array.isArray(row) ? (
+                                            row.map((cell, cIdx) => (
+                                                <td key={`cell-${rIdx}-${cIdx}`} className="table-data-cell" style={{color: '#333'}}>
+                                                    {cell || ''}
+                                                </td>
+                                            ))
+                                        ) : (
+                                            Array.from({ length: columns }, (_, cIdx) => (
+                                                <td key={`cell-${rIdx}-${cIdx}`} className="table-data-cell" style={{color: '#333'}}>
+                                                    {row && row[cIdx] ? row[cIdx] : ''}
+                                                </td>
+                                            ))
+                                        )}
+                                    </tr>
+                                ))
+                            ) : (
+                                Array.from({ length: rows }, (_, rIdx) => (
+                                    <tr key={`empty-row-${rIdx}`}>
+                                        {Array.from({ length: columns }, (_, cIdx) => (
+                                            <td key={`empty-cell-${rIdx}-${cIdx}`} className="table-data-cell">
+                                                {' '}
+                                            </td>
+                                        ))}
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>
@@ -396,11 +392,11 @@ export default function FormField({ field, control, error }) {
                 </label>
                 <div className="full-name-inputs-preview">
                     <div className="full-name-preview-group">
-                        <input type="text" placeholder="" />
+                        <input id={field.id} name={`${field.id}.first`} type="text" placeholder="" />
                         <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{firstNameLabel}</p>
                     </div>
                     <div className="full-name-preview-group">
-                        <input type="text" placeholder="" />
+                        <input id={`${field.id}-last`} name={`${field.id}.last`} type="text" placeholder="" />
                         <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{lastNameLabel}</p>
                     </div>
                 </div>
@@ -418,8 +414,11 @@ export default function FormField({ field, control, error }) {
                     {field.required && <span className="required-asterisk">*</span>}
                 </label>
                 <input 
+                    id={field.id}
+                    name={field.id}
                     type="email"
                     placeholder={field.placeholder || ''}
+                    aria-label={field.label || field.id}
                 />
                 {emailSublabel && (
                     <p style={{fontSize: '12px', color: '#757575', margin: '6px 0 0 0', lineHeight: '1.4'}}>{emailSublabel}</p>
@@ -443,29 +442,29 @@ export default function FormField({ field, control, error }) {
                 </label>
                 <div className="address-inputs-preview">
                     <div className="address-input-group-preview">
-                        <input type="text" placeholder="" />
+                        <input id={field.id} name={`${field.id}.street1`} type="text" placeholder="" />
                         <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{streetAddress1}</p>
                     </div>
                     <div className="address-input-group-preview">
-                        <input type="text" placeholder="" />
+                        <input id={`${field.id}-street2`} name={`${field.id}.street2`} type="text" placeholder="" />
                         <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{streetAddress2}</p>
                     </div>
                     <div className="address-row-preview">
                         <div className="address-col-preview">
                             <div className="address-input-group-preview">
-                                <input type="text" placeholder="" />
+                                <input id={`${field.id}-city`} name={`${field.id}.city`} type="text" placeholder="" />
                                 <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{city}</p>
                             </div>
                         </div>
                         <div className="address-col-preview">
                             <div className="address-input-group-preview">
-                                <input type="text" placeholder="" />
+                                <input id={`${field.id}-state`} name={`${field.id}.state`} type="text" placeholder="" />
                                 <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{stateProvince}</p>
                             </div>
                         </div>
                     </div>
                     <div className="address-input-group-preview">
-                        <input type="text" placeholder="" />
+                        <input id={`${field.id}-postal`} name={`${field.id}.postal`} type="text" placeholder="" />
                         <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{postalZipCode}</p>
                     </div>
                 </div>
@@ -482,7 +481,7 @@ export default function FormField({ field, control, error }) {
                     {field.label}
                     {field.required && <span className="required-asterisk">*</span>}
                 </label>
-                <input type="tel" placeholder={field.placeholder || ''} />
+                <input id={field.id} name={field.id} type="tel" placeholder={field.placeholder || ''} aria-label={field.label || field.id} />
                 {phoneSublabel && (
                     <p style={{fontSize: '12px', color: '#757575', margin: '6px 0 0 0', lineHeight: '1.4'}}>{phoneSublabel}</p>
                 )}
@@ -655,10 +654,13 @@ export default function FormField({ field, control, error }) {
                     <div className="date-input-wrapper" style={{position: 'relative', overflow: 'visible'}}>
                         <input 
                             ref={dateInputRef}
+                            id={field.id}
+                            name={field.id}
                             type="text" 
                             placeholder={placeholder}
                             onChange={handleInputChange}
                             maxLength="10"
+                            aria-label={field.label || field.id}
                         />
                         <svg 
                             className="calendar-icon" 
@@ -1138,474 +1140,451 @@ export default function FormField({ field, control, error }) {
                 </label>
             )}
 
-            <Controller
-                name = {field.id}
-                control = {control}
-                rules = {validationRules}
-                defaultValue = {field.value || ''}
-                render = {({ field: fieldProps }) => {
-                    switch (field.type) {
-                        case FIELD_TYPES.TEXT:
-                            return (
+            {(() => {
+                switch (field.type) {
+                    case FIELD_TYPES.TEXT:
+                        return (
+                            <input
+                                id={field.id}
+                                type="text"
+                                placeholder={field.placeholder}
+                                defaultValue={field.value || ''}
+                                className={error ? 'input-error' : ''}
+                            />
+                        );
+
+                    case FIELD_TYPES.SHORT_TEXT: {
+                        const sublabel = field.metadata?.sublabel || '';
+                        return (
+                            <div style={{ position: 'relative' }}>
                                 <input
-                                    {...fieldProps}
-                                    type = "text"
-                                    placeholder = {field.placeholder}
-                                    className = {error ? 'input-error' : ''}
-                                 />
-                            );
+                                    id={field.id}
+                                    type="text"
+                                    placeholder={field.placeholder}
+                                    defaultValue={field.value || ''}
+                                    className={error ? 'input-error' : ''}
+                                />
+                                {sublabel && (
+                                    <p style={{
+                                        fontSize: '12px',
+                                        color: '#757575',
+                                        margin: '6px 0 0 0',
+                                        lineHeight: '1.4'
+                                    }}>
+                                        {sublabel}
+                                    </p>
+                                )}
+                            </div>
+                        );
+                    }
 
-                        case FIELD_TYPES.SHORT_TEXT: {
-                            const sublabel = field.metadata?.sublabel || '';
-                            return (
-                                <div style={{ position: 'relative' }}>
-                                    <input
-                                        {...fieldProps}
-                                        type = "text"
-                                        placeholder = {field.placeholder}
-                                        className = {error ? 'input-error' : ''}
-                                    />
-                                    {sublabel && (
-                                        <p style={{
-                                            fontSize: '12px',
-                                            color: '#757575',
-                                            margin: '6px 0 0 0',
-                                            lineHeight: '1.4'
-                                        }}>
-                                            {sublabel}
-                                        </p>
-                                    )}
-                                </div>
-                            );
-                        }
+                    case FIELD_TYPES.NUMBER: {
+                        const minValue = field.metadata?.minimumValue ?? '';
+                        const maxValue = field.metadata?.maximumValue ?? '';
+                        const sublabel = field.metadata?.sublabel || '';
+                        
+                        return (
+                            <div style={{ position: 'relative' }}>
+                                <input
+                                    id={field.id}
+                                    type="number"
+                                    placeholder={field.placeholder}
+                                    defaultValue={field.value || ''}
+                                    className={error ? 'input-error' : ''}
+                                    min={minValue || undefined}
+                                    max={maxValue || undefined}
+                                />
+                                {sublabel && (
+                                    <p style={{
+                                        fontSize: '12px',
+                                        color: '#757575',
+                                        margin: '6px 0 0 0',
+                                        lineHeight: '1.4'
+                                    }}>
+                                        {sublabel}
+                                    </p>
+                                )}
+                            </div>
+                        );
+                    }
 
-                        case FIELD_TYPES.NUMBER: {
-                            const minValue = field.metadata?.minimumValue ?? '';
-                            const maxValue = field.metadata?.maximumValue ?? '';
-                            const sublabel = field.metadata?.sublabel || '';
-                            
-                            let validationError = '';
-                            
-                            if (fieldProps.value !== '' && fieldProps.value !== undefined && fieldProps.value !== null) {
-                                const numVal = parseFloat(fieldProps.value);
-                                if (minValue !== '' && !isNaN(parseFloat(minValue)) && numVal < parseFloat(minValue)) {
-                                    validationError = `Must be at least ${minValue}`;
-                                } else if (maxValue !== '' && !isNaN(parseFloat(maxValue)) && numVal > parseFloat(maxValue)) {
-                                    validationError = `Must not exceed ${maxValue}`;
-                                }
-                            }
+                    case FIELD_TYPES.TEXTAREA:
+                        return (
+                            <textarea 
+                                id={field.id}
+                                placeholder={field.placeholder}
+                                defaultValue={field.value || ''}
+                                rows="4"
+                                className={error ? 'input-error' : ''}
+                            />
+                        );
 
-                            return (
-                                <div style={{ position: 'relative' }}>
-                                    <input
-                                        {...fieldProps}
-                                        type = "number"
-                                        placeholder = {field.placeholder}
-                                        className = {error ? 'input-error' : ''}
-                                    />
-                                    {validationError && (
-                                        <div style={{
-                                            position: 'absolute',
-                                            bottom: '-28px',
-                                            left: 0,
-                                            fontSize: '12px',
-                                            color: '#f44336',
-                                            fontWeight: '500',
-                                            whiteSpace: 'nowrap'
-                                        }}>
-                                            {validationError}
-                                        </div>
-                                    )}
-                                    {sublabel && !validationError && (
-                                        <p style={{
-                                            fontSize: '12px',
-                                            color: '#757575',
-                                            margin: '6px 0 0 0',
-                                            lineHeight: '1.4'
-                                        }}>
-                                            {sublabel}
-                                        </p>
-                                    )}
-                                </div>
-                            );
-                        }
-
-                        case FIELD_TYPES.TEXTAREA:
-                            return (
+                    case FIELD_TYPES.LONG_TEXT: {
+                        const sublabel = field.metadata?.sublabel || '';
+                        return (
+                            <div style={{ position: 'relative' }}>
                                 <textarea 
-                                    {...fieldProps}
-                                    placeholder = {field.placeholder}
-                                    rows = "4"
-                                    className = {error ? 'input-error' : ''}
+                                    id={field.id}
+                                    placeholder={field.placeholder}
+                                    defaultValue={field.value || ''}
+                                    rows="4"
+                                    className={error ? 'input-error' : ''}
                                 />
-                            );
+                                {sublabel && (
+                                    <p style={{
+                                        fontSize: '12px',
+                                        color: '#757575',
+                                        margin: '6px 0 0 0',
+                                        lineHeight: '1.4'
+                                    }}>
+                                        {sublabel}
+                                    </p>
+                                )}
+                            </div>
+                        );
+                    }
 
-                        case FIELD_TYPES.LONG_TEXT: {
-                            const sublabel = field.metadata?.sublabel || '';
-                            return (
-                                <div style={{ position: 'relative' }}>
-                                    <textarea 
-                                        {...fieldProps}
-                                        placeholder = {field.placeholder}
-                                        rows = "4"
-                                        className = {error ? 'input-error' : ''}
-                                    />
-                                    {sublabel && (
-                                        <p style={{
-                                            fontSize: '12px',
-                                            color: '#757575',
-                                            margin: '6px 0 0 0',
-                                            lineHeight: '1.4'
-                                        }}>
-                                            {sublabel}
-                                        </p>
-                                    )}
-                                </div>
-                            );
-                        }
+                    case FIELD_TYPES.APPOINTMENT: {
+                        const appointmentSublabel = field.metadata?.sublabel || '';
+                        const slotDuration = field.metadata?.slotDuration || '30';
+                        const customSlotDuration = field.metadata?.customSlotDuration || '';
+                        const intervals = field.metadata?.intervals || [];
+                        const timezone = field.metadata?.timezone || 'Philippines/Cebu';
 
-                        case FIELD_TYPES.APPOINTMENT: {
-                            const appointmentSublabel = field.metadata?.sublabel || '';
-                            const slotDuration = field.metadata?.slotDuration || '30';
-                            const customSlotDuration = field.metadata?.customSlotDuration || '';
-                            const intervals = field.metadata?.intervals || [];
-                            const timezone = field.metadata?.timezone || 'Philippines/Cebu';
+                        const getSlotMinutes = () => {
+                            if (slotDuration === 'custom') {
+                                return parseInt(customSlotDuration) || 30;
+                            }
+                            return parseInt(slotDuration) || 30;
+                        };
 
-                            const getSlotMinutes = () => {
-                                if (slotDuration === 'custom') {
-                                    return parseInt(customSlotDuration) || 30;
-                                }
-                                return parseInt(slotDuration) || 30;
-                            };
-
-                            const generateSlotsForDate = (date) => {
-                                if (!intervals || intervals.length === 0) return [];
-                                
-                                const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-                                const dayOfWeek = dayNames[date.getDay()];
-                                const slotMinutes = getSlotMinutes();
-                                const slots = [];
-
-                                const matchingIntervals = intervals.filter((interval) =>
-                                    interval && (interval.daysOfWeek || []).includes(dayOfWeek)
-                                );
-
-                                matchingIntervals.forEach((interval) => {
-                                    if (!interval.startTime || !interval.endTime) return;
-                                    
-                                    const [startHour, startMin] = interval.startTime.split(':').map(Number);
-                                    const [endHour, endMin] = interval.endTime.split(':').map(Number);
-
-                                    const startTotalMin = startHour * 60 + startMin;
-                                    const endTotalMin = endHour * 60 + endMin;
-
-                                    for (let time = startTotalMin; time < endTotalMin; time += slotMinutes) {
-                                        const hour = Math.floor(time / 60);
-                                        const minute = time % 60;
-                                        const displayHour = hour % 12 || 12;
-                                        const period = hour < 12 ? 'AM' : 'PM';
-                                        const timeStr = `${displayHour}:${String(minute).padStart(2, '0')} ${period}`;
-                                        slots.push(timeStr);
-                                    }
-                                });
-
-                                return slots;
-                            };
-
-                            const getDaysInMonth = (month, year) => {
-                                return new Date(year, month + 1, 0).getDate();
-                            };
-
-                            const getFirstDayOfMonth = (month, year) => {
-                                return new Date(year, month, 1).getDay();
-                            };
-
-                            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                        const generateSlotsForDate = (date) => {
+                            if (!intervals || intervals.length === 0) return [];
                             
-                            const daysInMonth = getDaysInMonth(appointmentState.currentMonth, appointmentState.currentYear);
-                            const firstDay = getFirstDayOfMonth(appointmentState.currentMonth, appointmentState.currentYear);
-                            const calendarDays = [];
-                            for (let i = 0; i < firstDay; i++) {
-                                calendarDays.push(null);
-                            }
-                            for (let day = 1; day <= daysInMonth; day++) {
-                                calendarDays.push(day);
-                            }
+                            const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+                            const dayOfWeek = dayNames[date.getDay()];
+                            const slotMinutes = getSlotMinutes();
+                            const slots = [];
 
-                            const handleDateClick = (day) => {
-                                if (day) {
-                                    const selectedDate = new Date(appointmentState.currentYear, appointmentState.currentMonth, day);
-                                    const dateStr = selectedDate.toISOString().split('T')[0];
-                                    setAppointmentState((prev) => ({
-                                        ...prev,
-                                        selectedDate: dateStr,
-                                        selectedTime: null,
-                                    }));
+                            const matchingIntervals = intervals.filter((interval) =>
+                                interval && (interval.daysOfWeek || []).includes(dayOfWeek)
+                            );
+
+                            matchingIntervals.forEach((interval) => {
+                                if (!interval.startTime || !interval.endTime) return;
+                                
+                                const [startHour, startMin] = interval.startTime.split(':').map(Number);
+                                const [endHour, endMin] = interval.endTime.split(':').map(Number);
+
+                                const startTotalMin = startHour * 60 + startMin;
+                                const endTotalMin = endHour * 60 + endMin;
+
+                                for (let time = startTotalMin; time < endTotalMin; time += slotMinutes) {
+                                    const hour = Math.floor(time / 60);
+                                    const minute = time % 60;
+                                    const displayHour = hour % 12 || 12;
+                                    const period = hour < 12 ? 'AM' : 'PM';
+                                    const timeStr = `${displayHour}:${String(minute).padStart(2, '0')} ${period}`;
+                                    slots.push(timeStr);
                                 }
-                            };
+                            });
 
-                            const handleTimeSelect = (time) => {
-                                setAppointmentState((prev) => ({ ...prev, selectedTime: time }));
-                                const newValue = `${appointmentState.selectedDate} ${time}`;
-                                fieldProps.onChange(newValue);
-                            };
+                            return slots;
+                        };
 
-                            const handleMonthChange = (newMonth) => {
-                                setAppointmentState((prev) => ({
-                                    ...prev,
-                                    currentMonth: parseInt(newMonth)
-                                }));
-                            };
+                        const getDaysInMonth = (month, year) => {
+                            return new Date(year, month + 1, 0).getDate();
+                        };
 
-                            const handleYearChange = (newYear) => {
-                                setAppointmentState((prev) => ({
-                                    ...prev,
-                                    currentYear: parseInt(newYear)
-                                }));
-                            };
+                        const getFirstDayOfMonth = (month, year) => {
+                            return new Date(year, month, 1).getDay();
+                        };
 
-                            const getFormattedDate = () => {
-                                if (!appointmentState.selectedDate) return '';
-                                const date = new Date(appointmentState.selectedDate + 'T00:00:00');
-                                const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                                const dayName = dayNames[date.getDay()];
-                                const monthName = monthNames[date.getMonth()];
-                                const dayDate = date.getDate();
-                                return `${dayName}, ${monthName} ${dayDate}`;
-                            };
-
-                            const handleCancelSelection = () => {
-                                setAppointmentState({ 
-                                    selectedDate: null, 
-                                    selectedTime: null, 
-                                    currentMonth: new Date().getMonth(), 
-                                    currentYear: new Date().getFullYear() 
-                                });
-                                fieldProps.onChange('');
-                            };
-
-                            const timeSlots = appointmentState.selectedDate ? generateSlotsForDate(new Date(appointmentState.selectedDate + 'T00:00:00')) : [];
-
-                            return (
-                                <div className="appointment-field-wrapper">
-                                    <div className="appointment-main-container">
-                                        <div className="appointment-calendar-display">
-                                            <div className="appointment-date-input">
-                                                <input
-                                                    type="text"
-                                                    placeholder="MM/DD/YYYY"
-                                                    readOnly
-                                                    value={appointmentState.selectedDate ? appointmentState.selectedDate.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1') : ''}
-                                                />
-                                                <svg className="appointment-calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                    <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                                                    <path d="M16 2v4M8 2v4M3 10h18"></path>
-                                                </svg>
-                                            </div>
-                                            <div className="appointment-month-year-controls">
-                                                <select 
-                                                    className="appointment-month-dropdown"
-                                                    value={appointmentState.currentMonth}
-                                                    onChange={(e) => handleMonthChange(e.target.value)}
-                                                >
-                                                    {monthNames.map((month, idx) => (
-                                                        <option key={idx} value={idx}>{month}</option>
-                                                    ))}
-                                                </select>
-                                                <select 
-                                                    className="appointment-year-dropdown"
-                                                    value={appointmentState.currentYear}
-                                                    onChange={(e) => handleYearChange(e.target.value)}
-                                                >
-                                                    {[2024, 2025, 2026, 2027, 2028].map((year) => (
-                                                        <option key={year} value={year}>{year}</option>
-                                                    ))}
-                                                </select>
-                                            </div>
-                                            <div className="appointment-weekdays">
-                                                <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
-                                            </div>
-                                            <div className="appointment-calendar-grid">
-                                                {calendarDays.map((day, i) => (
-                                                    <div
-                                                        key={i}
-                                                        className={`appointment-day ${day ? 'clickable' : ''} ${appointmentState.selectedDate === `${appointmentState.currentYear}-${String(appointmentState.currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}` ? 'selected' : ''}`}
-                                                        onClick={() => handleDateClick(day)}
-                                                    >
-                                                        {day}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <div className="appointment-times">
-                                            {appointmentState.selectedDate && (
-                                                <div className="appointment-date-display">{getFormattedDate()}</div>
-                                            )}
-                                            <div className="appointment-time-slots">
-                                                {timeSlots.length > 0 ? (
-                                                    timeSlots.map((slot, idx) => (
-                                                        <button
-                                                            key={idx}
-                                                            type="button"
-                                                            className={`appointment-time-slot ${appointmentState.selectedTime === slot ? 'selected' : ''}`}
-                                                            onClick={() => handleTimeSelect(slot)}
-                                                        >
-                                                            {slot}
-                                                        </button>
-                                                    ))
-                                                ) : (
-                                                    <div className="appointment-no-slots">
-                                                        {appointmentState.selectedDate ? 'No available slots for this date' : 'Select a date'}
-                                                    </div>
-                                                )}
-                                            </div>
-                                            {timezone && (
-                                                <div className="appointment-timezone">{timezone}</div>
-                                            )}
-                                        </div>
-                                    </div>
-                                    {appointmentState.selectedDate && appointmentState.selectedTime && (
-                                        <div className="appointment-selected-summary">
-                                            <div className="appointment-summary-content">
-                                                <svg className="appointment-summary-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                                    <polyline points="20 6 9 17 4 12"></polyline>
-                                                </svg>
-                                                <div className="appointment-summary-text">
-                                                    <div className="appointment-summary-label">Selected Time</div>
-                                                    <div className="appointment-summary-value">{appointmentState.selectedTime} {getFormattedDate()}</div>
-                                                </div>
-                                            </div>
-                                            <button type="button" className="appointment-cancel-btn" onClick={handleCancelSelection}>Cancel Selection</button>
-                                        </div>
-                                    )}
-                                    {appointmentSublabel && !appointmentState.selectedTime && (
-                                        <p className="appointment-sublabel">{appointmentSublabel}</p>
-                                    )}
-                                </div>
-                            );
+                        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                        
+                        const daysInMonth = getDaysInMonth(appointmentState.currentMonth, appointmentState.currentYear);
+                        const firstDay = getFirstDayOfMonth(appointmentState.currentMonth, appointmentState.currentYear);
+                        const calendarDays = [];
+                        for (let i = 0; i < firstDay; i++) {
+                            calendarDays.push(null);
+                        }
+                        for (let day = 1; day <= daysInMonth; day++) {
+                            calendarDays.push(day);
                         }
 
-                        case FIELD_TYPES.SIGNATURE: {
-                            const placeholder = field.placeholder || 'Sign Here';
-                            return (
-                                <div className="signature-field-wrapper">
-                                    <div className="signature-canvas">
-                                        <div className="signature-placeholder-display">{placeholder}</div>
-                                        <svg className="signature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            );
-                        }
+                        const handleDateClick = (day) => {
+                            if (day) {
+                                const selectedDate = new Date(appointmentState.currentYear, appointmentState.currentMonth, day);
+                                const dateStr = selectedDate.toISOString().split('T')[0];
+                                setAppointmentState((prev) => ({
+                                    ...prev,
+                                    selectedDate: dateStr,
+                                    selectedTime: null,
+                                }));
+                            }
+                        };
 
-                        case FIELD_TYPES.FILE:
-                            return (
-                                <input 
-                                    {...fieldProps}
-                                    type = "file"
-                                    className = {error ? 'input-error' : ''}
-                                />
-                            );
+                        const handleTimeSelect = (time) => {
+                            setAppointmentState((prev) => ({ ...prev, selectedTime: time }));
+                        };
 
-                        case FIELD_TYPES.CHECKBOX:
-                            return (
-                                <div className = "checkbox-field">
-                                    <input 
-                                        {...fieldProps}
-                                        type = "checkbox"
-                                        id = {field.id}
-                                    />
-                                    <label htmlFor = {field.id}>
-                                        {field.label}
-                                        {field.required && <span className = "required-asterisk">*</span>}
-                                    </label>
-                                </div>
-                            )
+                        const handleMonthChange = (newMonth) => {
+                            setAppointmentState((prev) => ({
+                                ...prev,
+                                currentMonth: parseInt(newMonth)
+                            }));
+                        };
 
-                        case FIELD_TYPES.RADIO:
-                        case FIELD_TYPES.SINGLE_CHOICE:
-                            return (
-                                <div className = "radio-field">
-                                    {field.options?.map((option, idx) => (
-                                        <div key = {idx} className = "radio-option">
-                                            <input 
-                                                type = "radio"
-                                                id = {`${field.id}-${idx}`}
-                                                value = {option.value || option.label || option}
-                                                {...fieldProps}
+                        const handleYearChange = (newYear) => {
+                            setAppointmentState((prev) => ({
+                                ...prev,
+                                currentYear: parseInt(newYear)
+                            }));
+                        };
+
+                        const getFormattedDate = () => {
+                            if (!appointmentState.selectedDate) return '';
+                            const date = new Date(appointmentState.selectedDate + 'T00:00:00');
+                            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                            const dayName = dayNames[date.getDay()];
+                            const monthName = monthNames[date.getMonth()];
+                            const dayDate = date.getDate();
+                            return `${dayName}, ${monthName} ${dayDate}`;
+                        };
+
+                        const handleCancelSelection = () => {
+                            setAppointmentState({ 
+                                selectedDate: null, 
+                                selectedTime: null, 
+                                currentMonth: new Date().getMonth(), 
+                                currentYear: new Date().getFullYear() 
+                            });
+                        };
+
+                        const timeSlots = appointmentState.selectedDate ? generateSlotsForDate(new Date(appointmentState.selectedDate + 'T00:00:00')) : [];
+
+                        return (
+                            <div className="appointment-field-wrapper">
+                                <div className="appointment-main-container">
+                                    <div className="appointment-calendar-display">
+                                        <div className="appointment-date-input">
+                                            <input
+                                                type="text"
+                                                placeholder="MM/DD/YYYY"
+                                                readOnly
+                                                value={appointmentState.selectedDate ? appointmentState.selectedDate.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1') : ''}
                                             />
-                                            <label htmlFor = {`${field.id}-${idx}`}>
-                                                {option.label || option}
-                                            </label>
+                                            <svg className="appointment-calendar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                                <path d="M16 2v4M8 2v4M3 10h18"></path>
+                                            </svg>
                                         </div>
-                                    ))}
+                                        <div className="appointment-month-year-controls">
+                                            <select 
+                                                className="appointment-month-dropdown"
+                                                value={appointmentState.currentMonth}
+                                                onChange={(e) => handleMonthChange(e.target.value)}
+                                            >
+                                                {monthNames.map((month, idx) => (
+                                                    <option key={idx} value={idx}>{month}</option>
+                                                ))}
+                                            </select>
+                                            <select 
+                                                className="appointment-year-dropdown"
+                                                value={appointmentState.currentYear}
+                                                onChange={(e) => handleYearChange(e.target.value)}
+                                            >
+                                                {[2024, 2025, 2026, 2027, 2028].map((year) => (
+                                                    <option key={year} value={year}>{year}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="appointment-weekdays">
+                                            <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
+                                        </div>
+                                        <div className="appointment-calendar-grid">
+                                            {calendarDays.map((day, i) => (
+                                                <div
+                                                    key={i}
+                                                    className={`appointment-day ${day ? 'clickable' : ''} ${appointmentState.selectedDate === `${appointmentState.currentYear}-${String(appointmentState.currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}` ? 'selected' : ''}`}
+                                                    onClick={() => handleDateClick(day)}
+                                                >
+                                                    {day}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="appointment-times">
+                                        {appointmentState.selectedDate && (
+                                            <div className="appointment-date-display">{getFormattedDate()}</div>
+                                        )}
+                                        <div className="appointment-time-slots">
+                                            {timeSlots.length > 0 ? (
+                                                timeSlots.map((slot, idx) => (
+                                                    <button
+                                                        key={idx}
+                                                        type="button"
+                                                        className={`appointment-time-slot ${appointmentState.selectedTime === slot ? 'selected' : ''}`}
+                                                        onClick={() => handleTimeSelect(slot)}
+                                                    >
+                                                        {slot}
+                                                    </button>
+                                                ))
+                                            ) : (
+                                                <div className="appointment-no-slots">
+                                                    {appointmentState.selectedDate ? 'No available slots for this date' : 'Select a date'}
+                                                </div>
+                                            )}
+                                        </div>
+                                        {timezone && (
+                                            <div className="appointment-timezone">{timezone}</div>
+                                        )}
+                                    </div>
                                 </div>
-                            );
+                                {appointmentState.selectedDate && appointmentState.selectedTime && (
+                                    <div className="appointment-selected-summary">
+                                        <div className="appointment-summary-content">
+                                            <svg className="appointment-summary-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                            <div className="appointment-summary-text">
+                                                <div className="appointment-summary-label">Selected Time</div>
+                                                <div className="appointment-summary-value">{appointmentState.selectedTime} {getFormattedDate()}</div>
+                                            </div>
+                                        </div>
+                                        <button type="button" className="appointment-cancel-btn" onClick={handleCancelSelection}>Cancel Selection</button>
+                                    </div>
+                                )}
+                                {appointmentSublabel && !appointmentState.selectedTime && (
+                                    <p className="appointment-sublabel">{appointmentSublabel}</p>
+                                )}
+                            </div>
+                        );
+                    }
 
-                        case FIELD_TYPES.SELECT:
-                            return (
+                    case FIELD_TYPES.SIGNATURE: {
+                        const placeholder = field.placeholder || 'Sign Here';
+                        return (
+                            <div className="signature-field-wrapper">
+                                <div className="signature-canvas">
+                                    <div className="signature-placeholder-display">{placeholder}</div>
+                                    <svg className="signature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        );
+                    }
+
+                    case FIELD_TYPES.FILE:
+                        return (
+                            <input 
+                                id={field.id}
+                                type="file"
+                                className={error ? 'input-error' : ''}
+                            />
+                        );
+
+                    case FIELD_TYPES.CHECKBOX:
+                        return (
+                            <div className="checkbox-field">
+                                <input 
+                                    type="checkbox"
+                                    id={field.id}
+                                    defaultChecked={field.value || false}
+                                />
+                                <label htmlFor={field.id}>
+                                    {field.label}
+                                    {field.required && <span className="required-asterisk">*</span>}
+                                </label>
+                            </div>
+                        )
+
+                    case FIELD_TYPES.RADIO:
+                    case FIELD_TYPES.SINGLE_CHOICE:
+                        return (
+                            <div className="radio-field">
+                                {field.options?.map((option, idx) => (
+                                    <div key={idx} className="radio-option">
+                                        <input 
+                                            type="radio"
+                                            id={`${field.id}-${idx}`}
+                                            name={field.id}
+                                            value={option.value || option.label || option}
+                                            defaultChecked={field.value === (option.value || option.label || option)}
+                                        />
+                                        <label htmlFor={`${field.id}-${idx}`}>
+                                            {option.label || option}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        );
+
+                    case FIELD_TYPES.SELECT:
+                        return (
+                            <select
+                                id={field.id}
+                                defaultValue={field.value || ''}
+                                className={error ? 'input-error' : ''}
+                            >
+                                <option value="">Select an option...</option>
+                                {field.options?.map((option, idx) => (
+                                    <option key={idx} value={option.value || option}>
+                                        {option.label || option}
+                                    </option>
+                                ))}
+                            </select>
+                        );
+
+                    case FIELD_TYPES.DROPDOWN: {
+                        const dropdownSublabel = field.metadata?.sublabel || '';
+                        return (
+                            <div className="dropdown-field-wrapper">
                                 <select
-                                    {...fieldProps}
-                                    className = {error ? 'input-error' : ''}
+                                    id={field.id}
+                                    defaultValue={field.value || ''}
+                                    className={error ? 'input-error' : ''}
                                 >
-                                    <option value = "">Select an option...</option>
+                                    <option value="">Please Select</option>
                                     {field.options?.map((option, idx) => (
-                                        <option key = {idx} value = {option.value || option}>
+                                        <option key={idx} value={option.label || option}>
                                             {option.label || option}
                                         </option>
                                     ))}
                                 </select>
-                            );
-
-                        case FIELD_TYPES.DROPDOWN: {
-                            const dropdownSublabel = field.metadata?.sublabel || '';
-                            return (
-                                <div className="dropdown-field-wrapper">
-                                    <select
-                                        {...fieldProps}
-                                        className = {error ? 'input-error' : ''}
-                                    >
-                                        <option value = "">Please Select</option>
-                                        {field.options?.map((option, idx) => (
-                                            <option key = {idx} value = {option.label || option}>
-                                                {option.label || option}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    {dropdownSublabel && (
-                                        <p style={{fontSize: '12px', color: '#757575', margin: '6px 0 0 0', lineHeight: '1.4'}}>{dropdownSublabel}</p>
-                                    )}
-                                </div>
-                            );
-                        }
-
-                        case FIELD_TYPES.MULTIPLE_CHOICE: {
-                            return (
-                                <div className = "checkbox-field">
-                                    {field.options?.map((option, idx) => (
-                                        <div key = {idx} className = "checkbox-option">
-                                            <input 
-                                                type = "checkbox"
-                                                id = {`${field.id}-${idx}`}
-                                                value = {option.label || option}
-                                                {...fieldProps}
-                                            />
-                                            <label htmlFor = {`${field.id}-${idx}`}>
-                                                {option.label || option}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                            );
-                        }
-
-                        default:
-                            return null;
+                                {dropdownSublabel && (
+                                    <p style={{fontSize: '12px', color: '#757575', margin: '6px 0 0 0', lineHeight: '1.4'}}>{dropdownSublabel}</p>
+                                )}
+                            </div>
+                        );
                     }
-                }}
-            />
+
+                    case FIELD_TYPES.MULTIPLE_CHOICE: {
+                        return (
+                            <div className="checkbox-field">
+                                {field.options?.map((option, idx) => (
+                                    <div key={idx} className="checkbox-option">
+                                        <input 
+                                            type="checkbox"
+                                            id={`${field.id}-${idx}`}
+                                            value={option.label || option}
+                                            defaultChecked={Array.isArray(field.value) && field.value.includes(option.label || option)}
+                                        />
+                                        <label htmlFor={`${field.id}-${idx}`}>
+                                            {option.label || option}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        );
+                    }
+
+                    default:
+                        return null;
+                }
+            })()}
 
             {error && (
                 <div className = "error-message">

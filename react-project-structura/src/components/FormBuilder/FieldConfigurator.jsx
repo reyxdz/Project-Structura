@@ -3841,12 +3841,22 @@ export default function FieldConfigurator() {
     }
 
     // Render TABLE-specific configuration
+    // Render TABLE-specific configuration
     if (selectedField.type === FIELD_TYPES.TABLE) {
-        const columns = selectedField.metadata?.columns || 3;
-        const rows = selectedField.metadata?.rows || 5;
-        const columnHeaders = selectedField.metadata?.columnHeaders || ['Column 1', 'Column 2', 'Column 3'];
+        const columns = selectedField.metadata?.columns || 2;
+        const rows = selectedField.metadata?.rows || 3;
+        const headers = selectedField.metadata?.headers || Array.from({ length: columns }, (_, i) => `Column ${i + 1}`);
         const headingSize = selectedField.metadata?.headingSize || 'default';
         const textAlignment = selectedField.metadata?.textAlignment || 'left';
+        
+        // Get tableData with proper defaults
+        const storedTableData = selectedField.metadata?.tableData || [];
+        const tableData = Array.from({ length: rows }, (_, rIdx) => {
+            if (storedTableData[rIdx] && Array.isArray(storedTableData[rIdx])) {
+                return Array.from({ length: columns }, (_, cIdx) => storedTableData[rIdx][cIdx] || '');
+            }
+            return Array.from({ length: columns }, () => '');
+        });
 
         return (
             <div className="field-configurator">
@@ -3855,39 +3865,14 @@ export default function FieldConfigurator() {
                 {/* Field Label */}
                 <div className="config-section">
                     <label>
-                        <span>Field Label</span>
+                        <span>Table Label</span>
                         <input
                             type="text"
                             value={selectedField.label}
-                            onChange={(e) =>
-                                updateField(selectedFieldId, {
-                                    label: e.target.value
-                                })
-                            }
-                            placeholder="Field label"
+                            onChange={handleLabelChange}
+                            placeholder="Table"
                         />
                     </label>
-                </div>
-
-                <div className="config-divider" />
-
-                {/* Required */}
-                <div className="config-section">
-                    <label>
-                        <span>Required</span>
-                        <button
-                            type="button"
-                            className={`alignment-btn ${selectedField.required ? 'active' : ''}`}
-                            onClick={() =>
-                                updateField(selectedFieldId, {
-                                    required: !selectedField.required
-                                })
-                            }
-                        >
-                            {selectedField.required ? 'Required' : 'Optional'}
-                        </button>
-                    </label>
-                    <p className="config-hint">Prevent submission if this field is empty</p>
                 </div>
 
                 <div className="config-divider" />
@@ -3896,25 +3881,49 @@ export default function FieldConfigurator() {
                 <div className="config-section">
                     <label>
                         <span>Label Size</span>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                            {['small', 'default', 'large'].map((size) => (
-                                <button
-                                    key={size}
-                                    type="button"
-                                    className={`alignment-btn ${headingSize === size ? 'active' : ''}`}
-                                    onClick={() =>
-                                        updateField(selectedFieldId, {
-                                            metadata: {
-                                                ...selectedField.metadata,
-                                                headingSize: size,
-                                            }
-                                        })
-                                    }
-                                    style={{ flex: 1 }}
-                                >
-                                    {size.charAt(0).toUpperCase() + size.slice(1)}
-                                </button>
-                            ))}
+                        <div className="alignment-buttons">
+                            <button
+                                type="button"
+                                className={`alignment-btn ${headingSize === 'small' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            headingSize: 'small',
+                                        },
+                                    })
+                                }
+                            >
+                                Small
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${headingSize === 'default' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            headingSize: 'default',
+                                        },
+                                    })
+                                }
+                            >
+                                Default
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${headingSize === 'large' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            headingSize: 'large',
+                                        },
+                                    })
+                                }
+                            >
+                                Large
+                            </button>
                         </div>
                     </label>
                 </div>
@@ -3925,25 +3934,49 @@ export default function FieldConfigurator() {
                 <div className="config-section">
                     <label>
                         <span>Label Alignment</span>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                            {['left', 'center', 'right'].map((align) => (
-                                <button
-                                    key={align}
-                                    type="button"
-                                    className={`alignment-btn ${textAlignment === align ? 'active' : ''}`}
-                                    onClick={() =>
-                                        updateField(selectedFieldId, {
-                                            metadata: {
-                                                ...selectedField.metadata,
-                                                textAlignment: align,
-                                            }
-                                        })
-                                    }
-                                    style={{ flex: 1 }}
-                                >
-                                    {align.charAt(0).toUpperCase() + align.slice(1)}
-                                </button>
-                            ))}
+                        <div className="alignment-buttons">
+                            <button
+                                type="button"
+                                className={`alignment-btn ${textAlignment === 'left' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            textAlignment: 'left',
+                                        },
+                                    })
+                                }
+                            >
+                                Left
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${textAlignment === 'center' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            textAlignment: 'center',
+                                        },
+                                    })
+                                }
+                            >
+                                Center
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${textAlignment === 'right' ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            textAlignment: 'right',
+                                        },
+                                    })
+                                }
+                            >
+                                Right
+                            </button>
                         </div>
                     </label>
                 </div>
@@ -3953,34 +3986,49 @@ export default function FieldConfigurator() {
                 {/* Columns */}
                 <div className="config-section">
                     <label>
-                        <span>Columns (Max: 4)</span>
+                        <span>Columns</span>
                         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={() =>
+                                onClick={() => {
+                                    const newColumns = Math.max(1, columns - 1);
+                                    const updatedHeaders = headers.slice(0, newColumns);
+                                    const updatedData = tableData.map(row => row.slice(0, newColumns));
                                     updateField(selectedFieldId, {
                                         metadata: {
                                             ...selectedField.metadata,
-                                            columns: Math.max(1, columns - 1),
+                                            columns: newColumns,
+                                            headers: updatedHeaders,
+                                            tableData: updatedData,
                                         }
-                                    })
-                                }
+                                    });
+                                }}
                                 style={{ flex: 1 }}
+                                disabled={columns <= 1}
                             >
                                 -
                             </button>
                             <input
                                 type="number"
                                 value={columns}
-                                onChange={(e) =>
+                                onChange={(e) => {
+                                    const newColumns = Math.min(4, Math.max(1, parseInt(e.target.value) || 1));
+                                    const updatedHeaders = Array.from({ length: newColumns }, (_, i) => 
+                                        headers[i] || `Column ${i + 1}`
+                                    );
+                                    const updatedData = tableData.map(row =>
+                                        Array.from({ length: newColumns }, (_, i) => row[i] || '')
+                                    );
                                     updateField(selectedFieldId, {
                                         metadata: {
                                             ...selectedField.metadata,
-                                            columns: Math.min(4, Math.max(1, parseInt(e.target.value) || 1)),
+                                            columns: newColumns,
+                                            headers: updatedHeaders,
+                                            tableData: updatedData,
                                         }
-                                    })
-                                }
+                                    });
+                                }}
                                 min="1"
                                 max="4"
                                 style={{ width: '60px', textAlign: 'center' }}
@@ -3988,14 +4036,19 @@ export default function FieldConfigurator() {
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={() =>
+                                onClick={() => {
+                                    const newColumns = Math.min(4, columns + 1);
+                                    const updatedHeaders = [...headers, `Column ${newColumns}`];
+                                    const updatedData = tableData.map(row => [...row, '']);
                                     updateField(selectedFieldId, {
                                         metadata: {
                                             ...selectedField.metadata,
-                                            columns: Math.min(4, columns + 1),
+                                            columns: newColumns,
+                                            headers: updatedHeaders,
+                                            tableData: updatedData,
                                         }
-                                    })
-                                }
+                                    });
+                                }}
                                 style={{ flex: 1 }}
                                 disabled={columns >= 4}
                             >
@@ -4003,7 +4056,7 @@ export default function FieldConfigurator() {
                             </button>
                         </div>
                     </label>
-                    <p className="config-hint">Number of columns in the table</p>
+                    <p className="config-hint">Number of columns (max 4)</p>
                 </div>
 
                 <div className="config-divider" />
@@ -4016,50 +4069,230 @@ export default function FieldConfigurator() {
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={() =>
+                                onClick={() => {
+                                    const newRows = Math.max(1, rows - 1);
+                                    const updatedData = tableData.slice(0, newRows);
                                     updateField(selectedFieldId, {
                                         metadata: {
                                             ...selectedField.metadata,
-                                            rows: Math.max(1, rows - 1),
+                                            rows: newRows,
+                                            tableData: updatedData,
                                         }
-                                    })
-                                }
+                                    });
+                                }}
                                 style={{ flex: 1 }}
+                                disabled={rows <= 1}
                             >
                                 -
                             </button>
                             <input
                                 type="number"
                                 value={rows}
-                                onChange={(e) =>
+                                onChange={(e) => {
+                                    const newRows = Math.max(1, parseInt(e.target.value) || 1);
+                                    const updatedData = Array.from({ length: newRows }, (_, i) =>
+                                        tableData[i] || Array.from({ length: columns }, () => '')
+                                    );
                                     updateField(selectedFieldId, {
                                         metadata: {
                                             ...selectedField.metadata,
-                                            rows: Math.max(1, parseInt(e.target.value) || 1),
+                                            rows: newRows,
+                                            tableData: updatedData,
                                         }
-                                    })
-                                }
+                                    });
+                                }}
                                 min="1"
                                 style={{ width: '60px', textAlign: 'center' }}
                             />
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={() =>
+                                onClick={() => {
+                                    const newRows = rows + 1;
+                                    const updatedData = [...tableData, Array.from({ length: columns }, () => '')];
                                     updateField(selectedFieldId, {
                                         metadata: {
                                             ...selectedField.metadata,
-                                            rows: rows + 1,
+                                            rows: newRows,
+                                            tableData: updatedData,
                                         }
-                                    })
-                                }
+                                    });
+                                }}
                                 style={{ flex: 1 }}
                             >
                                 +
                             </button>
                         </div>
                     </label>
-                    <p className="config-hint">Number of rows in the table</p>
+                    <p className="config-hint">Number of rows</p>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Column Headers */}
+                <div className="config-section">
+                    <label>
+                        <span>Column Headers</span>
+                    </label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {headers.map((header, idx) => (
+                            <input
+                                key={idx}
+                                type="text"
+                                value={header}
+                                onChange={(e) => {
+                                    const updatedHeaders = [...headers];
+                                    updatedHeaders[idx] = e.target.value;
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            headers: updatedHeaders,
+                                        }
+                                    });
+                                }}
+                                placeholder={`Header ${idx + 1}`}
+                                style={{
+                                    width: '100%',
+                                    padding: '8px',
+                                    border: '1px solid #ddd',
+                                    borderRadius: '4px',
+                                    fontSize: '14px'
+                                }}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Table Data Editor */}
+                <div className="config-section">
+                    <label>
+                        <span>Table Data</span>
+                    </label>
+                    <p className="config-hint">Click cells below to edit table content</p>
+                    <div style={{
+                        overflowX: 'auto',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        marginTop: '8px',
+                        backgroundColor: '#fff'
+                    }}>
+                        <table style={{
+                            width: '100%',
+                            borderCollapse: 'collapse',
+                            fontSize: '12px'
+                        }}>
+                            <thead>
+                                <tr>
+                                    {headers.map((header, idx) => (
+                                        <th key={idx} style={{
+                                            padding: '8px',
+                                            backgroundColor: '#f5f5f5',
+                                            border: '1px solid #ddd',
+                                            fontWeight: 'bold',
+                                            textAlign: 'left',
+                                            minWidth: '80px'
+                                        }}>
+                                            {header}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {tableData.map((row, rIdx) => (
+                                    <tr key={rIdx}>
+                                        {Array.isArray(row) ? row.map((cell, cIdx) => (
+                                            <td key={`cell-${rIdx}-${cIdx}`} style={{
+                                                padding: '2px',
+                                                border: '1px solid #ddd',
+                                                backgroundColor: '#fff'
+                                            }}>
+                                                <input
+                                                    key={`input-${rIdx}-${cIdx}`}
+                                                    type="text"
+                                                    value={cell || ''}
+                                                    onChange={(e) => {
+                                                        const newValue = e.target.value;
+                                                        const updatedData = tableData.map((r, rIndex) => {
+                                                            if (rIndex === rIdx) {
+                                                                // Create new row with updated cell
+                                                                return r.map((c, cIndex) => cIndex === cIdx ? newValue : c);
+                                                            }
+                                                            // Return existing row
+                                                            return r;
+                                                        });
+                                                        updateField(selectedFieldId, {
+                                                            metadata: {
+                                                                ...selectedField.metadata,
+                                                                tableData: updatedData,
+                                                            }
+                                                        });
+                                                    }}
+                                                    placeholder={`Row ${rIdx + 1}`}
+                                                    style={{
+                                                        width: '100%',
+                                                        padding: '6px',
+                                                        border: 'none',
+                                                        fontSize: '12px',
+                                                        fontFamily: 'inherit',
+                                                        boxSizing: 'border-box',
+                                                        minHeight: '32px'
+                                                    }}
+                                                    onFocus={(e) => e.target.style.backgroundColor = '#f0f7ff'}
+                                                    onBlur={(e) => e.target.style.backgroundColor = '#fff'}
+                                                />
+                                            </td>
+                                        )) : (
+                                            Array.from({ length: columns }, (_, cIdx) => (
+                                                <td key={`cell-${rIdx}-${cIdx}`} style={{
+                                                    padding: '2px',
+                                                    border: '1px solid #ddd',
+                                                    backgroundColor: '#fff'
+                                                }}>
+                                                    <input
+                                                        key={`input-${rIdx}-${cIdx}`}
+                                                        type="text"
+                                                        value={row?.[cIdx] || ''}
+                                                        onChange={(e) => {
+                                                            const newValue = e.target.value;
+                                                            const updatedData = tableData.map((r, rIndex) => {
+                                                                if (rIndex === rIdx) {
+                                                                    // Create new row with updated cell
+                                                                    const newRow = Array.isArray(r) ? [...r] : Array.from({ length: columns }, () => '');
+                                                                    newRow[cIdx] = newValue;
+                                                                    return newRow;
+                                                                }
+                                                                return r;
+                                                            });
+                                                            updateField(selectedFieldId, {
+                                                                metadata: {
+                                                                    ...selectedField.metadata,
+                                                                    tableData: updatedData,
+                                                                }
+                                                            });
+                                                        }}
+                                                        placeholder={`Row ${rIdx + 1}`}
+                                                        style={{
+                                                            width: '100%',
+                                                            padding: '6px',
+                                                            border: 'none',
+                                                            fontSize: '12px',
+                                                            fontFamily: 'inherit',
+                                                            boxSizing: 'border-box',
+                                                            minHeight: '32px'
+                                                        }}
+                                                        onFocus={(e) => e.target.style.backgroundColor = '#f0f7ff'}
+                                                        onBlur={(e) => e.target.style.backgroundColor = '#fff'}
+                                                    />
+                                                </td>
+                                            ))
+                                        )}
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div className="config-divider" />
@@ -4070,15 +4303,38 @@ export default function FieldConfigurator() {
                         <span>Help Text</span>
                         <textarea
                             value={selectedField.helpText || ''}
-                            onChange={(e) =>
-                                updateField(selectedFieldId, {
-                                    helpText: e.target.value
-                                })
-                            }
+                            onChange={handleHelpTextChange}
                             placeholder="Help text for users"
                             rows="3"
                         />
                     </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Required */}
+                <div className="config-section">
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={selectedField.required}
+                            onChange={handleRequiredChange}
+                        />
+                        <span>Required Field</span>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Delete Button */}
+                <div className="config-section">
+                    <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={handleRemove}
+                    >
+                        Delete Field
+                    </button>
                 </div>
 
                 <ConfirmModal

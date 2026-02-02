@@ -4,12 +4,14 @@ import { CSS } from '@dnd-kit/utilities';
 import { FIELD_TYPES } from '../../types/formTypes';
 import { useFormStore } from '../../stores/formStore';
 import './FieldItem.css';
+import '../FormPreview/FormField.css';
 
 export default function SortableFieldItem({
     field,
     isSelected,
     onSelect,
 }) {
+
     const {
         attributes,
         listeners,
@@ -505,57 +507,50 @@ export default function SortableFieldItem({
                         alignItems: 'center'
                     }} />
                 </div>
+            ) : field.type === FIELD_TYPES.TABLE ? (
+                <div className="table-field-builder">
+                        <div className="field-item-header">
+                            <span className="field-label">
+                                {field.label || 'Table'}
+                                {field.required && <span className="required-asterisk">*</span>}
+                            </span>
+                        </div>
+                        <div className="table-container" style={{
+                            overflowX: 'auto',
+                            border: '1px solid #d0d0d0',
+                            borderRadius: '4px',
+                            backgroundColor: '#ffffff',
+                            marginTop: '8px'
+                        }}>
+                            <table className="editable-table">
+                                <thead>
+                                    <tr>
+                                        {(field.metadata?.headers || Array.from({ length: field.metadata?.columns || 2 }, (_, i) => `Column ${i + 1}`)).map((header, idx) => (
+                                            <th key={idx} className="table-header-cell">
+                                                {header}
+                                            </th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Array.from({ length: field.metadata?.rows || 3 }, (_, rIdx) => (
+                                        <tr key={`${field.id}-row-${rIdx}`}>
+                                            {Array.from({ length: field.metadata?.columns || 2 }, (_, cIdx) => {
+                                                const cellValue = field.metadata?.tableData?.[rIdx]?.[cIdx];
+                                                return (
+                                                    <td key={`${field.id}-cell-${rIdx}-${cIdx}`} className="table-data-cell" style={{color: '#333'}}>
+                                                        {cellValue || ''}
+                                                    </td>
+                                                );
+                                            })}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
             ) : field.type === FIELD_TYPES.MULTI_FIELDS ? (
                 <MultiFieldsContainer field={field} isSelected={isSelected} onSelect={onSelect} />
-            ) : field.type === FIELD_TYPES.TABLE ? (
-                <div style={{
-                    width: '100%'
-                }}>
-                    <div className="field-item-header">
-                        <span className="field-label">
-                            {field.label || 'Table'}
-                            {field.required && <span className="required-asterisk">*</span>}
-                        </span>
-                    </div>
-                    <table style={{
-                        width: '100%',
-                        borderCollapse: 'collapse',
-                        marginTop: '12px',
-                        border: '1px solid #ddd'
-                    }}>
-                        <thead>
-                            <tr style={{ backgroundColor: '#f5f5f5' }}>
-                                {Array.from({ length: field.metadata?.columns || 3 }, (_, idx) => (
-                                    <th key={idx} style={{
-                                        padding: '12px',
-                                        textAlign: 'left',
-                                        borderBottom: '1px solid #ddd',
-                                        fontWeight: '600',
-                                        fontSize: '14px'
-                                    }}>
-                                        {(field.metadata?.columnHeaders || [])[idx] || `Column ${idx + 1}`}
-                                    </th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {[0, 1, 2].map((rowIdx) => (
-                                <tr key={rowIdx}>
-                                    {Array.from({ length: field.metadata?.columns || 3 }, (_, colIdx) => (
-                                        <td key={colIdx} style={{
-                                            padding: '12px',
-                                            borderBottom: '1px solid #eee',
-                                            fontSize: '14px'
-                                        }}>
-                                            ---
-                                        </td>
-                                    ))}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
             ) : (
                 <>
                     <div className = "field-item-header">

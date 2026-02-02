@@ -234,9 +234,15 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0, slotIndex = n
     if (type === FIELD_TYPES.TABLE) {
         field.label = 'Table';
         field.placeholder = '';
-        field.metadata.columns = 3;
-        field.metadata.rows = 5;
-        field.metadata.columnHeaders = ['Column 1', 'Column 2', 'Column 3'];
+        field.metadata.columns = 2;
+        field.metadata.rows = 3;
+        field.metadata.headers = ['Column 1', 'Column 2']; // Column headers
+        field.metadata.tableData = [
+            // Array of rows, each row contains array of cell values
+            ['', ''],
+            ['', ''],
+            ['', '']
+        ];
         field.metadata.headingSize = 'default'; // 'small' | 'default' | 'large'
         field.metadata.textAlignment = 'left'; // 'left' | 'center' | 'right'
     }

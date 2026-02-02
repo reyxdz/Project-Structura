@@ -9,10 +9,23 @@ import { shouldFieldBeVisible } from '../../utils/conditionalRules';
 import FormField from './FormField';
 import './FormPreview.css';
 
-export default function FormPreview() {
-    const { form, previewData, setPreviewData } = useFormStore();
-    const { handleSubmit, control } = useForm({
-        mode: 'onChange',
+// Memoize FormField to prevent unnecessary remounts
+const MemoizedFormField = React.memo(FormField);
+
+function FormPreview({ isEditMode = false }) {
+    const form = useFormStore((state) => state.form);
+    const previewData = useFormStore((state) => state.previewData);
+    const setPreviewData = useFormStore((state) => state.setPreviewData);
+    // Log preview/store updates to help trace what triggers re-renders/remounts
+    React.useEffect(() => {
+        try {
+            console.log('FormPreview store update', { previewData, fieldsCount: form.fields?.length });
+        } catch (e) {
+            // ignore
+        }
+    }, [previewData, form.fields]);
+    const { handleSubmit, control, watch } = useForm({
+        mode: 'onBlur', // Changed from 'onChange' to 'onBlur' to reduce re-renders
     });
     const [selectedDevice, setSelectedDevice] = React.useState('desktop');
     const [currentDeviceSize, setCurrentDeviceSize] = React.useState('desktop');
@@ -61,42 +74,50 @@ export default function FormPreview() {
     }, [currentDeviceSize, selectedDevice, availableDevices]);
 
     const onSubmit = (data) => {
+        try {
+            console.log('FormPreview onSubmit - setPreviewData', data);
+        } catch (e) {}
         setPreviewData(data);
         alert('Form submitted!');
     };
 
+    // Use useMemo to prevent renderFormContent from recreating on every render
+    const renderedFields = React.useMemo(() => {
+        return form.fields.map((field) => {
+            // Check if field should be visible based on conditionals
+            const isVisible = shouldFieldBeVisible(field, previewData, form.fields);
+
+            if (!isVisible) {
+                return null; // Don't render hidden fields
+            }
+
+            return (
+                <MemoizedFormField
+                    key={field.id}
+                    field={field}
+                    error={null}
+                    isEditMode={isEditMode}
+                />
+            );
+        });
+    }, [form.fields, previewData, isEditMode]);
+
     const renderFormContent = () => (
         <>
             {form.fields.length === 0 ? (
-                <div className = "form-empty-state">
+                <div className="form-empty-state">
                     <p>No fields in this form yet</p>
                 </div>
             ) : (
-                <div className = "form-fields">
-                    {form.fields.map((field) => {
-                        // Check if field should be visible based on conditionals
-                        const isVisible = shouldFieldBeVisible(field, previewData, form.fields);
-
-                        if (!isVisible) {
-                            return null; // Don't render hiddedn fields
-                        }
-
-                        return (
-                            <FormField
-                                key = {field.id}
-                                field = {field}
-                                control = {control}
-                                error = {null}
-                            />
-                        );
-                    })}
+                <div className="form-fields">
+                    {renderedFields}
                 </div>
             )}
         </>
     );
 
     return (
-        <div className = "form-preview">
+        <div className="form-preview">
             <div className="form-preview-header">
                 <div className="device-selector">
                     <button 
@@ -139,10 +160,12 @@ export default function FormPreview() {
             </div>
 
             <div className={`form-preview-container ${selectedDevice}-view`}>
-                <form onSubmit = {handleSubmit(onSubmit)} className = "form-preview-body">
+                <form onSubmit={handleSubmit(onSubmit)} className="form-preview-body">
                     {renderFormContent()}
                 </form>
             </div>
         </div>
     );
 }
+
+export default React.memo(FormPreview);

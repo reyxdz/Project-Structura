@@ -70,7 +70,7 @@ export default function FormBuilder() {
 
                 <main className="form-builder-main">
                     {showPreview ? (
-                        <FormPreview />
+                        <FormPreview isEditMode={false} />
                     ) : (
                         <Canvas />
                     )}

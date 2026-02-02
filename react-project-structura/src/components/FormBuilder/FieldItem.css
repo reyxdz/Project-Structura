@@ -1118,3 +1118,21 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Table Field Builder */
+.table-field-builder {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 8px;
+}
+
+.table-field-builder .field-item-header {
+  padding: 0;
+  margin: 0;
+}
+
+.table-field-builder .table-container {
+  width: 100%;
+  box-sizing: border-box;
+}
