@@ -880,9 +880,8 @@ function NestedFieldRenderer({ field }) {
     );
 }
 
-function MultiFieldsContainer({ field, isSelected, onSelect }) {
+function MultiFieldsContainer({ field }) {
     const addNestedField = useFormStore((state) => state.addNestedField);
-    const removeNestedField = useFormStore((state) => state.removeNestedField);
     const replaceNestedField = useFormStore((state) => state.replaceNestedField);
     const nestedFields = field.metadata?.nestedFields || [];
     const columns = field.metadata?.columns || 1;
@@ -925,10 +924,6 @@ function MultiFieldsContainer({ field, isSelected, onSelect }) {
                 addNestedField(field.id, fieldType, slotIdx);
             }
         }
-    };
-
-    const handleRemoveNestedField = (nestedFieldId) => {
-        removeNestedField(field.id, nestedFieldId);
     };
 
     return (
