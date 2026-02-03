@@ -423,6 +423,10 @@
     width: 20px;
     height: 20px;
     stroke: currentColor;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .mobile-sidebar-close:hover {

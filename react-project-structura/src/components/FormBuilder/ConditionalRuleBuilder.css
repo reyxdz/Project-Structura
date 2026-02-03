@@ -37,6 +37,10 @@
   width: 16px;
   height: 16px;
   stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .btn-danger-text {

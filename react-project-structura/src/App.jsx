@@ -8,13 +8,18 @@ import './App.css';
 
 function App() {
     const [isLoading, setIsLoading] = useState(true);
-    const [currentPage, setCurrentPage] = useState('landing'); // 'landing', 'dashboard', 'builder'
-    const [showLogin, setShowLogin] = useState(false);
     const [authUser, setAuthUser] = useState(() => {
         try {
             return localStorage.getItem('auth') || null;
         } catch (e) { return null }
     });
+    const [currentPage, setCurrentPage] = useState(() => {
+        try {
+            const auth = localStorage.getItem('auth');
+            return auth ? 'dashboard' : 'landing';
+        } catch (e) { return 'landing'; }
+    });
+    const [showLogin, setShowLogin] = useState(false);
     const [theme, setTheme] = useState(() => {
         try {
             const stored = localStorage.getItem('theme');

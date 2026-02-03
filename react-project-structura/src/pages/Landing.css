@@ -45,7 +45,19 @@
   color: var(--muted);
   padding:6px 10px;
   border-radius:10px;
-  font-size:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.landing-root .theme-toggle svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .landing-hero{
