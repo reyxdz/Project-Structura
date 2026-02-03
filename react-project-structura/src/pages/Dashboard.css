@@ -444,18 +444,23 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.1);
     border: none;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
     color: var(--text, #e0e0e0);
+    flex-shrink: 0;
 }
 
 .btn-action svg {
     width: 18px;
     height: 18px;
     stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .btn-action:hover {
