@@ -24,6 +24,28 @@
   min-width: 0;
 }
 
+.btn-back {
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);
+}
+
+.btn-back:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-back:active {
+  transform: translateY(0);
+}
+
 .header-logo {
   height: 28px;
   width: auto;

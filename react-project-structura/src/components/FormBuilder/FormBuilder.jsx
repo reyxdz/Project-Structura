@@ -9,7 +9,7 @@ import FormPreview from '../FormPreview/FormPreview';
 import psLogo from '../../images/logo_v3.png';
 import './FormBuilder.css';
 
-export default function FormBuilder() {
+export default function FormBuilder({ onBackClick }) {
     const selectedFieldId = useFormStore((state) => state.selectedFieldId);
     const [showPreview, setShowPreview] = useState(false);
     const [showFieldsPalette, setShowFieldsPalette] = useState(false);
@@ -19,6 +19,15 @@ export default function FormBuilder() {
         <div className="form-builder">
             <header className="form-builder-header">
                 <div className="header-left">
+                    {onBackClick && (
+                        <button 
+                            className="btn-back"
+                            onClick={onBackClick}
+                            title="Back to Landing Page"
+                        >
+                            ← Back
+                        </button>
+                    )}
                     <img src={psLogo} alt="Logo" className="header-logo" />
                 </div>
                 <div className="header-actions">
