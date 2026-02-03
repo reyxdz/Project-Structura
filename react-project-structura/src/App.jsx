@@ -65,6 +65,10 @@ function App() {
         setCurrentPage('builder');
     }
 
+    function handleBackToDashboard() {
+        setCurrentPage('dashboard');
+    }
+
     return (
         <div className="app">
             {currentPage === 'landing' && (
@@ -86,7 +90,7 @@ function App() {
             )}
             
             {currentPage === 'builder' && (
-                <FormBuilder />
+                <FormBuilder onBackToDashboard={handleBackToDashboard} />
             )}
 
             <LoginModal

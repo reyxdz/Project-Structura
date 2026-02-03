@@ -24,6 +24,26 @@
   min-width: 0;
 }
 
+.btn-back {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #0D47A1, #1976d2);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.btn-back:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(13, 71, 161, 0.4);
+}
+
 .header-logo {
   height: 28px;
   width: auto;

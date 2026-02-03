@@ -1,6 +1,6 @@
 // Main container component
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormStore } from '../../stores/formStore';
 import Canvas from './Canvas';
 import FieldPalette from './FieldPalette';
@@ -9,16 +9,59 @@ import FormPreview from '../FormPreview/FormPreview';
 import psLogo from '../../images/logo_v3.png';
 import './FormBuilder.css';
 
-export default function FormBuilder() {
+export default function FormBuilder({ onBackToDashboard }) {
+    const form = useFormStore((state) => state.form);
     const selectedFieldId = useFormStore((state) => state.selectedFieldId);
+    const loadForm = useFormStore((state) => state.loadForm);
     const [showPreview, setShowPreview] = useState(false);
     const [showFieldsPalette, setShowFieldsPalette] = useState(false);
     const [showConfigurator, setShowConfigurator] = useState(false);
+
+    // Load form from localStorage when entering builder
+    useEffect(() => {
+        const currentFormId = localStorage.getItem('currentFormId');
+        const savedFormState = localStorage.getItem(`formState_${currentFormId}`);
+        
+        if (savedFormState) {
+            try {
+                const formState = JSON.parse(savedFormState);
+                loadForm(formState);
+            } catch (e) {
+                console.error('Failed to load saved form state:', e);
+            }
+        }
+    }, [loadForm]);
+
+    // Save form state to localStorage whenever it changes
+    useEffect(() => {
+        const currentFormId = localStorage.getItem('currentFormId');
+        if (currentFormId && form) {
+            localStorage.setItem(`formState_${currentFormId}`, JSON.stringify(form));
+        }
+    }, [form]);
+
+    // Save form state before navigating back
+    function handleGoBack() {
+        const currentFormId = localStorage.getItem('currentFormId');
+        if (currentFormId && form) {
+            localStorage.setItem(`formState_${currentFormId}`, JSON.stringify(form));
+        }
+        if (onBackToDashboard) {
+            onBackToDashboard();
+        }
+    }
 
     return (
         <div className="form-builder">
             <header className="form-builder-header">
                 <div className="header-left">
+                    <button 
+                        className="btn-back"
+                        onClick={handleGoBack}
+                        title="Back to Dashboard"
+                    >
+                        ← Back
+                    </button>
                     <img src={psLogo} alt="Logo" className="header-logo" />
                 </div>
                 <div className="header-actions">

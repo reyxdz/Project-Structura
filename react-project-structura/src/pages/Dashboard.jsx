@@ -271,7 +271,19 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                                     )}
                                     <div className="form-meta">
                                         <span className="form-fields">
-                                            {form.fields?.length || 0} field{form.fields?.length !== 1 ? 's' : ''}
+                                            {(() => {
+                                                const savedState = localStorage.getItem(`formState_${form._id}`);
+                                                if (savedState) {
+                                                    try {
+                                                        const state = JSON.parse(savedState);
+                                                        const count = state.fields?.length || 0;
+                                                        return `${count} field${count !== 1 ? 's' : ''}`;
+                                                    } catch (e) {
+                                                        return `${form.fields?.length || 0} field${form.fields?.length !== 1 ? 's' : ''}`;
+                                                    }
+                                                }
+                                                return `${form.fields?.length || 0} field${form.fields?.length !== 1 ? 's' : ''}`;
+                                            })()}
                                         </span>
                                         <span className="form-date">
                                             {new Date(form.createdAt).toLocaleDateString()}
