@@ -118,7 +118,7 @@
     font-weight: 700;
     margin: 0 0 8px 0;
     color: var(--h1-color, #ffffff);
-    background: linear-gradient(135deg, var(--brand, #6366f1), var(--accent, #a78bfa) 100%);
+    background: linear-gradient(135deg, #0D47A1, #1976d2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -174,10 +174,10 @@
 }
 
 .create-new:hover {
-    background: rgba(99, 102, 241, 0.1);
-    border-color: var(--brand, #6366f1);
+    background: rgba(13, 71, 161, 0.1);
+    border-color: #0D47A1;
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 8px 24px rgba(13, 71, 161, 0.2);
 }
 
 .create-icon {
@@ -186,7 +186,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--brand, #6366f1), var(--accent, #a78bfa));
+    background: linear-gradient(135deg, #0D47A1, #1976d2);
     border-radius: 10px;
     font-size: 32px;
     color: white;
@@ -246,9 +246,9 @@
 .form-group input:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--brand, #6366f1);
-    background: rgba(99, 102, 241, 0.08);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: #0D47A1;
+    background: rgba(13, 71, 161, 0.08);
+    box-shadow: 0 0 0 3px rgba(13, 71, 161, 0.1);
 }
 
 .form-group textarea {
@@ -282,7 +282,7 @@
 .btn-create {
     flex: 1;
     padding: 10px 16px;
-    background: linear-gradient(135deg, var(--brand, #6366f1), var(--accent, #a78bfa));
+    background: linear-gradient(135deg, #0D47A1, #1976d2);
     border: none;
     border-radius: 8px;
     color: white;
@@ -296,7 +296,7 @@
 
 .btn-create:hover:not(:disabled) {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 8px 24px rgba(13, 71, 161, 0.4);
 }
 
 .btn-create:disabled {
@@ -340,7 +340,7 @@
     width: 40px;
     height: 40px;
     border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top-color: var(--brand, #6366f1);
+    border-top-color: #0D47A1;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
     margin: 0 auto 16px;
@@ -398,10 +398,10 @@
 }
 
 .form-card:hover {
-    background: rgba(99, 102, 241, 0.05);
-    border-color: var(--brand, #6366f1);
+    background: rgba(13, 71, 161, 0.05);
+    border-color: #0D47A1;
     transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 12px 32px rgba(13, 71, 161, 0.2);
 }
 
 .form-card-header {
@@ -479,7 +479,7 @@
 
 .btn-open {
     padding: 10px 16px;
-    background: linear-gradient(135deg, var(--brand, #6366f1), var(--accent, #a78bfa));
+    background: linear-gradient(135deg, #0D47A1, #1976d2);
     border: none;
     border-radius: 8px;
     color: white;
@@ -493,7 +493,7 @@
 
 .btn-open:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 12px rgba(13, 71, 161, 0.4);
 }
 
 /* ==================== Light Theme Adjustments ==================== */

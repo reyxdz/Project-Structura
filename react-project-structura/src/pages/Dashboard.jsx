@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 
 function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
-    const navigate = useNavigate();
     const [forms, setForms] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
