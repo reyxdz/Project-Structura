@@ -3,6 +3,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { FIELD_TYPES } from '../../types/formTypes';
 import { useFormStore } from '../../stores/formStore';
+import { evaluateFormula, calculateAggregation, isEditableColumn, formatNumber } from '../../utils/tableFormulas';
 import './FieldItem.css';
 import '../FormPreview/FormField.css';
 
@@ -510,7 +511,13 @@ export default function SortableFieldItem({
             ) : field.type === FIELD_TYPES.TABLE ? (
                 <div className="table-field-builder">
                         <div className="field-item-header">
-                            <span className="field-label">
+                            <span className="field-label" style={{
+                                textAlign: field.metadata?.textAlignment || 'left',
+                                fontSize: field.metadata?.headingSize === 'small' ? '14px' : field.metadata?.headingSize === 'large' ? '20px' : '16px',
+                                fontWeight: field.metadata?.labelBold ? 'bold' : 'normal',
+                                fontStyle: field.metadata?.labelItalic ? 'italic' : 'normal',
+                                textDecoration: field.metadata?.labelUnderline ? 'underline' : 'none',
+                            }}>
                                 {field.label || 'Table'}
                                 {field.required && <span className="required-asterisk">*</span>}
                             </span>
@@ -526,7 +533,13 @@ export default function SortableFieldItem({
                                 <thead>
                                     <tr>
                                         {(field.metadata?.headers || Array.from({ length: field.metadata?.columns || 2 }, (_, i) => `Column ${i + 1}`)).map((header, idx) => (
-                                            <th key={idx} className="table-header-cell">
+                                            <th key={idx} className="table-header-cell" style={{
+                                                fontWeight: field.metadata?.headerBold ? 'bold' : '600',
+                                                fontStyle: field.metadata?.headerItalic ? 'italic' : 'normal',
+                                                textDecoration: field.metadata?.headerUnderline ? 'underline' : 'none',
+                                                fontSize: field.metadata?.headerSize === 'small' ? '12px' : field.metadata?.headerSize === 'large' ? '16px' : '14px',
+                                                textAlign: field.metadata?.headerAlignment || 'left',
+                                            }}>
                                                 {header}
                                             </th>
                                         ))}
@@ -536,18 +549,134 @@ export default function SortableFieldItem({
                                     {Array.from({ length: field.metadata?.rows || 3 }, (_, rIdx) => (
                                         <tr key={`${field.id}-row-${rIdx}`}>
                                             {Array.from({ length: field.metadata?.columns || 2 }, (_, cIdx) => {
+                                                const columnConfig = field.metadata?.columnConfigs?.[cIdx];
+                                                const isEditable = isEditableColumn(columnConfig);
                                                 const cellValue = field.metadata?.tableData?.[rIdx]?.[cIdx];
+                                                
+                                                let displayValue = cellValue || '';
+                                                
+                                                // Note: Formulas are now only used in Summary columns
+                                                // Regular columns display their raw values
+                                                
                                                 return (
-                                                    <td key={`${field.id}-cell-${rIdx}-${cIdx}`} className="table-data-cell" style={{color: '#333'}}>
-                                                        {cellValue || ''}
+                                                    <td key={`${field.id}-cell-${rIdx}-${cIdx}`} className="table-data-cell" style={{
+                                                        color: '#333',
+                                                        backgroundColor: isEditable ? '#ffffff' : '#f5f5f5',
+                                                    }}>
+                                                        {isEditable ? (
+                                                            <input
+                                                                type="text"
+                                                                value={cellValue || ''}
+                                                                onChange={(e) => {
+                                                                    const newValue = e.target.value;
+                                                                    const updatedData = field.metadata?.tableData ? [...field.metadata.tableData] : [];
+                                                                    if (!Array.isArray(updatedData[rIdx])) {
+                                                                        updatedData[rIdx] = [];
+                                                                    }
+                                                                    updatedData[rIdx][cIdx] = newValue;
+                                                                    
+                                                                    useFormStore.getState().updateField(field.id, {
+                                                                        metadata: {
+                                                                            ...field.metadata,
+                                                                            tableData: updatedData,
+                                                                        }
+                                                                    });
+                                                                }}
+                                                                placeholder={`Row ${rIdx + 1}`}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    padding: '6px 8px',
+                                                                    border: 'none',
+                                                                    backgroundColor: 'transparent',
+                                                                    fontSize: '13px',
+                                                                    fontFamily: 'inherit',
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <div style={{
+                                                                padding: '6px 8px',
+                                                                fontWeight: columnConfig?.type === 'Summary' ? 'bold' : 'normal',
+                                                                color: columnConfig?.type === 'Summary' ? '#0066cc' : '#333',
+                                                            }}>
+                                                                {formatNumber(displayValue, 2)}
+                                                            </div>
+                                                        )}
                                                     </td>
                                                 );
                                             })}
                                         </tr>
                                     ))}
+                                    
+                                    {/* Summary Row if any column has aggregation */}
+                                    {field.metadata?.columnConfigs?.some(c => c?.columnFunction === 'summary') && (
+                                        <tr style={{ backgroundColor: '#f9f9f9', fontWeight: 'bold' }}>
+                                            {Array.from({ length: field.metadata?.columns || 2 }, (_, cIdx) => {
+                                                const columnConfig = field.metadata?.columnConfigs?.[cIdx];
+                                                
+                                                let displayValue = '';
+                                                if (columnConfig?.columnFunction === 'summary') {
+                                                    const aggregationResult = calculateAggregation(
+                                                        columnConfig.aggregationFn,
+                                                        field.metadata?.tableData || [],
+                                                        cIdx,
+                                                        columnConfig.formula
+                                                    );
+                                                    displayValue = formatNumber(aggregationResult, 2);
+                                                }
+                                                
+                                                return (
+                                                    <td key={`${field.id}-summary-${cIdx}`} className="table-data-cell" style={{
+                                                        color: '#0066cc',
+                                                        backgroundColor: '#f0f7ff',
+                                                        fontWeight: 'bold',
+                                                        padding: '8px',
+                                                    }}>
+                                                        {displayValue}
+                                                    </td>
+                                                );
+                                            })}
+                                        </tr>
+                                    )}
                                 </tbody>
                             </table>
                         </div>
+
+                        {/* Generate Button */}
+                        {field.metadata?.showButton && (
+                            <div style={{
+                                marginTop: '16px',
+                                display: 'flex',
+                                justifyContent: field.metadata?.buttonAlignment === 'left' ? 'flex-start' : 
+                                               field.metadata?.buttonAlignment === 'right' ? 'flex-end' : 'center',
+                                paddingLeft: '12px',
+                                paddingRight: '12px'
+                            }}>
+                                <button
+                                    type="button"
+                                    style={{
+                                        padding: '10px 24px',
+                                        fontSize: '14px',
+                                        fontWeight: field.metadata?.fontWeight || '600',
+                                        backgroundColor: field.metadata?.backgroundColor || '#0D47A1',
+                                        color: field.metadata?.fontColor || '#FFFFFF',
+                                        border: field.metadata?.borderStyle === 'none' ? 'none' : 
+                                               `2px ${field.metadata?.borderStyle || 'solid'} ${field.metadata?.borderColor || '#000000'}`,
+                                        borderRadius: '4px',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s ease',
+                                        width: field.metadata?.buttonWidth ? `${field.metadata?.buttonWidth}%` : 'auto',
+                                        height: field.metadata?.buttonHeight ? `${field.metadata?.buttonHeight}%` : 'auto',
+                                        minHeight: '40px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    {field.metadata?.buttonText || 'Generate Summary'}
+                                </button>
+                            </div>
+                        )}
                     </div>
             ) : field.type === FIELD_TYPES.MULTI_FIELDS ? (
                 <MultiFieldsContainer field={field} isSelected={isSelected} onSelect={onSelect} />

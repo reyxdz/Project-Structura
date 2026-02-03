@@ -8,6 +8,7 @@ import { useFormStore } from '../../stores/formStore';
 import {FIELD_TYPES, VALIDATION_TYPES } from '../../types/formTypes';
 import ValidationRulesList from './ValidationRulesList';
 import ConfirmModal from '../Common/ConfirmModal';
+import { validateFormulaColumns } from '../../utils/tableFormulas';
 import './FieldConfigurator.css';
 
 export default function FieldConfigurator() {
@@ -16,12 +17,9 @@ export default function FieldConfigurator() {
     const updateField = useFormStore((state) => state.updateField);
     const removeField = useFormStore((state) => state.removeField);
     const duplicateField = useFormStore((state) => state.duplicateField);
-    const updateNestedField = useFormStore((state) => state.updateNestedField);
-    const removeNestedField = useFormStore((state) => state.removeNestedField);
     const [showValidationPanel, setShowValidationPanel] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [newOptionValue, setNewOptionValue] = useState('');
-    const [selectedNestedFieldId, setSelectedNestedFieldId] = useState(null);
 
     const selectedField = form.fields.find((f) => f.id === selectedFieldId);
 
@@ -3848,6 +3846,12 @@ export default function FieldConfigurator() {
         const headers = selectedField.metadata?.headers || Array.from({ length: columns }, (_, i) => `Column ${i + 1}`);
         const headingSize = selectedField.metadata?.headingSize || 'default';
         const textAlignment = selectedField.metadata?.textAlignment || 'left';
+        const labelBold = selectedField.metadata?.labelBold || false;
+        const labelItalic = selectedField.metadata?.labelItalic || false;
+        const labelUnderline = selectedField.metadata?.labelUnderline || false;
+        const headerBold = selectedField.metadata?.headerBold || false;
+        const headerItalic = selectedField.metadata?.headerItalic || false;
+        const headerUnderline = selectedField.metadata?.headerUnderline || false;
         
         // Get tableData with proper defaults
         const storedTableData = selectedField.metadata?.tableData || [];
@@ -3983,7 +3987,222 @@ export default function FieldConfigurator() {
 
                 <div className="config-divider" />
 
-                {/* Columns */}
+                {/* Label Text Design */}
+                <div className="config-section">
+                    <label>
+                        <span>Label Text Design</span>
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${labelBold ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            labelBold: !labelBold,
+                                        },
+                                    })
+                                }
+                            >
+                                Bold
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${labelItalic ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            labelItalic: !labelItalic,
+                                        },
+                                    })
+                                }
+                            >
+                                Italic
+                            </button>
+                            <button
+                                type="button"
+                                className={`alignment-btn ${labelUnderline ? 'active' : ''}`}
+                                onClick={() =>
+                                    updateField(selectedFieldId, {
+                                        metadata: {
+                                            ...selectedField.metadata,
+                                            labelUnderline: !labelUnderline,
+                                        },
+                                    })
+                                }
+                            >
+                                Underline
+                            </button>
+                        </div>
+                    </label>
+                </div>
+
+                <div className="config-divider" />
+
+                {/* Column Headers Configuration Group */}
+                <div style={{ paddingTop: '8px', borderTop: '2px solid #e0e0e0' }}>
+                    <h4 style={{ marginTop: 0, marginBottom: '12px', fontSize: '12px', fontWeight: '600', color: '#666', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Column Headers</h4>
+
+                    {/* Headers Size */}
+                    <div className="config-section">
+                        <label>
+                            <span>Header Size</span>
+                            <div className="alignment-buttons">
+                                <button
+                                    type="button"
+                                    className={`alignment-btn ${selectedField.metadata?.headerSize === 'small' ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                headerSize: 'small',
+                                            },
+                                        })
+                                    }
+                                >
+                                    Small
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`alignment-btn ${selectedField.metadata?.headerSize === 'default' ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                headerSize: 'default',
+                                            },
+                                        })
+                                    }
+                                >
+                                    Default
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`alignment-btn ${selectedField.metadata?.headerSize === 'large' ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                headerSize: 'large',
+                                            },
+                                        })
+                                    }
+                                >
+                                    Large
+                                </button>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div className="config-divider" />
+
+                    {/* Headers Alignment */}
+                    <div className="config-section">
+                        <label>
+                            <span>Header Alignment</span>
+                            <div className="alignment-buttons">
+                                <button
+                                    type="button"
+                                    className={`alignment-btn ${selectedField.metadata?.headerAlignment === 'left' ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                headerAlignment: 'left',
+                                            },
+                                        })
+                                    }
+                                >
+                                    Left
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`alignment-btn ${selectedField.metadata?.headerAlignment === 'center' ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                headerAlignment: 'center',
+                                            },
+                                        })
+                                    }
+                                >
+                                    Center
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`alignment-btn ${selectedField.metadata?.headerAlignment === 'right' ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                headerAlignment: 'right',
+                                            },
+                                        })
+                                    }
+                                >
+                                    Right
+                                </button>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div className="config-divider" />
+
+                    {/* Headers Text Design */}
+                    <div className="config-section">
+                        <label>
+                            <span>Header Text Design</span>
+                            <div style={{ display: 'flex', gap: '8px' }}>
+                                <button
+                                    type="button"
+                                    className={`alignment-btn ${headerBold ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                headerBold: !headerBold,
+                                            },
+                                        })
+                                    }
+                                >
+                                    Bold
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`alignment-btn ${headerItalic ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                headerItalic: !headerItalic,
+                                            },
+                                        })
+                                    }
+                                >
+                                    Italic
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`alignment-btn ${headerUnderline ? 'active' : ''}`}
+                                    onClick={() =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                headerUnderline: !headerUnderline,
+                                            },
+                                        })
+                                    }
+                                >
+                                    Underline
+                                </button>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div className="config-divider" />
                 <div className="config-section">
                     <label>
                         <span>Columns</span>
@@ -4165,13 +4384,245 @@ export default function FieldConfigurator() {
 
                 <div className="config-divider" />
 
-                {/* Table Data Editor */}
+                {/* Column Formulas & Calculations */}
+                <div className="config-section">
+                    <label>
+                        <span>Column Configuration</span>
+                    </label>
+                    <p className="config-hint">Configure each column's input behavior and function</p>
+                    
+                    <div style={{ marginTop: '12px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                        {headers.map((header, idx) => {
+                            const config = selectedField.metadata?.columnConfigs?.[idx] || { 
+                                inputMode: 'displayOnly',
+                                columnFunction: 'none',
+                                dataType: 'text',
+                                formula: '', 
+                                aggregationFn: ''
+                            };
+                            
+                            return (
+                                <div key={idx} style={{
+                                    border: '1px solid #e0e0e0',
+                                    borderRadius: '4px',
+                                    padding: '12px',
+                                    backgroundColor: '#fafafa'
+                                }}>
+                                    <div style={{ fontSize: '13px', fontWeight: '600', marginBottom: '10px', color: '#333' }}>
+                                        Column {idx + 1}: {header}
+                                    </div>
+                                    
+                                    {/* Input Mode - Display Only or Accepts Input */}
+                                    <div style={{ marginBottom: '10px' }}>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '6px', color: '#555' }}>
+                                            Input Mode
+                                        </label>
+                                        <select
+                                            value={config.inputMode || 'displayOnly'}
+                                            onChange={(e) => {
+                                                const updatedConfigs = [...(selectedField.metadata?.columnConfigs || [])];
+                                                updatedConfigs[idx] = {
+                                                    ...config,
+                                                    inputMode: e.target.value
+                                                };
+                                                updateField(selectedFieldId, {
+                                                    metadata: {
+                                                        ...selectedField.metadata,
+                                                        columnConfigs: updatedConfigs,
+                                                    }
+                                                });
+                                            }}
+                                            style={{
+                                                width: '100%',
+                                                padding: '6px 8px',
+                                                border: '1px solid #ddd',
+                                                borderRadius: '3px',
+                                                fontSize: '12px',
+                                                backgroundColor: '#fff'
+                                            }}
+                                        >
+                                            <option value="displayOnly">Display Only (Read-only)</option>
+                                            <option value="input">Accepts Input (Editable)</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Data Type - Only if input mode is "input" */}
+                                    {config.inputMode === 'input' && (
+                                        <div style={{ marginBottom: '10px' }}>
+                                            <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '6px', color: '#555' }}>
+                                                Data Type
+                                            </label>
+                                            <select
+                                                value={config.dataType || 'text'}
+                                                onChange={(e) => {
+                                                    const updatedConfigs = [...(selectedField.metadata?.columnConfigs || [])];
+                                                    updatedConfigs[idx] = {
+                                                        ...config,
+                                                        dataType: e.target.value
+                                                    };
+                                                    updateField(selectedFieldId, {
+                                                        metadata: {
+                                                            ...selectedField.metadata,
+                                                            columnConfigs: updatedConfigs,
+                                                        }
+                                                    });
+                                                }}
+                                                style={{
+                                                    width: '100%',
+                                                    padding: '6px 8px',
+                                                    border: '1px solid #ddd',
+                                                    borderRadius: '3px',
+                                                    fontSize: '12px',
+                                                    backgroundColor: '#fff'
+                                                }}
+                                            >
+                                                <option value="text">Text</option>
+                                                <option value="number">Number</option>
+                                                <option value="date">Date</option>
+                                                <option value="email">Email</option>
+                                                <option value="phone">Phone</option>
+                                                <option value="decimal">Decimal</option>
+                                            </select>
+                                        </div>
+                                    )}
+
+                                    {/* Column Function - What the column does */}
+                                    <div style={{ marginBottom: '10px' }}>
+                                        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '6px', color: '#555' }}>
+                                            Column Function
+                                        </label>
+                                        <select
+                                            value={config.columnFunction || 'none'}
+                                            onChange={(e) => {
+                                                const updatedConfigs = [...(selectedField.metadata?.columnConfigs || [])];
+                                                const newFunction = e.target.value;
+                                                updatedConfigs[idx] = {
+                                                    ...config,
+                                                    columnFunction: newFunction,
+                                                    aggregationFn: newFunction === 'summary' ? (config.aggregationFn || 'SUM') : ''
+                                                };
+                                                updateField(selectedFieldId, {
+                                                    metadata: {
+                                                        ...selectedField.metadata,
+                                                        columnConfigs: updatedConfigs,
+                                                    }
+                                                });
+                                            }}
+                                            style={{
+                                                width: '100%',
+                                                padding: '6px 8px',
+                                                border: '1px solid #ddd',
+                                                borderRadius: '3px',
+                                                fontSize: '12px',
+                                                backgroundColor: '#fff'
+                                            }}
+                                        >
+                                            <option value="none">None (Standard)</option>
+                                            <option value="summary">Summary (Aggregation)</option>
+                                        </select>
+                                    </div>
+                                    
+                                    {/* Aggregation Function for Summary columns */}
+                                    {config.columnFunction === 'summary' && (
+                                        <div>
+                                            <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '6px', color: '#555' }}>
+                                                Formula (Optional - for calculated aggregations)
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={config.formula || ''}
+                                                onChange={(e) => {
+                                                    const updatedConfigs = [...(selectedField.metadata?.columnConfigs || [])];
+                                                    updatedConfigs[idx] = {
+                                                        ...config,
+                                                        formula: e.target.value
+                                                    };
+                                                    updateField(selectedFieldId, {
+                                                        metadata: {
+                                                            ...selectedField.metadata,
+                                                            columnConfigs: updatedConfigs,
+                                                        }
+                                                    });
+                                                }}
+                                                placeholder="=[2]*[3] (Column 2 × Column 3)"
+                                                style={{
+                                                    width: '100%',
+                                                    padding: '6px 8px',
+                                                    border: config.formula ? (validateFormulaColumns(config.formula, selectedField.metadata?.tableData || []).isValid ? '1px solid #ddd' : '1px solid #ff6b6b') : '1px solid #ddd',
+                                                    borderRadius: '3px',
+                                                    fontSize: '12px',
+                                                    fontFamily: 'monospace',
+                                                    marginBottom: '8px',
+                                                    backgroundColor: config.formula && !validateFormulaColumns(config.formula, selectedField.metadata?.tableData || []).isValid ? '#fff5f5' : '#fff'
+                                                }}
+                                            />
+                                            <div style={{ fontSize: '11px', color: '#666', marginBottom: '10px' }}>
+                                                Use column numbers: [1]=Column 1, [2]=Column 2, [3]=Column 3, etc.<br/>
+                                                Example: =[2]*[3] multiplies columns 2 and 3. Leave blank to sum the column as-is.
+                                            </div>
+
+                                            {config.formula && !validateFormulaColumns(config.formula, selectedField.metadata?.tableData || []).isValid && (
+                                                <div style={{
+                                                    backgroundColor: '#ffe8e8',
+                                                    color: '#d32f2f',
+                                                    padding: '8px',
+                                                    borderRadius: '3px',
+                                                    fontSize: '11px',
+                                                    marginBottom: '10px',
+                                                    border: '1px solid #ffb3b3'
+                                                }}>
+                                                    ⚠️ {validateFormulaColumns(config.formula, selectedField.metadata?.tableData || []).message}
+                                                </div>
+                                            )}
+
+                                            <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '6px', color: '#555' }}>
+                                                Aggregation Function
+                                            </label>
+                                            <select
+                                                value={config.aggregationFn || 'SUM'}
+                                                onChange={(e) => {
+                                                    const updatedConfigs = [...(selectedField.metadata?.columnConfigs || [])];
+                                                    updatedConfigs[idx] = {
+                                                        ...config,
+                                                        aggregationFn: e.target.value
+                                                    };
+                                                    updateField(selectedFieldId, {
+                                                        metadata: {
+                                                            ...selectedField.metadata,
+                                                            columnConfigs: updatedConfigs,
+                                                        }
+                                                    });
+                                                }}
+                                                style={{
+                                                    width: '100%',
+                                                    padding: '6px 8px',
+                                                    border: '1px solid #ddd',
+                                                    borderRadius: '3px',
+                                                    fontSize: '12px',
+                                                    backgroundColor: '#fff'
+                                                }}
+                                            >
+                                                <option value="SUM">Sum - Total of all values</option>
+                                                <option value="AVG">Average - Mean of all values</option>
+                                                <option value="COUNT">Count - Number of rows</option>
+                                                <option value="MIN">Minimum - Smallest value</option>
+                                                <option value="MAX">Maximum - Largest value</option>
+                                            </select>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </div>
+
+                <div className="config-divider" />
                 <div className="config-section">
                     <label>
                         <span>Table Data</span>
                     </label>
                     <p className="config-hint">Click cells below to edit table content</p>
-                    <div style={{
+                    <div className="table-container" style={{
                         overflowX: 'auto',
                         border: '1px solid #ddd',
                         borderRadius: '4px',
@@ -4188,8 +4639,9 @@ export default function FieldConfigurator() {
                                     {headers.map((header, idx) => (
                                         <th key={idx} style={{
                                             padding: '8px',
-                                            backgroundColor: '#f5f5f5',
-                                            border: '1px solid #ddd',
+                                            backgroundColor: '#333',
+                                            color: '#fff',
+                                            border: '1px solid #333',
                                             fontWeight: 'bold',
                                             textAlign: 'left',
                                             minWidth: '80px'
@@ -4297,23 +4749,384 @@ export default function FieldConfigurator() {
 
                 <div className="config-divider" />
 
-                {/* Help Text */}
-                <div className="config-section">
+                {/* Generate Button */}
+                <div className="config-section checkbox">
                     <label>
-                        <span>Help Text</span>
-                        <textarea
-                            value={selectedField.helpText || ''}
-                            onChange={handleHelpTextChange}
-                            placeholder="Help text for users"
-                            rows="3"
+                        <input
+                            type="checkbox"
+                            checked={selectedField.metadata?.showButton || false}
+                            onChange={(e) => {
+                                updateField(selectedFieldId, {
+                                    metadata: {
+                                        ...selectedField.metadata,
+                                        showButton: e.target.checked,
+                                        buttonText: selectedField.metadata?.buttonText || 'Generate Summary',
+                                        buttonAlignment: selectedField.metadata?.buttonAlignment || 'center',
+                                        buttonWidth: selectedField.metadata?.buttonWidth || '',
+                                        buttonHeight: selectedField.metadata?.buttonHeight || '',
+                                        backgroundColor: selectedField.metadata?.backgroundColor || '#0D47A1',
+                                        fontColor: selectedField.metadata?.fontColor || '#FFFFFF',
+                                        borderStyle: selectedField.metadata?.borderStyle || 'none',
+                                        borderColor: selectedField.metadata?.borderColor || '#000000',
+                                        fontWeight: selectedField.metadata?.fontWeight || '600'
+                                    }
+                                });
+                            }}
                         />
+                        <span>Show Generate Button</span>
                     </label>
                 </div>
+
+                {selectedField.metadata?.showButton && (
+                    <>
+                        <div className="config-section">
+                            <label>
+                                <span>Button Label</span>
+                                <input
+                                    type="text"
+                                    value={selectedField.metadata?.buttonText || 'Generate Summary'}
+                                    onChange={(e) => {
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                buttonText: e.target.value
+                                            }
+                                        });
+                                    }}
+                                    placeholder="Enter button text"
+                                />
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Width and Height */}
+                        <div className="config-section">
+                            <label>
+                                <span>Width (%)</span>
+                                <input
+                                    type="number"
+                                    value={selectedField.metadata?.buttonWidth || ''}
+                                    onChange={(e) =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                buttonWidth: e.target.value,
+                                            },
+                                        })
+                                    }
+                                    placeholder="e.g., 100"
+                                    step="1"
+                                />
+                            </label>
+                        </div>
+
+                        <div className="config-section">
+                            <label>
+                                <span>Height (%)</span>
+                                <input
+                                    type="number"
+                                    value={selectedField.metadata?.buttonHeight || ''}
+                                    onChange={(e) =>
+                                        updateField(selectedFieldId, {
+                                            metadata: {
+                                                ...selectedField.metadata,
+                                                buttonHeight: e.target.value,
+                                            },
+                                        })
+                                    }
+                                    placeholder="e.g., 100"
+                                    step="1"
+                                />
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Button Alignment */}
+                        <div className="config-section">
+                            <label>
+                                <span>Button Alignment</span>
+                                <div className="alignment-buttons">
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.buttonAlignment === 'left' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    buttonAlignment: 'left',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Left
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.buttonAlignment === 'center' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    buttonAlignment: 'center',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Center
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.buttonAlignment === 'right' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    buttonAlignment: 'right',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Right
+                                    </button>
+                                </div>
+                            </label>
+                            <p className="config-hint">Choose the alignment of the button within its field</p>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Background Color */}
+                        <div className="config-section">
+                            <label>
+                                <span>Background Color</span>
+                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                    <input
+                                        type="color"
+                                        value={selectedField.metadata?.backgroundColor || '#0D47A1'}
+                                        onChange={(e) =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    backgroundColor: e.target.value,
+                                                },
+                                            })
+                                        }
+                                        style={{ width: '50px', height: '40px', cursor: 'pointer' }}
+                                    />
+                                    <input
+                                        type="text"
+                                        value={selectedField.metadata?.backgroundColor || '#0D47A1'}
+                                        onChange={(e) =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    backgroundColor: e.target.value,
+                                                },
+                                            })
+                                        }
+                                        placeholder="#0D47A1"
+                                        style={{ flex: 1 }}
+                                    />
+                                </div>
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Font Color */}
+                        <div className="config-section">
+                            <label>
+                                <span>Font Color</span>
+                                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                    <input
+                                        type="color"
+                                        value={selectedField.metadata?.fontColor || '#FFFFFF'}
+                                        onChange={(e) =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    fontColor: e.target.value,
+                                                },
+                                            })
+                                        }
+                                        style={{ width: '50px', height: '40px', cursor: 'pointer' }}
+                                    />
+                                    <input
+                                        type="text"
+                                        value={selectedField.metadata?.fontColor || '#FFFFFF'}
+                                        onChange={(e) =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    fontColor: e.target.value,
+                                                },
+                                            })
+                                        }
+                                        placeholder="#FFFFFF"
+                                        style={{ flex: 1 }}
+                                    />
+                                </div>
+                            </label>
+                        </div>
+
+                        <div className="config-divider" />
+
+                        {/* Border Style */}
+                        <div className="config-section">
+                            <label>
+                                <span>Border Style</span>
+                                <div className="alignment-buttons">
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.borderStyle === 'none' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    borderStyle: 'none',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        None
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.borderStyle === 'solid' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    borderStyle: 'solid',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Solid
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.borderStyle === 'dashed' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    borderStyle: 'dashed',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Dashed
+                                    </button>
+                                </div>
+                            </label>
+                            <p className="config-hint">Choose the border style of the button</p>
+                        </div>
+
+                        {selectedField.metadata?.borderStyle !== 'none' && (
+                            <>
+                                <div className="config-divider" />
+
+                                {/* Border Color */}
+                                <div className="config-section">
+                                    <label>
+                                        <span>Border Color</span>
+                                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                                            <input
+                                                type="color"
+                                                value={selectedField.metadata?.borderColor || '#000000'}
+                                                onChange={(e) =>
+                                                    updateField(selectedFieldId, {
+                                                        metadata: {
+                                                            ...selectedField.metadata,
+                                                            borderColor: e.target.value,
+                                                        },
+                                                    })
+                                                }
+                                                style={{ width: '50px', height: '40px', cursor: 'pointer' }}
+                                            />
+                                            <input
+                                                type="text"
+                                                value={selectedField.metadata?.borderColor || '#000000'}
+                                                onChange={(e) =>
+                                                    updateField(selectedFieldId, {
+                                                        metadata: {
+                                                            ...selectedField.metadata,
+                                                            borderColor: e.target.value,
+                                                        },
+                                                    })
+                                                }
+                                                placeholder="#000000"
+                                                style={{ flex: 1 }}
+                                            />
+                                        </div>
+                                    </label>
+                                </div>
+                            </>
+                        )}
+
+                        <div className="config-divider" />
+
+                        {/* Font Weight */}
+                        <div className="config-section">
+                            <label>
+                                <span>Font Weight</span>
+                                <div className="alignment-buttons">
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.fontWeight === '400' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    fontWeight: '400',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Normal
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.fontWeight === '600' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    fontWeight: '600',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Semi-Bold
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={`alignment-btn ${selectedField.metadata?.fontWeight === '700' ? 'active' : ''}`}
+                                        onClick={() =>
+                                            updateField(selectedFieldId, {
+                                                metadata: {
+                                                    ...selectedField.metadata,
+                                                    fontWeight: '700',
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Bold
+                                    </button>
+                                </div>
+                            </label>
+                            <p className="config-hint">Choose the font weight</p>
+                        </div>
+                    </>
+                )}
 
                 <div className="config-divider" />
 
                 {/* Required */}
-                <div className="config-section">
+                <div className="config-section checkbox">
                     <label>
                         <input
                             type="checkbox"
@@ -4326,11 +5139,21 @@ export default function FieldConfigurator() {
 
                 <div className="config-divider" />
 
+                {/* Duplicate Field */}
+                <div className="config-section">
+                    <button className="btn btn-secondary btn-block" onClick={handleDuplicate}>
+                        Duplicate Field
+                    </button>
+                    <p className="config-hint">Duplicate this field with all saved settings</p>
+                </div>
+
+                <div className="config-divider" />
+
                 {/* Delete Button */}
                 <div className="config-section">
                     <button
                         type="button"
-                        className="btn btn-danger"
+                        className="btn btn-danger btn-block"
                         onClick={handleRemove}
                     >
                         Delete Field

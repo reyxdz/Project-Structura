@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { FIELD_TYPES } from '../../types/formTypes';
+import { evaluateFormula, calculateAggregation, isEditableColumn, formatNumber } from '../../utils/tableFormulas';
 import './FormField.css';
 
 export default function FormField({ field, error, isEditMode = false }) {
@@ -100,6 +101,12 @@ export default function FormField({ field, error, isEditMode = false }) {
         const rows = field.metadata?.rows || 3;
         const headingSize = field.metadata?.headingSize || 'default';
         const textAlignment = field.metadata?.textAlignment || 'left';
+        const labelBold = field.metadata?.labelBold || false;
+        const labelItalic = field.metadata?.labelItalic || false;
+        const labelUnderline = field.metadata?.labelUnderline || false;
+        const headerBold = field.metadata?.headerBold || false;
+        const headerItalic = field.metadata?.headerItalic || false;
+        const headerUnderline = field.metadata?.headerUnderline || false;
         
         // Initialize headers with proper defaults
         const currentHeaders = field.metadata?.headers || [];
@@ -107,9 +114,22 @@ export default function FormField({ field, error, isEditMode = false }) {
             currentHeaders[idx] || `Column ${idx + 1}`
         );
         
-        // Initialize table data with proper defaults - ensure data structure is correct
-        const currentData = field.metadata?.tableData || Array.from({ length: rows }, () => Array.from({ length: columns }, () => ''));
-        const tableData = Array.isArray(currentData) ? currentData : [];
+        // State for user input data - initialized from template data if available
+        const [tableData, setTableData] = React.useState(() => {
+            const currentData = field.metadata?.tableData || Array.from({ length: rows }, () => Array.from({ length: columns }, () => ''));
+            return Array.isArray(currentData) ? [...currentData] : Array.from({ length: rows }, () => Array.from({ length: columns }, () => ''));
+        });
+        
+        // Handle cell input changes
+        const handleCellChange = (rIdx, cIdx, newValue) => {
+            const updatedData = tableData.map((row, rowIdx) => {
+                if (rowIdx === rIdx) {
+                    return row.map((cell, cellIdx) => cellIdx === cIdx ? newValue : cell);
+                }
+                return row;
+            });
+            setTableData(updatedData);
+        };
 
         return (
             <div className="form-field">
@@ -128,7 +148,9 @@ export default function FormField({ field, error, isEditMode = false }) {
                             headingSize === 'small' ? '14px' :
                             headingSize === 'large' ? '20px' :
                             '16px',
-                        fontWeight: '500',
+                        fontWeight: labelBold ? 'bold' : '500',
+                        fontStyle: labelItalic ? 'italic' : 'normal',
+                        textDecoration: labelUnderline ? 'underline' : 'none',
                         color: '#333',
                         margin: 0
                     }}>
@@ -146,7 +168,13 @@ export default function FormField({ field, error, isEditMode = false }) {
                         <thead>
                             <tr>
                                 {headers.map((header, idx) => (
-                                    <th key={idx} className="table-header-cell">
+                                    <th key={idx} className="table-header-cell" style={{
+                                        fontWeight: headerBold ? 'bold' : '600',
+                                        fontStyle: headerItalic ? 'italic' : 'normal',
+                                        textDecoration: headerUnderline ? 'underline' : 'none',
+                                        fontSize: field.metadata?.headerSize === 'small' ? '12px' : field.metadata?.headerSize === 'large' ? '16px' : '14px',
+                                        textAlign: field.metadata?.headerAlignment || 'left',
+                                    }}>
                                         {header}
                                     </th>
                                 ))}
@@ -157,11 +185,49 @@ export default function FormField({ field, error, isEditMode = false }) {
                                 tableData.map((row, rIdx) => (
                                     <tr key={`row-${rIdx}`}>
                                         {Array.isArray(row) ? (
-                                            row.map((cell, cIdx) => (
-                                                <td key={`cell-${rIdx}-${cIdx}`} className="table-data-cell" style={{color: '#333'}}>
-                                                    {cell || ''}
-                                                </td>
-                                            ))
+                                            row.map((cell, cIdx) => {
+                                                const columnConfig = field.metadata?.columnConfigs?.[cIdx];
+                                                const isEditable = isEditableColumn(columnConfig);
+                                                let displayValue = cell || '';
+                                                
+                                                // Note: Formulas are now only used in Summary columns
+                                                // Regular columns display their raw values
+                                                
+                                                return (
+                                                    <td key={`cell-${rIdx}-${cIdx}`} className="table-data-cell" style={{
+                                                        color: '#333',
+                                                        backgroundColor: isEditable ? '#ffffff' : '#f5f5f5',
+                                                        padding: isEditable ? '0' : '8px',
+                                                    }}>
+                                                        {isEditable ? (
+                                                            <input
+                                                                type={columnConfig?.dataType === 'number' ? 'number' : 
+                                                                      columnConfig?.dataType === 'date' ? 'date' :
+                                                                      columnConfig?.dataType === 'email' ? 'email' :
+                                                                      columnConfig?.dataType === 'phone' ? 'tel' :
+                                                                      'text'}
+                                                                value={cell || ''}
+                                                                onChange={(e) => handleCellChange(rIdx, cIdx, e.target.value)}
+                                                                style={{
+                                                                    width: '100%',
+                                                                    padding: '8px',
+                                                                    border: 'none',
+                                                                    backgroundColor: 'transparent',
+                                                                    fontSize: '13px',
+                                                                    fontFamily: 'inherit',
+                                                                }}
+                                                            />
+                                                        ) : (
+                                                            <div style={{
+                                                                fontWeight: columnConfig?.columnFunction === 'summary' ? 'bold' : 'normal',
+                                                                color: columnConfig?.columnFunction === 'summary' ? '#0066cc' : '#333',
+                                                            }}>
+                                                                {formatNumber(displayValue, 2)}
+                                                            </div>
+                                                        )}
+                                                    </td>
+                                                );
+                                            })
                                         ) : (
                                             Array.from({ length: columns }, (_, cIdx) => (
                                                 <td key={`cell-${rIdx}-${cIdx}`} className="table-data-cell" style={{color: '#333'}}>
@@ -182,9 +248,88 @@ export default function FormField({ field, error, isEditMode = false }) {
                                     </tr>
                                 ))
                             )}
+                            
+                            {/* Summary Row if any column has aggregation */}
+                            {field.metadata?.columnConfigs?.some(c => c?.columnFunction === 'summary') && (
+                                <tr style={{ backgroundColor: '#f9f9f9', fontWeight: 'bold' }}>
+                                    {Array.from({ length: columns }, (_, cIdx) => {
+                                        const columnConfig = field.metadata?.columnConfigs?.[cIdx];
+                                        
+                                        let displayValue = '';
+                                        if (columnConfig?.columnFunction === 'summary') {
+                                            const aggregationResult = calculateAggregation(
+                                                columnConfig.aggregationFn,
+                                                tableData || [],
+                                                cIdx,
+                                                columnConfig.formula
+                                            );
+                                            displayValue = formatNumber(aggregationResult, 2);
+                                        }
+                                        
+                                        return (
+                                            <td key={`summary-${cIdx}`} className="table-data-cell" style={{
+                                                color: '#0066cc',
+                                                backgroundColor: '#f0f7ff',
+                                                fontWeight: 'bold',
+                                                padding: '8px',
+                                            }}>
+                                                {displayValue}
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
+
+                {/* Generate Button */}
+                {field.metadata?.showButton && (
+                    <div style={{
+                        marginTop: '16px',
+                        display: 'flex',
+                        justifyContent: field.metadata?.buttonAlignment === 'left' ? 'flex-start' : 
+                                       field.metadata?.buttonAlignment === 'right' ? 'flex-end' : 'center'
+                    }}>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                console.log('Generate button clicked for field:', field.label);
+                            }}
+                            style={{
+                                padding: '10px 24px',
+                                fontSize: '14px',
+                                fontWeight: field.metadata?.fontWeight || '600',
+                                backgroundColor: field.metadata?.backgroundColor || '#0D47A1',
+                                color: field.metadata?.fontColor || '#FFFFFF',
+                                border: field.metadata?.borderStyle === 'none' ? 'none' : 
+                                       `2px ${field.metadata?.borderStyle || 'solid'} ${field.metadata?.borderColor || '#000000'}`,
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s ease',
+                                width: field.metadata?.buttonWidth ? `${field.metadata?.buttonWidth}%` : 'auto',
+                                height: field.metadata?.buttonHeight ? `${field.metadata?.buttonHeight}%` : 'auto',
+                                minHeight: '40px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                whiteSpace: 'nowrap'
+                            }}
+                            onMouseEnter={(e) => {
+                                e.target.style.opacity = '0.9';
+                                e.target.style.transform = 'translateY(-2px)';
+                                e.target.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                            }}
+                            onMouseLeave={(e) => {
+                                e.target.style.opacity = '1';
+                                e.target.style.transform = 'translateY(0)';
+                                e.target.style.boxShadow = 'none';
+                            }}
+                        >
+                            {field.metadata?.buttonText || 'Generate Summary'}
+                        </button>
+                    </div>
+                )}
             </div>
         );
     }

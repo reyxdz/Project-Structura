@@ -814,3 +814,39 @@
 .multi-field-tabs-container::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 }
+
+/* Improve visibility of select dropdown options */
+.config-section select option {
+  background-color: #ffffff;
+  color: #333;
+  padding: 6px;
+}
+
+.config-section select option:hover {
+  background-color: #e8f4ff;
+  color: #333;
+}
+
+.config-section select option:checked {
+  background: linear-gradient(#e8f4ff, #e8f4ff);
+  background-color: #e8f4ff;
+  color: #333;
+}
+
+/* Custom scrollbar styling for table data section */
+.table-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border-radius: 3px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

@@ -245,6 +245,36 @@ export const createNewField = (type = FIELD_TYPES.TEXT, order = 0, slotIndex = n
         ];
         field.metadata.headingSize = 'default'; // 'small' | 'default' | 'large'
         field.metadata.textAlignment = 'left'; // 'left' | 'center' | 'right'
+        
+        // Column configuration - separated into input mode and column function
+        field.metadata.columnConfigs = [
+            { 
+                inputMode: 'displayOnly',  // 'displayOnly' or 'input'
+                columnFunction: 'none',     // 'none', 'calculated', 'summary'
+                dataType: 'text',           // 'text', 'number', 'date', 'email', 'phone', 'decimal'
+                formula: '', 
+                aggregationFn: ''
+            },
+            { 
+                inputMode: 'displayOnly',
+                columnFunction: 'none',
+                dataType: 'text',
+                formula: '', 
+                aggregationFn: ''
+            }
+        ];
+        
+        // Button configuration for table
+        field.metadata.showButton = false;
+        field.metadata.buttonText = 'Generate Summary';
+        field.metadata.buttonAlignment = 'center'; // 'left' | 'center' | 'right'
+        field.metadata.buttonWidth = ''; // percentage (optional)
+        field.metadata.buttonHeight = ''; // percentage (optional)
+        field.metadata.backgroundColor = '#0D47A1'; // button background color
+        field.metadata.fontColor = '#FFFFFF'; // button text color
+        field.metadata.borderStyle = 'none'; // 'none' | 'solid' | 'dashed'
+        field.metadata.borderColor = '#000000'; // border color
+        field.metadata.fontWeight = '600'; // '400' | '600' | '700'
     }
 
     return field;
