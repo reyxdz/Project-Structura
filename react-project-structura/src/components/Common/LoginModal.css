@@ -1,0 +1,51 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 12, 18, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1200;
+}
+
+.login-modal{
+  width: 420px;
+  /* Use CSS variable when available, otherwise fall back to a solid dark color to avoid transparency */
+  background-color: var(--surface, #0b0b0d);
+  background-image: none;
+  border-radius: 12px;
+  box-shadow: 0 30px 70px rgba(2,6,23,0.6);
+  overflow: hidden;
+  color: var(--muted);
+}
+
+
+.login-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 18px;
+  border-bottom:1px solid rgba(255,255,255,0.03);
+}
+.login-brand{font-weight:700;color:var(--brand)}
+.login-header .close{background:transparent;border:0;font-size:16px;color:var(--muted);cursor:pointer}
+
+.login-body{padding:18px;display:flex;flex-direction:column;gap:12px}
+.login-body h3{margin:0;color:var(--h1-color);font-size:18px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field .label{font-size:13px;color:var(--muted)}
+.field input{padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background-color: rgba(255,255,255,0.03);color:var(--brand)}
+.login-error{color:#ff6b6b;font-size:13px}
+.login-actions{display:flex;gap:10px;justify-content:center;margin-top:8px;width:100%}
+
+.signup-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.signup-link{margin-top:12px;color:var(--muted);font-size:13px;text-align:center;display:block;width:100%}
+.signup-link .link-btn{background:none;border:0;color:var(--accent);cursor:pointer;padding:0;margin-left:6px}
+.link-btn{background:none;border:0;color:var(--accent);cursor:pointer;padding:0}
+
+/* Light theme adjustments */
+[data-theme="light"] .login-modal{background:linear-gradient(180deg,#ffffff,#f7fbfe);box-shadow:0 30px 70px rgba(33,53,71,0.08);border:1px solid rgba(33,53,71,0.04);color:#213547}
+[data-theme="light"] .field input{border:1px solid rgba(33,53,71,0.06);background:#fff;color:#213547}
+[data-theme="light"] .login-header{border-bottom:1px solid rgba(33,53,71,0.03)}

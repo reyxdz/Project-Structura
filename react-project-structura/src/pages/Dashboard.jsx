@@ -1,0 +1,298 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Dashboard.css';
+
+function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
+    const navigate = useNavigate();
+    const [forms, setForms] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState('');
+    const [showCreateForm, setShowCreateForm] = useState(false);
+    const [newFormName, setNewFormName] = useState('');
+    const [newFormDesc, setNewFormDesc] = useState('');
+    const [isCreating, setIsCreating] = useState(false);
+
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
+    // Fetch user's forms on mount
+    useEffect(() => {
+        fetchForms();
+    }, []);
+
+    async function fetchForms() {
+        try {
+            setIsLoading(true);
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${API_URL}/api/forms`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) throw new Error('Failed to fetch forms');
+            const data = await response.json();
+            setForms(data.forms || []);
+            setError('');
+        } catch (err) {
+            setError(err.message || 'Failed to load forms');
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    async function handleCreateForm() {
+        if (!newFormName.trim()) {
+            setError('Form name is required');
+            return;
+        }
+
+        try {
+            setIsCreating(true);
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${API_URL}/api/forms`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: newFormName,
+                    description: newFormDesc,
+                    fields: [],
+                }),
+            });
+
+            if (!response.ok) throw new Error('Failed to create form');
+            const data = await response.json();
+            
+            // Navigate to builder with the new form
+            localStorage.setItem('currentFormId', data.form._id);
+            onOpenBuilder();
+            
+            setNewFormName('');
+            setNewFormDesc('');
+            setShowCreateForm(false);
+        } catch (err) {
+            setError(err.message || 'Failed to create form');
+        } finally {
+            setIsCreating(false);
+        }
+    }
+
+    async function handleDeleteForm(formId) {
+        if (!window.confirm('Are you sure you want to delete this form?')) return;
+
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`${API_URL}/api/forms/${formId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) throw new Error('Failed to delete form');
+            setForms(forms.filter(f => f._id !== formId));
+        } catch (err) {
+            setError(err.message || 'Failed to delete form');
+        }
+    }
+
+    function handleOpenForm(formId) {
+        localStorage.setItem('currentFormId', formId);
+        onOpenBuilder();
+    }
+
+    function handleLogout() {
+        try {
+            localStorage.removeItem('auth');
+            localStorage.removeItem('token');
+            localStorage.removeItem('currentFormId');
+        } catch (e) {}
+        onLogout();
+    }
+
+    return (
+        <div className="dashboard">
+            {/* Header */}
+            <header className="dashboard-header">
+                <div className="header-left">
+                    <h1 className="logo">Structura</h1>
+                    <span className="subtitle">Form Builder</span>
+                </div>
+                <div className="header-right">
+                    <button 
+                        className="btn-theme"
+                        onClick={toggleTheme}
+                        title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+                    >
+                        {theme === 'dark' ? '☀️' : '🌙'}
+                    </button>
+                    <div className="user-menu">
+                        <span className="user-email">{authUser}</span>
+                        <button 
+                            className="btn-logout"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            {/* Main Content */}
+            <main className="dashboard-main">
+                {/* Welcome Section */}
+                <section className="welcome-section">
+                    <div className="welcome-content">
+                        <h2>Welcome back!</h2>
+                        <p>Create and manage your forms with ease</p>
+                    </div>
+                </section>
+
+                {/* Error Message */}
+                {error && (
+                    <div className="error-banner">
+                        <span>{error}</span>
+                        <button 
+                            className="close-error"
+                            onClick={() => setError('')}
+                        >
+                            ✕
+                        </button>
+                    </div>
+                )}
+
+                {/* Create New Form Card */}
+                <section className="create-form-section">
+                    {!showCreateForm ? (
+                        <div 
+                            className="create-form-card create-new"
+                            onClick={() => setShowCreateForm(true)}
+                        >
+                            <div className="create-icon">+</div>
+                            <div className="create-text">
+                                <h3>Create New Form</h3>
+                                <p>Start building a new form from scratch</p>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="create-form-card create-form-modal">
+                            <h3>Create New Form</h3>
+                            <div className="form-group">
+                                <label>Form Name *</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter form name"
+                                    value={newFormName}
+                                    onChange={(e) => setNewFormName(e.target.value)}
+                                    autoFocus
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Description</label>
+                                <textarea
+                                    placeholder="Enter form description (optional)"
+                                    value={newFormDesc}
+                                    onChange={(e) => setNewFormDesc(e.target.value)}
+                                    rows={3}
+                                />
+                            </div>
+                            <div className="form-actions">
+                                <button 
+                                    className="btn-cancel"
+                                    onClick={() => {
+                                        setShowCreateForm(false);
+                                        setNewFormName('');
+                                        setNewFormDesc('');
+                                    }}
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                    className="btn-create"
+                                    onClick={handleCreateForm}
+                                    disabled={isCreating}
+                                >
+                                    {isCreating ? 'Creating...' : 'Create Form'}
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </section>
+
+                {/* Recent Forms */}
+                <section className="recent-forms-section">
+                    <div className="section-header">
+                        <h3>Your Forms</h3>
+                        {forms.length > 0 && (
+                            <span className="form-count">{forms.length} form{forms.length !== 1 ? 's' : ''}</span>
+                        )}
+                    </div>
+
+                    {isLoading ? (
+                        <div className="loading">
+                            <div className="spinner"></div>
+                            <p>Loading your forms...</p>
+                        </div>
+                    ) : forms.length === 0 ? (
+                        <div className="empty-state">
+                            <div className="empty-icon">📋</div>
+                            <h4>No forms yet</h4>
+                            <p>Create your first form to get started</p>
+                        </div>
+                    ) : (
+                        <div className="forms-grid">
+                            {forms.map((form) => (
+                                <div 
+                                    key={form._id}
+                                    className="form-card"
+                                >
+                                    <div className="form-card-header">
+                                        <h4 className="form-title">{form.title}</h4>
+                                        <div className="form-actions-menu">
+                                            <button 
+                                                className="btn-action edit"
+                                                title="Edit form"
+                                                onClick={() => handleOpenForm(form._id)}
+                                            >
+                                                ✏️
+                                            </button>
+                                            <button 
+                                                className="btn-action delete"
+                                                title="Delete form"
+                                                onClick={() => handleDeleteForm(form._id)}
+                                            >
+                                                🗑️
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {form.description && (
+                                        <p className="form-description">{form.description}</p>
+                                    )}
+                                    <div className="form-meta">
+                                        <span className="form-fields">
+                                            {form.fields?.length || 0} field{form.fields?.length !== 1 ? 's' : ''}
+                                        </span>
+                                        <span className="form-date">
+                                            {new Date(form.createdAt).toLocaleDateString()}
+                                        </span>
+                                    </div>
+                                    <button 
+                                        className="btn-open"
+                                        onClick={() => handleOpenForm(form._id)}
+                                    >
+                                        Open Form
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </section>
+            </main>
+        </div>
+    );
+}
+
+export default Dashboard;

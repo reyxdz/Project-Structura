@@ -1,0 +1,71 @@
+{
+  "name": "mongodb-memory-server-core",
+  "version": "9.5.0",
+  "description": "MongoDB Server for testing (core package, without autodownload). The server will allow you to connect your favourite ODM or client library to the MongoDB Server and run parallel integration tests isolated from each other.",
+  "main": "lib/index",
+  "types": "lib/index.d.ts",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/typegoose/mongodb-memory-server.git",
+    "directory": "packages/mongodb-memory-server-core"
+  },
+  "engines": {
+    "node": ">=14.20.1"
+  },
+  "files": [
+    "lib",
+    "scripts"
+  ],
+  "keywords": [
+    "mongodb",
+    "mongoose",
+    "mock",
+    "stub",
+    "mockgoose",
+    "mongodb-prebuilt",
+    "mongomem"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/typegoose/mongodb-memory-server/issues"
+  },
+  "homepage": "https://github.com/typegoose/mongodb-memory-server",
+  "devDependencies": {
+    "@types/debug": "^4.1.12",
+    "@types/find-cache-dir": "^3.2.1",
+    "@types/follow-redirects": "^1.14.4",
+    "@types/semver": "^7.5.8",
+    "@types/tar-stream": "^3.1.3",
+    "@types/yauzl": "^2.10.3",
+    "@types/yazl": "^2.4.5",
+    "rimraf": "^5.0.10",
+    "yazl": "^2.5.1"
+  },
+  "dependencies": {
+    "async-mutex": "^0.4.1",
+    "camelcase": "^6.3.0",
+    "debug": "^4.3.7",
+    "find-cache-dir": "^3.3.2",
+    "follow-redirects": "^1.15.9",
+    "https-proxy-agent": "^7.0.5",
+    "mongodb": "^5.9.2",
+    "new-find-package-json": "^2.0.0",
+    "semver": "^7.6.3",
+    "tar-stream": "^3.1.7",
+    "tslib": "^2.6.3",
+    "yauzl": "^3.1.3"
+  },
+  "scripts": {
+    "clean": "rimraf tmp lib build coverage node_modules/.cache",
+    "build": "rimraf ./lib && tsc -p ./tsconfig.build.json",
+    "build:tests": "rimraf ./build && tsc -p ./tsconfig.json",
+    "watch": "jest --watchAll",
+    "coverage": "jest --coverage",
+    "lint": "yarn run eslint && yarn run tscheck",
+    "eslint": "eslint -c ../../.eslintrc.js 'src/**/*.{js,ts}'",
+    "test": "yarn run lint && yarn run coverage",
+    "test:watch": "yarn run watch",
+    "tscheck": "tsc --noEmit"
+  }
+}
