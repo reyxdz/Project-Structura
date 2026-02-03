@@ -420,7 +420,7 @@ export default function FormField({ field, error, isEditMode = false }) {
                                 <tbody>
                                     {tableData
                                         .map((row, rIdx) => ({ row, rIdx }))
-                                        .filter(({ row }) => row.some(cell => cell && cell.toString().trim() !== ''))
+                                        .filter(({ row }) => row.every(cell => cell && cell.toString().trim() !== ''))
                                         .map(({ row, rIdx }) => (
                                         <tr key={rIdx} style={{
                                             backgroundColor: rIdx % 2 === 0 ? '#ffffff' : '#fafafa',
@@ -458,9 +458,9 @@ export default function FormField({ field, error, isEditMode = false }) {
                                     }}>Calculations</h4>
                                     {field.metadata?.columnConfigs?.map((config, idx) => {
                                         if (config.columnFunction === 'summary' && config.aggregationFn) {
-                                            // Filter out rows with blank cells for aggregation
+                                            // Filter out rows with any blank cells for aggregation
                                             const completeRows = tableData.filter(row => 
-                                                row.some(cell => cell && cell.toString().trim() !== '')
+                                                row.every(cell => cell && cell.toString().trim() !== '')
                                             );
                                             const aggregationValue = calculateAggregation(
                                                 config.aggregationFn,
