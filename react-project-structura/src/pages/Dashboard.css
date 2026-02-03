@@ -61,6 +61,12 @@
     color: var(--text, #e0e0e0);
 }
 
+.btn-theme svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+}
+
 .btn-theme:hover {
     background: rgba(255, 255, 255, 0.1);
 }
@@ -360,8 +366,17 @@
 }
 
 .empty-icon {
-    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 16px;
+    color: var(--text, #e0e0e0);
+}
+
+.empty-icon svg {
+    width: 48px;
+    height: 48px;
+    stroke: currentColor;
 }
 
 .empty-state h4 {
@@ -433,8 +448,14 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
     transition: all 0.3s ease;
+    color: var(--text, #e0e0e0);
+}
+
+.btn-action svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
 }
 
 .btn-action:hover {
@@ -443,6 +464,7 @@
 
 .btn-action.delete:hover {
     background: rgba(255, 107, 107, 0.2);
+    color: #ff6b6b;
 }
 
 .form-description {

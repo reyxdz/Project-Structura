@@ -408,7 +408,6 @@
   .mobile-sidebar-close {
     background: none;
     border: none;
-    font-size: 24px;
     color: #666;
     cursor: pointer;
     padding: 0;
@@ -418,6 +417,12 @@
     align-items: center;
     justify-content: center;
     transition: color 0.2s ease;
+  }
+
+  .mobile-sidebar-close svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
   }
 
   .mobile-sidebar-close:hover {
