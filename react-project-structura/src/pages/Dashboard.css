@@ -428,14 +428,19 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 12px;
+    margin-bottom: 12px;
+}
+
+.form-header-left {
+    flex: 1;
+    min-width: 0;
 }
 
 .form-title {
-    margin: 0;
+    margin: 0 0 4px 0;
     font-size: 16px;
     font-weight: 600;
     color: var(--h1-color, #ffffff);
-    flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -443,41 +448,39 @@
 
 .form-actions-menu {
     display: flex;
-    gap: 8px;
-}
-
-.btn-action {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: var(--text, #e0e0e0);
+    gap: 6px;
     flex-shrink: 0;
 }
 
-.btn-action svg {
-    width: 18px;
-    height: 18px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+.btn-action-text {
+    padding: 6px 12px;
+    background: rgba(13, 71, 161, 0.2);
+    border: 1px solid rgba(13, 71, 161, 0.3);
+    border-radius: 4px;
+    color: #1976d2;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
 }
 
-.btn-action:hover {
-    background: rgba(255, 255, 255, 0.1);
+.btn-action-text:hover {
+    background: rgba(13, 71, 161, 0.3);
+    border-color: rgba(13, 71, 161, 0.5);
 }
 
-.btn-action.delete:hover {
-    background: rgba(255, 107, 107, 0.2);
-    color: #ff6b6b;
+.btn-action-text.delete {
+    background: rgba(244, 67, 54, 0.15);
+    border-color: rgba(244, 67, 54, 0.3);
+    color: #f44336;
+}
+
+.btn-action-text.delete:hover {
+    background: rgba(244, 67, 54, 0.25);
+    border-color: rgba(244, 67, 54, 0.5);
 }
 
 .form-description {
