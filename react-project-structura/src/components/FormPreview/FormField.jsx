@@ -456,9 +456,9 @@ export default function FormField({ field, error, isEditMode = false }) {
                                     {field.metadata?.columnConfigs?.map((config, idx) => {
                                         if (config.columnFunction === 'summary' && config.aggregationFn) {
                                             const aggregationValue = calculateAggregation(
+                                                config.aggregationFn,
                                                 tableData,
                                                 idx,
-                                                config.aggregationFn,
                                                 config.formula || ''
                                             );
                                             return (
@@ -546,7 +546,7 @@ export default function FormField({ field, error, isEditMode = false }) {
                                     e.target.style.boxShadow = 'none';
                                 }}
                             >
-                                📥 Download as PDF
+                                Download as PDF
                             </button>
                         </div>
                     </div>
