@@ -51,7 +51,6 @@
 .btn-theme {
     background: none;
     border: none;
-    font-size: 20px;
     cursor: pointer;
     padding: 6px 10px;
     border-radius: 6px;
@@ -59,6 +58,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--text, #e0e0e0);
 }
 
 .btn-theme:hover {
@@ -117,11 +117,7 @@
     font-size: 32px;
     font-weight: 700;
     margin: 0 0 8px 0;
-    color: var(--h1-color, #ffffff);
-    background: linear-gradient(135deg, #0D47A1, #1976d2 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #6366f1;
 }
 
 .welcome-content p {
@@ -470,11 +466,13 @@
 }
 
 .form-fields::before {
-    content: '📋 ';
+    content: '';
+    display: none;
 }
 
 .form-date::before {
-    content: '📅 ';
+    content: '';
+    display: none;
 }
 
 .btn-open {
@@ -508,6 +506,10 @@
 }
 
 [data-theme="light"] .logo {
+    color: #6366f1;
+}
+
+[data-theme="dark"] .h1 {
     color: #6366f1;
 }
 
