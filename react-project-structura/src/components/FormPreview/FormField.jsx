@@ -3,6 +3,7 @@
 import React from 'react';
 import { FIELD_TYPES } from '../../types/formTypes';
 import { evaluateFormula, calculateAggregation, isEditableColumn, formatNumber } from '../../utils/tableFormulas';
+import html2pdf from 'html2pdf.js';
 import './FormField.css';
 
 export default function FormField({ field, error, isEditMode = false }) {
@@ -119,6 +120,10 @@ export default function FormField({ field, error, isEditMode = false }) {
             const currentData = field.metadata?.tableData || Array.from({ length: rows }, () => Array.from({ length: columns }, () => ''));
             return Array.isArray(currentData) ? [...currentData] : Array.from({ length: rows }, () => Array.from({ length: columns }, () => ''));
         });
+
+        // State for generated summary/invoice
+        const [showSummary, setShowSummary] = React.useState(false);
+        const summaryRef = React.useRef(null);
         
         // Handle cell input changes
         const handleCellChange = (rIdx, cIdx, newValue) => {
@@ -129,6 +134,25 @@ export default function FormField({ field, error, isEditMode = false }) {
                 return row;
             });
             setTableData(updatedData);
+        };
+
+        // Generate invoice/summary with aggregation rows
+        const generateSummary = () => {
+            setShowSummary(true);
+        };
+
+        // Download summary as PDF
+        const downloadSummaryPDF = () => {
+            if (summaryRef.current) {
+                const options = {
+                    margin: 10,
+                    filename: `${field.label || 'Summary'}-${new Date().toISOString().split('T')[0]}.pdf`,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+                };
+                html2pdf().set(options).from(summaryRef.current).save();
+            }
         };
 
         return (
@@ -293,9 +317,7 @@ export default function FormField({ field, error, isEditMode = false }) {
                     }}>
                         <button
                             type="button"
-                            onClick={() => {
-                                console.log('Generate button clicked for field:', field.label);
-                            }}
+                            onClick={generateSummary}
                             style={{
                                 padding: '10px 24px',
                                 fontSize: '14px',
@@ -328,6 +350,205 @@ export default function FormField({ field, error, isEditMode = false }) {
                         >
                             {field.metadata?.buttonText || 'Generate Summary'}
                         </button>
+                    </div>
+                )}
+
+                {/* Generated Invoice/Summary */}
+                {showSummary && (
+                    <div style={{
+                        marginTop: '32px',
+                        padding: '32px',
+                        backgroundColor: '#ffffff',
+                        border: '1px solid #e0e0e0',
+                        borderRadius: '8px',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                    }} ref={summaryRef}>
+                        {/* Header */}
+                        <div style={{
+                            marginBottom: '32px',
+                            paddingBottom: '16px',
+                            borderBottom: '2px solid #0D47A1'
+                        }}>
+                            <h2 style={{
+                                fontSize: '28px',
+                                fontWeight: '700',
+                                color: '#0D47A1',
+                                margin: '0 0 8px 0'
+                            }}>Summary & Invoice</h2>
+                            <p style={{
+                                fontSize: '12px',
+                                color: '#666',
+                                margin: '0',
+                                letterSpacing: '0.5px'
+                            }}>Generated on {new Date().toLocaleDateString()} at {new Date().toLocaleTimeString()}</p>
+                        </div>
+
+                        {/* Summary Table */}
+                        <div style={{ marginBottom: '32px' }}>
+                            <h3 style={{
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                color: '#333',
+                                marginBottom: '16px',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.5px'
+                            }}>Data Summary</h3>
+                            <table style={{
+                                width: '100%',
+                                borderCollapse: 'collapse',
+                                marginBottom: '24px'
+                            }}>
+                                <thead>
+                                    <tr style={{ backgroundColor: '#f5f5f5' }}>
+                                        {headers.map((header, idx) => (
+                                            <th key={idx} style={{
+                                                padding: '12px 16px',
+                                                textAlign: 'left',
+                                                fontWeight: '600',
+                                                color: '#333',
+                                                borderBottom: '2px solid #0D47A1',
+                                                fontSize: '13px',
+                                                textTransform: 'uppercase',
+                                                letterSpacing: '0.3px'
+                                            }}>
+                                                {header}
+                                            </th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {tableData.map((row, rIdx) => (
+                                        <tr key={rIdx} style={{
+                                            backgroundColor: rIdx % 2 === 0 ? '#ffffff' : '#fafafa',
+                                            borderBottom: '1px solid #e0e0e0'
+                                        }}>
+                                            {row.map((cell, cIdx) => (
+                                                <td key={cIdx} style={{
+                                                    padding: '12px 16px',
+                                                    textAlign: 'left',
+                                                    color: '#666',
+                                                    fontSize: '13px'
+                                                }}>
+                                                    {cell || '-'}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+
+                            {/* Summary Rows */}
+                            {field.metadata?.columnConfigs?.some(cfg => cfg.columnFunction === 'summary') && (
+                                <div style={{
+                                    backgroundColor: '#f0f7ff',
+                                    borderLeft: '4px solid #0D47A1',
+                                    padding: '16px',
+                                    borderRadius: '4px',
+                                    marginTop: '16px'
+                                }}>
+                                    <h4 style={{
+                                        margin: '0 0 12px 0',
+                                        fontSize: '14px',
+                                        fontWeight: '600',
+                                        color: '#0D47A1'
+                                    }}>Calculations</h4>
+                                    {field.metadata?.columnConfigs?.map((config, idx) => {
+                                        if (config.columnFunction === 'summary' && config.aggregationFn) {
+                                            const aggregationValue = calculateAggregation(
+                                                tableData,
+                                                idx,
+                                                config.aggregationFn,
+                                                config.formula || ''
+                                            );
+                                            return (
+                                                <div key={idx} style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    paddingBottom: '8px',
+                                                    marginBottom: '8px',
+                                                    borderBottom: '1px solid #ddd'
+                                                }}>
+                                                    <span style={{ color: '#666', fontSize: '13px' }}>
+                                                        {headers[idx]} ({config.aggregationFn}):
+                                                    </span>
+                                                    <span style={{
+                                                        fontWeight: '600',
+                                                        color: '#0D47A1',
+                                                        fontSize: '13px'
+                                                    }}>
+                                                        {formatNumber(aggregationValue)}
+                                                    </span>
+                                                </div>
+                                            );
+                                        }
+                                        return null;
+                                    })}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Footer with Download Button */}
+                        <div style={{
+                            marginTop: '32px',
+                            paddingTop: '16px',
+                            borderTop: '1px solid #e0e0e0',
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            gap: '12px'
+                        }}>
+                            <button
+                                type="button"
+                                onClick={() => setShowSummary(false)}
+                                style={{
+                                    padding: '10px 20px',
+                                    fontSize: '13px',
+                                    fontWeight: '600',
+                                    backgroundColor: '#f5f5f5',
+                                    color: '#333',
+                                    border: '1px solid #ddd',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.backgroundColor = '#e8e8e8';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.backgroundColor = '#f5f5f5';
+                                }}
+                            >
+                                Close
+                            </button>
+                            <button
+                                type="button"
+                                onClick={downloadSummaryPDF}
+                                style={{
+                                    padding: '10px 24px',
+                                    fontSize: '13px',
+                                    fontWeight: '600',
+                                    backgroundColor: '#0D47A1',
+                                    color: '#ffffff',
+                                    border: 'none',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s ease',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px'
+                                }}
+                                onMouseEnter={(e) => {
+                                    e.target.style.backgroundColor = '#0a3380';
+                                    e.target.style.boxShadow = '0 4px 8px rgba(13, 71, 161, 0.3)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.target.style.backgroundColor = '#0D47A1';
+                                    e.target.style.boxShadow = 'none';
+                                }}
+                            >
+                                📥 Download as PDF
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
