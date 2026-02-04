@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useFormStore } from '../../stores/formStore';
+import { useTemplate } from '../../context/TemplateContext';
 import Canvas from './Canvas';
 import FieldPalette from './FieldPalette';
 import FieldConfigurator from './FieldConfigurator';
@@ -14,6 +15,7 @@ export default function FormBuilder({ onBackToDashboard }) {
     const form = useFormStore((state) => state.form);
     const selectedFieldId = useFormStore((state) => state.selectedFieldId);
     const loadForm = useFormStore((state) => state.loadForm);
+    const { setSelectedTemplate } = useTemplate();
     const [showPreview, setShowPreview] = useState(false);
     const [showFieldsPalette, setShowFieldsPalette] = useState(false);
     const [showConfigurator, setShowConfigurator] = useState(false);
@@ -23,6 +25,12 @@ export default function FormBuilder({ onBackToDashboard }) {
         const currentFormId = localStorage.getItem('currentFormId');
         const savedFormState = localStorage.getItem(`formState_${currentFormId}`);
         
+        // Load the template for this form
+        const formTemplate = localStorage.getItem(`formTemplate_${currentFormId}`);
+        if (formTemplate) {
+            setSelectedTemplate(formTemplate);
+        }
+        
         if (savedFormState) {
             try {
                 const formState = JSON.parse(savedFormState);
@@ -31,7 +39,7 @@ export default function FormBuilder({ onBackToDashboard }) {
                 console.error('Failed to load saved form state:', e);
             }
         }
-    }, [loadForm]);
+    }, [loadForm, setSelectedTemplate]);
 
     // Save form state to localStorage whenever it changes
     useEffect(() => {
