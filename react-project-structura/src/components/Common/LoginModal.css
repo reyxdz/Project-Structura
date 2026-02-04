@@ -209,7 +209,7 @@ html[data-theme="dark"] .field input::placeholder {
 }
 
 html[data-theme="light"] .field input::placeholder {
-  color: #cbd5e1 !important;
+  color: #94a3b8 !important;
 }
 
 .field input:focus {
@@ -392,6 +392,17 @@ html[data-theme="dark"] .login-actions button:last-child {
 html[data-theme="dark"] .login-actions button:last-child:hover {
   transform: translateY(-2px);
   box-shadow: 0 12px 32px rgba(99,102,241,0.3);
+}
+
+html[data-theme="light"] .login-actions button:last-child {
+  background: linear-gradient(135deg, #6366f1, #3b82f6) !important;
+  color: white !important;
+  box-shadow: 0 8px 24px rgba(99,102,241,0.3) !important;
+}
+
+html[data-theme="light"] .login-actions button:last-child:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 32px rgba(99,102,241,0.4) !important;
 }
 
 /* Light theme adjustments */
