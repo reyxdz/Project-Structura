@@ -31,7 +31,6 @@
     align-items: center;
     padding: 20px 40px;
     background: rgba(10, 23, 42, 0.6);
-    backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 4px 16px rgba(99, 102, 241, 0.1);
     gap: 20px;
@@ -214,7 +213,6 @@
     border-radius: 16px;
     padding: 28px;
     transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
-    backdrop-filter: blur(10px);
 }
 
 .create-new {
@@ -468,7 +466,6 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    backdrop-filter: blur(10px);
 }
 
 .form-card:hover {

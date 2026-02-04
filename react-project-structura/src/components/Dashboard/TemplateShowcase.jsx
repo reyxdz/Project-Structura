@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import './TemplateShowcase.css';
 
 const TEMPLATES_WITH_PREVIEWS = [
@@ -235,9 +236,9 @@ export default function TemplateShowcase({ onSelectTemplate, isCreating, onCreat
             </div>
 
             {/* Create Form Modal */}
-            {showCreateForm && (
+            {showCreateForm && createPortal(
                 <>
-                    <div className="modal-overlay" onClick={() => setShowCreateForm(false)} />
+                    <div className="template-modal-overlay" onClick={() => setShowCreateForm(false)} />
                     <div className="create-form-modal-showcase">
                         <div className="modal-header">
                             <h3>Create New Form with {TEMPLATES_WITH_PREVIEWS.find(t => t.id === selectedTemplate)?.name} Theme</h3>
@@ -302,7 +303,8 @@ export default function TemplateShowcase({ onSelectTemplate, isCreating, onCreat
                             </button>
                         </div>
                     </div>
-                </>
+                </>,
+                document.body
             )}
         </div>
     );
