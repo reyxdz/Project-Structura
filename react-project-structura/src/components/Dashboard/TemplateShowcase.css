@@ -33,11 +33,43 @@ html[data-theme="dark"] .showcase-header p {
 }
 
 .templates-grid-showcase {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    display: flex;
     gap: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    scroll-behavior: smooth;
+}
+
+/* Scrollbar styling */
+.templates-grid-showcase::-webkit-scrollbar {
+    height: 8px;
+}
+
+.templates-grid-showcase::-webkit-scrollbar-track {
+    background: var(--bg-secondary, #f1f5f9);
+    border-radius: 4px;
+}
+
+html[data-theme="dark"] .templates-grid-showcase::-webkit-scrollbar-track {
+    background: var(--bg-secondary, #1e293b);
+}
+
+.templates-grid-showcase::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.templates-grid-showcase::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+html[data-theme="dark"] .templates-grid-showcase::-webkit-scrollbar-thumb {
+    background: #475569;
+}
+
+html[data-theme="dark"] .templates-grid-showcase::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
 }
 
 .template-showcase-card {
@@ -49,6 +81,8 @@ html[data-theme="dark"] .showcase-header p {
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
     cursor: pointer;
+    flex-shrink: 0;
+    width: 280px;
 }
 
 html[data-theme="dark"] .template-showcase-card {
@@ -433,7 +467,6 @@ html[data-theme="dark"] .btn-cancel-modal:hover {
     }
 
     .templates-grid-showcase {
-        grid-template-columns: 1fr;
         gap: 1.5rem;
     }
 
