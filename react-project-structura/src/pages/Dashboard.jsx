@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
+import TemplateShowcase from '../components/Dashboard/TemplateShowcase';
 import './Dashboard.css';
 
 function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
     const [forms, setForms] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
-    const [showCreateForm, setShowCreateForm] = useState(false);
-    const [newFormName, setNewFormName] = useState('');
-    const [newFormDesc, setNewFormDesc] = useState('');
     const [isCreating, setIsCreating] = useState(false);
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
@@ -36,45 +34,6 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
             setError(err.message || 'Failed to load forms');
         } finally {
             setIsLoading(false);
-        }
-    }
-
-    async function handleCreateForm() {
-        if (!newFormName.trim()) {
-            setError('Form name is required');
-            return;
-        }
-
-        try {
-            setIsCreating(true);
-            const token = localStorage.getItem('token');
-            const response = await fetch(`${API_URL}/api/forms`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    title: newFormName,
-                    description: newFormDesc,
-                    fields: [],
-                }),
-            });
-
-            if (!response.ok) throw new Error('Failed to create form');
-            const data = await response.json();
-            
-            // Navigate to builder with the new form
-            localStorage.setItem('currentFormId', data.form._id);
-            onOpenBuilder();
-            
-            setNewFormName('');
-            setNewFormDesc('');
-            setShowCreateForm(false);
-        } catch (err) {
-            setError(err.message || 'Failed to create form');
-        } finally {
-            setIsCreating(false);
         }
     }
 
@@ -181,62 +140,12 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                     </div>
                 )}
 
-                {/* Create New Form Card */}
+                {/* Create New Form Card - Replaced with Template Showcase */}
                 <section className="create-form-section">
-                    {!showCreateForm ? (
-                        <div 
-                            className="create-form-card create-new"
-                            onClick={() => setShowCreateForm(true)}
-                        >
-                            <div className="create-icon">+</div>
-                            <div className="create-text">
-                                <h3>Create New Form</h3>
-                                <p>Start building a new form from scratch</p>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="create-form-card create-form-modal">
-                            <h3>Create New Form</h3>
-                            <div className="form-group">
-                                <label>Form Name *</label>
-                                <input
-                                    type="text"
-                                    placeholder="Enter form name"
-                                    value={newFormName}
-                                    onChange={(e) => setNewFormName(e.target.value)}
-                                    autoFocus
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label>Description</label>
-                                <textarea
-                                    placeholder="Enter form description (optional)"
-                                    value={newFormDesc}
-                                    onChange={(e) => setNewFormDesc(e.target.value)}
-                                    rows={3}
-                                />
-                            </div>
-                            <div className="form-actions">
-                                <button 
-                                    className="btn-cancel"
-                                    onClick={() => {
-                                        setShowCreateForm(false);
-                                        setNewFormName('');
-                                        setNewFormDesc('');
-                                    }}
-                                >
-                                    Cancel
-                                </button>
-                                <button 
-                                    className="btn-create"
-                                    onClick={handleCreateForm}
-                                    disabled={isCreating}
-                                >
-                                    {isCreating ? 'Creating...' : 'Create Form'}
-                                </button>
-                            </div>
-                        </div>
-                    )}
+                    <TemplateShowcase 
+                        onSelectTemplate={handleOpenBuilder}
+                        isCreating={isCreating}
+                    />
                 </section>
 
                 {/* Recent Forms */}
