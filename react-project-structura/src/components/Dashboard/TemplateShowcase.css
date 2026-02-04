@@ -34,9 +34,11 @@ html[data-theme="dark"] .showcase-header p {
 
 .templates-grid-showcase {
     display: flex;
+    flex-direction: row;
     gap: 2rem;
     overflow-x: auto;
-    padding-bottom: 1rem;
+    overflow-y: hidden;
+    padding: 1rem 0;
     scroll-behavior: smooth;
 }
 
