@@ -1,0 +1,145 @@
+.template-selector {
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(59,130,246,0.03));
+    border-radius: 12px;
+    border: 1px solid rgba(99,102,241,0.1);
+    margin-bottom: 24px;
+}
+
+.template-selector-header {
+    margin-bottom: 20px;
+}
+
+.template-selector-header h3 {
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--h1-color, #ffffff);
+}
+
+.template-selector-header p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted, #a0a0a0);
+}
+
+.template-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+}
+
+.template-card {
+    position: relative;
+    background: rgba(255,255,255,0.05);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.template-card:hover {
+    border-color: rgba(99,102,241,0.3);
+    background: rgba(99,102,241,0.1);
+    transform: translateY(-2px);
+}
+
+.template-card.active {
+    border-color: #6366f1;
+    background: rgba(99,102,241,0.15);
+    box-shadow: 0 4px 12px rgba(99,102,241,0.2);
+}
+
+.template-preview {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted, #a0a0a0);
+    border-bottom: 1px solid rgba(99,102,241,0.1);
+}
+
+.template-preview[data-template="default"] {
+    background: linear-gradient(135deg, #0f172a, #1a2441);
+    color: #ffffff;
+}
+
+.template-preview[data-template="deep-executive"] {
+    background: linear-gradient(135deg, #0F172A, #1E293B);
+    color: #6366F1;
+}
+
+.template-preview[data-template="nordic"] {
+    background: #F3F4F6;
+    color: #065F46;
+}
+
+.template-preview[data-template="cyber-punch"] {
+    background: linear-gradient(135deg, #000000, #1a1a1a);
+    color: #BEF264;
+}
+
+.template-preview[data-template="botanical"] {
+    background: linear-gradient(135deg, #FDFBF7, #F5F3F0);
+    color: #9D4B39;
+}
+
+.template-preview[data-template="glassmorphism"] {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3));
+    color: #ffffff;
+}
+
+.template-preview[data-template="retro-paper"] {
+    background: linear-gradient(135deg, #F4F1EA, #FAF9F6);
+    color: #2563EB;
+}
+
+.template-info {
+    padding: 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.template-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--h1-color, #ffffff);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.template-info p {
+    margin: 0;
+    font-size: 11px;
+    color: var(--muted, #a0a0a0);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.template-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: #6366f1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}

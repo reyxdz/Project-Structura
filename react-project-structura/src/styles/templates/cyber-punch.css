@@ -1,0 +1,82 @@
+/* Cyber-Punch Template - High Energy, Edgy, Neon */
+
+.form-template-cyber-punch {
+    --form-bg: #000000;
+    --form-input-bg: transparent;
+    --form-input-border: 2px solid #BEF264;
+    --form-input-text: #FFFFFF;
+    --form-label: #BEF264;
+    --form-placeholder: #A3E635;
+    --form-primary-btn: #F472B6;
+    --form-primary-btn-hover: #EC4899;
+    --form-secondary-btn: #BEF264;
+}
+
+.form-template-cyber-punch {
+    background: var(--form-bg);
+    padding: 40px;
+}
+
+.form-template-cyber-punch .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.form-template-cyber-punch .form-field-label {
+    color: var(--form-label);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-template-cyber-punch input,
+.form-template-cyber-punch textarea,
+.form-template-cyber-punch select {
+    background: var(--form-input-bg);
+    color: var(--form-input-text);
+    border: none;
+    border-bottom: 2px solid #BEF264;
+    border-radius: 0;
+    padding: 12px 0;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-template-cyber-punch input::placeholder,
+.form-template-cyber-punch textarea::placeholder {
+    color: var(--form-placeholder);
+}
+
+.form-template-cyber-punch input:focus,
+.form-template-cyber-punch textarea:focus,
+.form-template-cyber-punch select:focus {
+    outline: none;
+    border-bottom-color: #F472B6;
+    box-shadow: 0 2px 20px rgba(244, 114, 182, 0.4);
+}
+
+.form-template-cyber-punch button[type="submit"],
+.form-template-cyber-punch .form-submit-btn {
+    background: var(--form-primary-btn);
+    color: #000000;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 0;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 0 30px rgba(244, 114, 182, 0.5);
+}
+
+.form-template-cyber-punch button[type="submit"]:hover,
+.form-template-cyber-punch .form-submit-btn:hover {
+    background: var(--form-primary-btn-hover);
+    transform: scale(1.05);
+    box-shadow: 0 0 40px rgba(244, 114, 182, 0.7);
+}

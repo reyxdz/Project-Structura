@@ -1,0 +1,81 @@
+/* Deep Executive Template - Dark Mode, Premium & Sophisticated */
+
+.form-template-deep-executive {
+    --form-bg: #0F172A;
+    --form-input-bg: #1E293B;
+    --form-input-border: #475569;
+    --form-input-text: #F8FAFC;
+    --form-label: #F8FAFC;
+    --form-placeholder: #94A3B8;
+    --form-primary-btn: #6366F1;
+    --form-primary-btn-hover: #4F46E5;
+    --form-secondary-btn: #334155;
+    --form-border: 1px solid #334155;
+    --form-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+}
+
+.form-template-deep-executive {
+    background: var(--form-bg);
+}
+
+.form-template-deep-executive .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.form-template-deep-executive .form-field-label {
+    color: var(--form-label);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-template-deep-executive input,
+.form-template-deep-executive textarea,
+.form-template-deep-executive select {
+    background: var(--form-input-bg);
+    color: var(--form-input-text);
+    border: var(--form-border);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 14px;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+
+.form-template-deep-executive input::placeholder,
+.form-template-deep-executive textarea::placeholder {
+    color: var(--form-placeholder);
+}
+
+.form-template-deep-executive input:focus,
+.form-template-deep-executive textarea:focus,
+.form-template-deep-executive select:focus {
+    outline: none;
+    border-color: var(--form-primary-btn);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-template-deep-executive button[type="submit"],
+.form-template-deep-executive .form-submit-btn {
+    background: linear-gradient(135deg, #6366F1, #3B82F6);
+    color: white;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: var(--form-shadow);
+}
+
+.form-template-deep-executive button[type="submit"]:hover,
+.form-template-deep-executive .form-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.25);
+}

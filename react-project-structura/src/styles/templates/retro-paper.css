@@ -1,0 +1,86 @@
+/* Retro Paper Template - Nostalgic, Tactile, Intellectual */
+
+.form-template-retro-paper {
+    --form-bg: #F4F1EA;
+    --form-input-bg: #FAF9F6;
+    --form-input-border: 1px solid #D4CEC3;
+    --form-input-text: #2D2D2D;
+    --form-label: #2D2D2D;
+    --form-placeholder: #8B8680;
+    --form-primary-btn: #2563EB;
+    --form-primary-btn-hover: #1D4ED8;
+    --form-secondary-btn: #D4CEC3;
+}
+
+.form-template-retro-paper {
+    background: var(--form-bg);
+    padding: 40px;
+    font-family: 'Georgia', serif;
+}
+
+.form-template-retro-paper .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.form-template-retro-paper .form-field-label {
+    color: var(--form-label);
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: capitalize;
+    letter-spacing: 0px;
+    font-family: 'Georgia', serif;
+}
+
+.form-template-retro-paper input,
+.form-template-retro-paper textarea,
+.form-template-retro-paper select {
+    background: var(--form-input-bg);
+    color: var(--form-input-text);
+    border: var(--form-input-border);
+    border-radius: 2px;
+    padding: 10px 12px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    font-family: 'Georgia', serif;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.form-template-retro-paper input::placeholder,
+.form-template-retro-paper textarea::placeholder {
+    color: var(--form-placeholder);
+}
+
+.form-template-retro-paper input:focus,
+.form-template-retro-paper textarea:focus,
+.form-template-retro-paper select:focus {
+    outline: none;
+    border-color: var(--form-primary-btn);
+    box-shadow: inset 0 2px 4px rgba(37, 99, 235, 0.1);
+}
+
+.form-template-retro-paper button[type="submit"],
+.form-template-retro-paper .form-submit-btn {
+    background: var(--form-primary-btn);
+    color: #FFFFFF;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 2px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: 'Georgia', serif;
+    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+}
+
+.form-template-retro-paper button[type="submit"]:hover,
+.form-template-retro-paper .form-submit-btn:hover {
+    background: var(--form-primary-btn-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}

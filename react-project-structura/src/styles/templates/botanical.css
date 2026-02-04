@@ -1,0 +1,82 @@
+/* Earthy Botanical Template - Organic, Calming, Trustworthy */
+
+.form-template-botanical {
+    --form-bg: #FDFBF7;
+    --form-input-bg: #F5F3F0;
+    --form-input-border: 2px solid #9D6E5D;
+    --form-input-text: #363E33;
+    --form-label: #363E33;
+    --form-placeholder: #8B7765;
+    --form-primary-btn: #9D4B39;
+    --form-primary-btn-hover: #7D3A28;
+    --form-secondary-btn: #D1D5DB;
+}
+
+.form-template-botanical {
+    background: var(--form-bg);
+    padding: 40px;
+}
+
+.form-template-botanical .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.form-template-botanical .form-field-label {
+    color: var(--form-label);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: capitalize;
+    letter-spacing: 0px;
+}
+
+.form-template-botanical input,
+.form-template-botanical textarea,
+.form-template-botanical select {
+    background: var(--form-input-bg);
+    color: var(--form-input-text);
+    border: var(--form-input-border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.form-template-botanical input::placeholder,
+.form-template-botanical textarea::placeholder {
+    color: var(--form-placeholder);
+}
+
+.form-template-botanical input:focus,
+.form-template-botanical textarea:focus,
+.form-template-botanical select:focus {
+    outline: none;
+    border-color: var(--form-primary-btn);
+    background: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(157, 75, 57, 0.1);
+}
+
+.form-template-botanical button[type="submit"],
+.form-template-botanical .form-submit-btn {
+    background: var(--form-primary-btn);
+    color: #FFFFFF;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(157, 75, 57, 0.15);
+}
+
+.form-template-botanical button[type="submit"]:hover,
+.form-template-botanical .form-submit-btn:hover {
+    background: var(--form-primary-btn-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(157, 75, 57, 0.25);
+}

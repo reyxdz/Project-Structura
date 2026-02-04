@@ -4,6 +4,7 @@ import LoadingScreen from './components/LoadingScreen';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import LoginModal from './components/Common/LoginModal';
+import { TemplateProvider } from './context/TemplateContext';
 import './App.css';
 
 function App() {
@@ -75,36 +76,38 @@ function App() {
     }
 
     return (
-        <div className="app">
-            {currentPage === 'landing' && (
-                <Landing
-                    onEnter={handleRequestOpen}
-                    theme={theme}
-                    toggleTheme={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
-                />
-            )}
-            
-            {currentPage === 'dashboard' && authUser && (
-                <Dashboard
-                    authUser={authUser}
-                    onOpenBuilder={handleOpenBuilder}
-                    onLogout={handleLogout}
-                    theme={theme}
-                    toggleTheme={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
-                />
-            )}
-            
-            {currentPage === 'builder' && (
-                <FormBuilder onBackToDashboard={handleBackToDashboard} />
-            )}
+        <TemplateProvider>
+            <div className="app">
+                {currentPage === 'landing' && (
+                    <Landing
+                        onEnter={handleRequestOpen}
+                        theme={theme}
+                        toggleTheme={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
+                    />
+                )}
+                
+                {currentPage === 'dashboard' && authUser && (
+                    <Dashboard
+                        authUser={authUser}
+                        onOpenBuilder={handleOpenBuilder}
+                        onLogout={handleLogout}
+                        theme={theme}
+                        toggleTheme={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
+                    />
+                )}
+                
+                {currentPage === 'builder' && (
+                    <FormBuilder onBackToDashboard={handleBackToDashboard} />
+                )}
 
-            <LoginModal
-                isOpen={showLogin}
-                onClose={() => setShowLogin(false)}
-                onLogin={handleLogin}
-                authUser={authUser}
-            />
-        </div>
+                <LoginModal
+                    isOpen={showLogin}
+                    onClose={() => setShowLogin(false)}
+                    onLogin={handleLogin}
+                    authUser={authUser}
+                />
+            </div>
+        </TemplateProvider>
     );
 }
 

@@ -1,0 +1,85 @@
+/* Nordic Minimalist Template - Clean, Professional, High Contrast */
+
+.form-template-nordic {
+    --form-bg: #FFFFFF;
+    --form-input-bg: #F3F4F6;
+    --form-input-border: #E5E7EB;
+    --form-input-text: #111827;
+    --form-label: #111827;
+    --form-placeholder: #9CA3AF;
+    --form-primary-btn: #065F46;
+    --form-primary-btn-hover: #047857;
+    --form-secondary-btn: #D1D5DB;
+    --form-border: 1px solid #E5E7EB;
+    --form-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-template-nordic {
+    background: var(--form-bg);
+    padding: 40px;
+    border-radius: 0;
+}
+
+.form-template-nordic .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.form-template-nordic .form-field-label {
+    color: var(--form-label);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0px;
+}
+
+.form-template-nordic input,
+.form-template-nordic textarea,
+.form-template-nordic select {
+    background: var(--form-input-bg);
+    color: var(--form-input-text);
+    border: var(--form-border);
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: var(--form-shadow);
+}
+
+.form-template-nordic input::placeholder,
+.form-template-nordic textarea::placeholder {
+    color: var(--form-placeholder);
+}
+
+.form-template-nordic input:focus,
+.form-template-nordic textarea:focus,
+.form-template-nordic select:focus {
+    outline: none;
+    background: #FFFFFF;
+    border-color: var(--form-primary-btn);
+    box-shadow: 0 2px 6px rgba(6, 95, 70, 0.1);
+}
+
+.form-template-nordic button[type="submit"],
+.form-template-nordic .form-submit-btn {
+    background: var(--form-primary-btn);
+    color: white;
+    padding: 12px 32px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: var(--form-shadow);
+}
+
+.form-template-nordic button[type="submit"]:hover,
+.form-template-nordic .form-submit-btn:hover {
+    background: var(--form-primary-btn-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(6, 95, 70, 0.15);
+}

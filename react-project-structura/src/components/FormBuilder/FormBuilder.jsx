@@ -2,10 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { useFormStore } from '../../stores/formStore';
+import { useTemplate } from '../../context/TemplateContext';
 import Canvas from './Canvas';
 import FieldPalette from './FieldPalette';
 import FieldConfigurator from './FieldConfigurator';
 import FormPreview from '../FormPreview/FormPreview';
+import TemplateSelector from '../../components/Common/TemplateSelector';
 import psLogo from '../../images/logo_v3.png';
 import './FormBuilder.css';
 
@@ -121,6 +123,12 @@ export default function FormBuilder({ onBackToDashboard }) {
                         <Canvas />
                     )}
                 </main>
+
+                {showPreview && (
+                    <aside className="form-builder-sidebar right-sidebar">
+                        <TemplateSelector />
+                    </aside>
+                )}
 
                 {!showPreview && (
                     <>
