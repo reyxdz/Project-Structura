@@ -726,6 +726,18 @@
     color: #4b5563 !important;
 }
 
+[data-theme="light"] .btn-action-text {
+    background: rgba(99,102,241,0.12) !important;
+    border: 1px solid rgba(99,102,241,0.25) !important;
+    color: #6366f1 !important;
+}
+
+[data-theme="light"] .btn-action-text:hover {
+    background: rgba(99,102,241,0.2) !important;
+    border-color: rgba(99,102,241,0.35) !important;
+    color: #4f46e5 !important;
+}
+
 /* ==================== Responsive ==================== */
 @media (max-width: 768px) {
     .dashboard-header {
