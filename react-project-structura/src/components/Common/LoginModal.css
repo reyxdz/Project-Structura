@@ -11,7 +11,7 @@
 }
 
 html[data-theme="light"] .modal-overlay {
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(15, 23, 42, 0.3) !important;
 }
 
 /* Dark mode (default) */
@@ -33,10 +33,10 @@ html[data-theme="dark"] .login-modal {
 }
 
 html[data-theme="light"] .login-modal {
-  background: linear-gradient(135deg, rgba(248,250,252,0.95), rgba(241,245,249,0.95));
-  border: 1px solid rgba(99,102,241,0.15);
-  box-shadow: 0 20px 64px rgba(99,102,241,0.1);
-  color: #475569;
+  background: linear-gradient(135deg, rgba(248,250,252,0.95), rgba(241,245,249,0.95)) !important;
+  border: 1px solid rgba(99,102,241,0.15) !important;
+  box-shadow: 0 20px 64px rgba(99,102,241,0.1) !important;
+  color: #475569 !important;
 }
 
 
@@ -55,8 +55,8 @@ html[data-theme="dark"] .login-header {
 }
 
 html[data-theme="light"] .login-header {
-  background: rgba(99,102,241,0.04);
-  border-bottom-color: rgba(99,102,241,0.12);
+  background: rgba(99,102,241,0.04) !important;
+  border-bottom-color: rgba(99,102,241,0.12) !important;
 }
 
 .login-brand{
@@ -113,9 +113,9 @@ html[data-theme="dark"] .login-header .close:hover {
 }
 
 html[data-theme="light"] .login-header .close {
-  background: rgba(0,0,0,0.04);
-  border-color: rgba(99,102,241,0.15);
-  color: #475569;
+  background: rgba(0,0,0,0.04) !important;
+  border-color: rgba(99,102,241,0.15) !important;
+  color: #475569 !important;
 }
 
 html[data-theme="light"] .login-header .close:hover {
@@ -174,7 +174,7 @@ html[data-theme="dark"] .field .label {
 }
 
 html[data-theme="light"] .field .label {
-  color: #64748b;
+  color: #64748b !important;
 }
 
 .field input{
@@ -195,9 +195,9 @@ html[data-theme="dark"] .field input {
 }
 
 html[data-theme="light"] .field input {
-  border-color: rgba(99,102,241,0.25);
-  background: #ffffff;
-  color: #1e293b;
+  border-color: rgba(99,102,241,0.25) !important;
+  background: #ffffff !important;
+  color: #1e293b !important;
 }
 
 .field input::placeholder {
@@ -209,7 +209,7 @@ html[data-theme="dark"] .field input::placeholder {
 }
 
 html[data-theme="light"] .field input::placeholder {
-  color: #cbd5e1;
+  color: #cbd5e1 !important;
 }
 
 .field input:focus {
@@ -226,9 +226,9 @@ html[data-theme="dark"] .field input:focus {
 }
 
 html[data-theme="light"] .field input:focus {
-  border-color: #6366f1;
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(99,102,241,0.12);
+  border-color: #6366f1 !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 4px rgba(99,102,241,0.12) !important;
 }
 .login-error{
   color:#ef4444;
@@ -246,9 +246,9 @@ html[data-theme="dark"] .login-error {
 }
 
 html[data-theme="light"] .login-error {
-  color: #d32f2f;
-  background: rgba(239,68,68,0.08);
-  border-left-color: #ef4444;
+  color: #d32f2f !important;
+  background: rgba(239,68,68,0.08) !important;
+  border-left-color: #ef4444 !important;
 }
 
 .login-actions{
@@ -274,7 +274,7 @@ html[data-theme="dark"] .signup-link {
 }
 
 html[data-theme="light"] .signup-link {
-  color: #64748b;
+  color: #64748b !important;
 }
 
 .signup-link .link-btn{
@@ -300,11 +300,11 @@ html[data-theme="dark"] .signup-link .link-btn:hover {
 }
 
 html[data-theme="light"] .signup-link .link-btn {
-  color: #6366f1;
+  color: #6366f1 !important;
 }
 
 html[data-theme="light"] .signup-link .link-btn:hover {
-  color: #4f46e5;
+  color: #4f46e5 !important;
 }
 
 .link-btn{
@@ -329,11 +329,11 @@ html[data-theme="dark"] .link-btn:hover {
 }
 
 html[data-theme="light"] .link-btn {
-  color: #6366f1;
+  color: #6366f1 !important;
 }
 
 html[data-theme="light"] .link-btn:hover {
-  color: #4f46e5;
+  color: #4f46e5 !important;
 }
 
 /* Button styles for login/signup */
