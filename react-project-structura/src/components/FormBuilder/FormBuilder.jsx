@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useFormStore } from '../../stores/formStore';
-import { useTemplate } from '../../context/TemplateContext';
 import Canvas from './Canvas';
 import FieldPalette from './FieldPalette';
 import FieldConfigurator from './FieldConfigurator';

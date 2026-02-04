@@ -56,6 +56,40 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
         }
     }
 
+    async function handleCreateFormWithTemplate(formData) {
+        try {
+            setIsCreating(true);
+            const token = localStorage.getItem('token');
+            
+            const response = await fetch(`${API_URL}/api/forms`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: formData.name,
+                    description: formData.description,
+                    fields: [],
+                }),
+            });
+
+            if (!response.ok) throw new Error('Failed to create form');
+            const data = await response.json();
+            
+            // Save selected template for this form
+            localStorage.setItem(`formTemplate_${data.form._id}`, formData.template);
+            localStorage.setItem('currentFormId', data.form._id);
+            localStorage.setItem('selectedTemplate', formData.template);
+            
+            onOpenBuilder();
+        } catch (err) {
+            setError(err.message || 'Failed to create form');
+        } finally {
+            setIsCreating(false);
+        }
+    }
+
     function handleOpenForm(formId) {
         localStorage.setItem('currentFormId', formId);
         onOpenBuilder();
@@ -143,8 +177,9 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                 {/* Create New Form Card - Replaced with Template Showcase */}
                 <section className="create-form-section">
                     <TemplateShowcase 
-                        onSelectTemplate={handleOpenBuilder}
+                        onSelectTemplate={onOpenBuilder}
                         isCreating={isCreating}
+                        onCreateForm={handleCreateFormWithTemplate}
                     />
                 </section>
 

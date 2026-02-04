@@ -103,7 +103,7 @@ const TEMPLATES_WITH_PREVIEWS = [
     }
 ];
 
-export default function TemplateShowcase({ onSelectTemplate, isCreating }) {
+export default function TemplateShowcase({ onSelectTemplate, isCreating, onCreateForm }) {
     const [hoveredTemplate, setHoveredTemplate] = useState(null);
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [selectedTemplate, setSelectedTemplate] = useState('default');
@@ -116,42 +116,24 @@ export default function TemplateShowcase({ onSelectTemplate, isCreating }) {
         setShowCreateForm(true);
     };
 
-    const handleCreateForm = async () => {
+    const handleCreateForm = () => {
         if (!newFormName.trim()) {
             setError('Form name is required');
             return;
         }
 
-        try {
-            const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
-            const token = localStorage.getItem('token');
-            
-            const response = await fetch(`${API_URL}/api/forms`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    title: newFormName,
-                    description: newFormDesc,
-                    fields: [],
-                }),
-            });
+        // Pass to parent component to handle creation
+        onCreateForm({
+            name: newFormName,
+            description: newFormDesc,
+            template: selectedTemplate
+        });
 
-            if (!response.ok) throw new Error('Failed to create form');
-            const data = await response.json();
-            
-            // Save selected template for this form
-            localStorage.setItem(`formTemplate_${data.form._id}`, selectedTemplate);
-            localStorage.setItem('currentFormId', data.form._id);
-            localStorage.setItem('selectedTemplate', selectedTemplate);
-            
-            onSelectTemplate();
-            
-        } catch (err) {
-            setError(err.message || 'Failed to create form');
-        }
+        // Reset form
+        setNewFormName('');
+        setNewFormDesc('');
+        setShowCreateForm(false);
+        setError('');
     };
 
     return (
