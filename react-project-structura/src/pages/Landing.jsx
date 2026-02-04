@@ -5,7 +5,7 @@ export default function Landing({ onEnter, theme, toggleTheme }) {
   return (
     <div className="landing-root">
       <header className="landing-header">
-        <div className="brand">Project Structura</div>
+        <div className="brand">PROJECT STRUCTURA</div>
         <nav>
           <button className="btn-ghost" onClick={onEnter}>Open Builder</button>
           <button
@@ -88,8 +88,7 @@ export default function Landing({ onEnter, theme, toggleTheme }) {
       </section>
 
       <footer className="landing-footer">
-        <div>© {new Date().getFullYear()} Project Structura</div>
-        <div className="footer-links"><a href="#">Docs</a> · <a href="#">GitHub</a></div>
+        <div>© {new Date().getFullYear()} Rey Denzo | PROJECT STRUCTURA</div>
       </footer>
     </div>
   );

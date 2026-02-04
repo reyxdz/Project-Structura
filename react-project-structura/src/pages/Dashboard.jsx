@@ -116,7 +116,7 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
             {/* Header */}
             <header className="dashboard-header">
                 <div className="header-left">
-                    <h1 className="logo">Structura</h1>
+                    <h1 className="logo">PROJECT STRUCTURA</h1>
                     <span className="subtitle">Form Builder</span>
                 </div>
                 <div className="header-right">
