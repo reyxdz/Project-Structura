@@ -283,9 +283,11 @@ html[data-theme="dark"] .create-form-modal-showcase {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: var(--bg-primary, #ffffff);
 }
 
 html[data-theme="dark"] .modal-header {
+    background: var(--bg-primary, #0f172a);
     border-bottom-color: var(--border-color, #334155);
 }
 
@@ -345,6 +347,11 @@ html[data-theme="dark"] .modal-error {
 
 .modal-body {
     padding: 1.5rem;
+    background: var(--bg-primary, #ffffff);
+}
+
+html[data-theme="dark"] .modal-body {
+    background: var(--bg-primary, #0f172a);
 }
 
 .form-group {
@@ -406,9 +413,11 @@ html[data-theme="dark"] .form-group textarea {
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
+    background: var(--bg-primary, #ffffff);
 }
 
 html[data-theme="dark"] .modal-footer {
+    background: var(--bg-primary, #0f172a);
     border-top-color: var(--border-color, #334155);
 }
 
