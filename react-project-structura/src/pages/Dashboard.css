@@ -611,7 +611,7 @@
 
 [data-theme="light"] .subtitle,
 [data-theme="light"] .user-email {
-    color: #6b7280;
+    color: #4b5563 !important;
 }
 
 [data-theme="light"] .dashboard-main {
@@ -623,7 +623,7 @@
 }
 
 [data-theme="light"] .welcome-content p {
-    color: #6b7280;
+    color: #4b5563 !important;
 }
 
 [data-theme="light"] .create-form-card,
@@ -646,7 +646,7 @@
 [data-theme="light"] .form-description,
 [data-theme="light"] .section-header h3,
 [data-theme="light"] .form-meta {
-    color: #6b7280;
+    color: #4b5563 !important;
 }
 
 [data-theme="light"] .form-group label {
@@ -655,9 +655,14 @@
 
 [data-theme="light"] .form-group input,
 [data-theme="light"] .form-group textarea {
-    border-color: rgba(99,102,241,0.15);
-    background: rgba(99,102,241,0.03);
-    color: #1f2937;
+    border-color: rgba(99,102,241,0.15) !important;
+    background: #ffffff !important;
+    color: #1f2937 !important;
+}
+
+[data-theme="light"] .form-group input::placeholder,
+[data-theme="light"] .form-group textarea::placeholder {
+    color: #94a3b8 !important;
 }
 
 [data-theme="light"] .form-group input:focus,
@@ -689,7 +694,7 @@
 
 [data-theme="light"] .empty-state p,
 [data-theme="light"] .empty-state {
-    color: #6b7280;
+    color: #4b5563 !important;
 }
 
 [data-theme="light"] .form-card:hover {
