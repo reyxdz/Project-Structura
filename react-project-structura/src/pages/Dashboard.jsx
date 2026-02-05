@@ -151,6 +151,33 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
 
             {/* Main Content */}
             <main className="dashboard-main">
+                {/* Stats Section */}
+                <section className="stats-section">
+                    <div className="stats-grid">
+                        <div className="stat-card">
+                            <div className="stat-icon">📋</div>
+                            <div className="stat-content">
+                                <h4 className="stat-label">Active Forms</h4>
+                                <p className="stat-value">{forms.filter(f => f.status === 'published').length}</p>
+                            </div>
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-icon">📝</div>
+                            <div className="stat-content">
+                                <h4 className="stat-label">Inactive Forms</h4>
+                                <p className="stat-value">{forms.filter(f => !f.status || f.status === 'draft').length}</p>
+                            </div>
+                        </div>
+                        <div className="stat-card">
+                            <div className="stat-icon">📊</div>
+                            <div className="stat-content">
+                                <h4 className="stat-label">Total Responses</h4>
+                                <p className="stat-value">{forms.reduce((sum, f) => sum + (f.responseCount || 0), 0)}</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* Error Message */}
                 {error && (
                     <div className="error-banner">
