@@ -218,7 +218,7 @@ app.delete('/api/forms/:id', verifyToken, async (req, res) => {
  * Publish a form and generate a public sharing link
  * Requires authentication
  */
-app.post('/api/forms/:formId/publish', authenticateToken, async (req, res) => {
+app.post('/api/forms/:formId/publish', verifyToken, async (req, res) => {
   try {
     const { formId } = req.params;
 
@@ -279,7 +279,7 @@ app.post('/api/forms/:formId/publish', authenticateToken, async (req, res) => {
  * Unpublish a form and revoke sharing link
  * Requires authentication
  */
-app.post('/api/forms/:formId/unpublish', authenticateToken, async (req, res) => {
+app.post('/api/forms/:formId/unpublish', verifyToken, async (req, res) => {
   try {
     const { formId } = req.params;
 
@@ -418,7 +418,7 @@ app.post('/api/forms/public/:publicToken/submit', async (req, res) => {
  * Get all responses for a specific form
  * Requires authentication and form ownership
  */
-app.get('/api/forms/:formId/responses', authenticateToken, async (req, res) => {
+app.get('/api/forms/:formId/responses', verifyToken, async (req, res) => {
   try {
     const { formId } = req.params;
     const { limit = 50, skip = 0 } = req.query;
@@ -466,7 +466,7 @@ app.get('/api/forms/:formId/responses', authenticateToken, async (req, res) => {
  * Get a specific response
  * Requires authentication and form ownership
  */
-app.get('/api/forms/:formId/responses/:responseId', authenticateToken, async (req, res) => {
+app.get('/api/forms/:formId/responses/:responseId', verifyToken, async (req, res) => {
   try {
     const { formId, responseId } = req.params;
 
