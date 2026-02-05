@@ -109,42 +109,43 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
         <div className="dashboard">
             {/* Header */}
             <header className="dashboard-header">
-                <div className="header-left">
-                    <h1 className="logo">PROJECT STRUCTURA</h1>
-                    <span className="subtitle">Form Builder</span>
-                </div>
-                <div className="header-right">
-                    <button 
-                        className="btn-theme"
-                        onClick={toggleTheme}
-                        title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
-                    >
-                        {theme === 'dark' ? (
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
-                                <circle cx="12" cy="12" r="5"></circle>
-                                <line x1="12" y1="1" x2="12" y2="3"></line>
-                                <line x1="12" y1="21" x2="12" y2="23"></line>
-                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                <line x1="1" y1="12" x2="3" y2="12"></line>
-                                <line x1="21" y1="12" x2="23" y2="12"></line>
-                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                            </svg>
-                        ) : (
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                            </svg>
-                        )}
-                    </button>
-                    <div className="user-menu">
-                        <span className="user-email">{authUser}</span>
+                <div className="header-content">
+                    <div className="header-left">
+                        <h1 className="logo">PROJECT STRUCTURA</h1>
+                    </div>
+                    <div className="header-right">
                         <button 
-                            className="btn-logout"
-                            onClick={handleLogout}
+                            className="btn-theme"
+                            onClick={toggleTheme}
+                            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
                         >
-                            Logout
+                            {theme === 'dark' ? (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+                                    <circle cx="12" cy="12" r="5"></circle>
+                                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                </svg>
+                            ) : (
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="20" height="20">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg>
+                            )}
                         </button>
+                        <div className="user-menu">
+                            <span className="user-email">{authUser}</span>
+                            <button 
+                                className="btn-logout"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -153,6 +154,7 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
             <main className="dashboard-main">
                 {/* Stats Section */}
                 <section className="stats-section">
+                    <h2 className="section-title">Overview</h2>
                     <div className="stats-grid">
                         <div className="stat-card">
                             <div className="stat-icon">📋</div>
@@ -186,16 +188,14 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                             className="close-error"
                             onClick={() => setError('')}
                         >
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
+                            ✕
                         </button>
                     </div>
                 )}
 
                 {/* Create New Form Card - Replaced with Template Showcase */}
                 <section className="create-form-section">
+                    <h2 className="section-title">Create New Form</h2>
                     <TemplateShowcase 
                         onSelectTemplate={onOpenBuilder}
                         isCreating={isCreating}
@@ -206,7 +206,7 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                 {/* Recent Forms */}
                 <section className="recent-forms-section">
                     <div className="section-header">
-                        <h3>Your Forms</h3>
+                        <h2 className="section-title">Your Forms</h2>
                         {forms.length > 0 && (
                             <span className="form-count">{forms.length} form{forms.length !== 1 ? 's' : ''}</span>
                         )}
@@ -237,21 +237,12 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                                                 <p className="form-description">{form.description}</p>
                                             )}
                                         </div>
-                                        <div className="form-actions-menu">
-                                            <button 
-                                                className="btn-action-text edit"
-                                                title="Edit form"
-                                                onClick={() => handleOpenForm(form._id)}
-                                            >
-                                                Edit
-                                            </button>
-                                            <button 
-                                                className="btn-action-text delete"
-                                                title="Delete form"
-                                                onClick={() => handleDeleteForm(form._id)}
-                                            >
-                                                Delete
-                                            </button>
+                                        <div className="form-status-badge">
+                                            {form.status === 'published' ? (
+                                                <span className="badge-published">Published</span>
+                                            ) : (
+                                                <span className="badge-draft">Draft</span>
+                                            )}
                                         </div>
                                     </div>
                                     <div className="form-meta">
@@ -261,22 +252,40 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                                                 return `${count} field${count !== 1 ? 's' : ''}`;
                                             })()}
                                         </span>
+                                        <span className="form-responses">
+                                            {form.responseCount || 0} response{(form.responseCount || 0) !== 1 ? 's' : ''}
+                                        </span>
                                         <span className="form-date">
                                             {new Date(form.createdAt).toLocaleDateString()}
                                         </span>
                                     </div>
-                                    <button 
-                                        className="btn-open"
-                                        onClick={() => handleOpenForm(form._id)}
-                                    >
-                                        Open Form
-                                    </button>
+                                    <div className="form-actions">
+                                        <button 
+                                            className="btn-action edit"
+                                            title="Edit form"
+                                            onClick={() => handleOpenForm(form._id)}
+                                        >
+                                            Edit
+                                        </button>
+                                        <button 
+                                            className="btn-action delete"
+                                            title="Delete form"
+                                            onClick={() => handleDeleteForm(form._id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     )}
                 </section>
             </main>
+
+            {/* Footer */}
+            <footer className="dashboard-footer">
+                <div>© {new Date().getFullYear()} Rey Denzo | PROJECT STRUCTURA</div>
+            </footer>
         </div>
     );
 }
