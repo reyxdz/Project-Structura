@@ -151,6 +151,14 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
 
             {/* Main Content */}
             <main className="dashboard-main">
+                {/* Welcome Section */}
+                <section className="welcome-section">
+                    <div className="welcome-content">
+                        <h2>Welcome back!</h2>
+                        <p>Create and manage your forms with ease</p>
+                    </div>
+                </section>
+
                 {/* Error Message */}
                 {error && (
                     <div className="error-banner">
