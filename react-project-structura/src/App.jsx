@@ -3,6 +3,7 @@ import FormBuilder from './components/FormBuilder/FormBuilder';
 import LoadingScreen from './components/LoadingScreen';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
+import PublicFormViewer from './components/FormViewer/PublicFormViewer';
 import LoginModal from './components/Common/LoginModal';
 import { TemplateProvider } from './context/TemplateContext';
 import './App.css';
@@ -20,6 +21,7 @@ function App() {
             return auth ? 'dashboard' : 'landing';
         } catch (e) { return 'landing'; }
     });
+    const [publicFormToken, setPublicFormToken] = useState(null);
     const [showLogin, setShowLogin] = useState(false);
     const [theme, setTheme] = useState(() => {
         try {
@@ -36,6 +38,19 @@ function App() {
         }, 2500);
 
         return () => clearTimeout(timer);
+    }, []);
+
+    // Check if we're trying to access a public form from URL
+    useEffect(() => {
+        try {
+            const pathParts = window.location.pathname.split('/');
+            if (pathParts[1] === 'form' && pathParts[2]) {
+                setPublicFormToken(pathParts[2]);
+                setCurrentPage('public-form');
+            }
+        } catch (e) {
+            console.error('Error parsing URL:', e);
+        }
     }, []);
 
     useEffect(() => {
@@ -98,6 +113,10 @@ function App() {
                 
                 {currentPage === 'builder' && (
                     <FormBuilder onBackToDashboard={handleBackToDashboard} />
+                )}
+
+                {currentPage === 'public-form' && publicFormToken && (
+                    <PublicFormViewer key={publicFormToken} publicToken={publicFormToken} />
                 )}
 
                 <LoginModal

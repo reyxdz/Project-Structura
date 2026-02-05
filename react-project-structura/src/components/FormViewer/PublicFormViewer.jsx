@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getPublicForm, submitFormResponse } from '../../utils/formApi';
 import FormField from '../FormPreview/FormField';
 import LoadingScreen from '../LoadingScreen';
@@ -18,11 +18,17 @@ import './PublicFormViewer.css';
 /**
  * PublicFormViewer Component
  * Displays a published form for public participants to fill and submit responses
- * Route: /form/:publicToken
+ * Can be used with URL params (/form/:publicToken) or props
  */
-export default function PublicFormViewer() {
-    const { publicToken } = useParams();
-    const navigate = useNavigate();
+export default function PublicFormViewer({ publicToken: propToken, onSuccess } = {}) {
+    let paramToken = '';
+    try {
+        paramToken = useParams()?.publicToken || '';
+    } catch (e) {
+        // useParams might not work if not in a Router context
+    }
+    
+    const publicToken = propToken || paramToken;
 
     const [form, setForm] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -146,10 +152,19 @@ export default function PublicFormViewer() {
             
             setSubmitted(true);
             
-            // Auto-redirect after 3 seconds
-            setTimeout(() => {
-                navigate('/');
-            }, 3000);
+            // Call onSuccess callback or redirect
+            if (onSuccess) {
+                setTimeout(onSuccess, 2000);
+            } else {
+                // Auto-redirect after 3 seconds if using React Router
+                setTimeout(() => {
+                    if (window.history.length > 1) {
+                        window.history.back();
+                    } else {
+                        window.location.href = '/';
+                    }
+                }, 3000);
+            }
         } catch (err) {
             console.error('Submit error:', err);
             setError(err.message || 'Failed to submit form. Please try again.');
@@ -170,7 +185,13 @@ export default function PublicFormViewer() {
                 <div className="error-container">
                     <h1>❌ Form Not Found</h1>
                     <p>{error}</p>
-                    <button className="btn btn-primary" onClick={() => navigate('/')}>
+                    <button className="btn btn-primary" onClick={() => {
+                        if (window.history.length > 1) {
+                            window.history.back();
+                        } else {
+                            window.location.href = '/';
+                        }
+                    }}>
                         Back to Home
                     </button>
                 </div>
