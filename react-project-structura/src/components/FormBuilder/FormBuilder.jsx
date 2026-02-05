@@ -109,24 +109,29 @@ export default function FormBuilder({ onBackToDashboard }) {
                     <img src={psLogo} alt="Logo" className="header-logo" />
                 </div>
                 <div className="header-actions">
-                    <select 
-                        className="template-selector"
-                        value={form.template || 'default'}
-                        onChange={(e) => {
-                            const newTemplate = e.target.value;
-                            setFormTemplate(newTemplate);
-                            setSelectedTemplate(newTemplate);
-                        }}
-                        title="Select form template"
-                    >
-                        <option value="default">Default</option>
-                        <option value="deep-executive">Deep Executive</option>
-                        <option value="nordic-minimalist">Nordic Minimalist</option>
-                        <option value="cyber-punch">Cyber Punch</option>
-                        <option value="botanical">Botanical</option>
-                        <option value="glassmorphism">Glassmorphism</option>
-                        <option value="retro-paper">Retro Paper</option>
-                    </select>
+                    <div className="template-selector-wrapper">
+                        <select 
+                            className="template-selector"
+                            value={form.template || 'default'}
+                            onChange={(e) => {
+                                const newTemplate = e.target.value;
+                                setFormTemplate(newTemplate);
+                                setSelectedTemplate(newTemplate);
+                            }}
+                            title="Select form template"
+                        >
+                            <option value="default">Default</option>
+                            <option value="deep-executive">Deep Executive</option>
+                            <option value="nordic-minimalist">Nordic Minimalist</option>
+                            <option value="cyber-punch">Cyber Punch</option>
+                            <option value="botanical">Botanical</option>
+                            <option value="glassmorphism">Glassmorphism</option>
+                            <option value="retro-paper">Retro Paper</option>
+                        </select>
+                        <svg className="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </div>
                     <button 
                         className="btn btn-primary" 
                         onClick={() => setShowPreview(!showPreview)}
