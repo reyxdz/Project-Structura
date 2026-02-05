@@ -3,7 +3,8 @@
  * Handles all form-related API calls for publishing, sharing, and submission
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+// Use relative path for API calls - will proxy to backend via Vite dev server or production server
+const API_BASE_URL = '/api';
 
 /**
  * Get auth token from localStorage
