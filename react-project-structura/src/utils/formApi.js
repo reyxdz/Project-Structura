@@ -3,7 +3,7 @@
  * Handles all form-related API calls for publishing, sharing, and submission
  */
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:4000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
 /**
  * Get auth token from localStorage

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { getPublicForm, submitFormResponse } from '../../utils/formApi';
 import FormField from '../FormPreview/FormField';
 import LoadingScreen from '../LoadingScreen';
@@ -18,17 +17,9 @@ import './PublicFormViewer.css';
 /**
  * PublicFormViewer Component
  * Displays a published form for public participants to fill and submit responses
- * Can be used with URL params (/form/:publicToken) or props
+ * Uses publicToken prop passed from App.jsx
  */
-export default function PublicFormViewer({ publicToken: propToken, onSuccess } = {}) {
-    let paramToken = '';
-    try {
-        paramToken = useParams()?.publicToken || '';
-    } catch (e) {
-        // useParams might not work if not in a Router context
-    }
-    
-    const publicToken = propToken || paramToken;
+export default function PublicFormViewer({ publicToken, onSuccess } = {}) {
 
     const [form, setForm] = useState(null);
     const [loading, setLoading] = useState(true);
