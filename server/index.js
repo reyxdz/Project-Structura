@@ -7,6 +7,8 @@ const jwt = require('jsonwebtoken');
 
 let User = require('./models/User');
 let Form = require('./models/Form');
+let FormResponse = require('./models/FormResponse');
+const { generatePublicToken, isValidToken } = require('./utils/tokenGenerator');
 const memoryDb = require('./memory-db');
 
 const app = express();
@@ -208,3 +210,290 @@ app.delete('/api/forms/:id', verifyToken, async (req, res) => {
     return res.status(500).json({ message: 'Failed to delete form' });
   }
 });
+
+// ==================== FORM PUBLISHING ENDPOINTS ====================
+
+/**
+ * POST /api/forms/:formId/publish
+ * Publish a form and generate a public sharing link
+ * Requires authentication
+ */
+app.post('/api/forms/:formId/publish', authenticateToken, async (req, res) => {
+  try {
+    const { formId } = req.params;
+
+    // Verify form exists and user owns it
+    const form = await Form.findOne({
+      _id: formId,
+      userId: req.userId,
+    });
+
+    if (!form) {
+      return res.status(404).json({ message: 'Form not found' });
+    }
+
+    // Generate unique public token
+    let publicToken;
+    let isUnique = false;
+    let attempts = 0;
+
+    while (!isUnique && attempts < 10) {
+      publicToken = generatePublicToken();
+      const existing = await Form.findOne({ publicToken });
+      if (!existing) isUnique = true;
+      attempts++;
+    }
+
+    if (!isUnique) {
+      return res.status(500).json({ message: 'Failed to generate unique token' });
+    }
+
+    // Update form with publish info
+    form.status = 'published';
+    form.publicToken = publicToken;
+    form.publishedAt = new Date();
+    await form.save();
+
+    const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
+    const publicUrl = `${baseUrl}/form/${publicToken}`;
+
+    return res.json({
+      message: 'Form published successfully',
+      form: {
+        _id: form._id,
+        status: form.status,
+        publicToken: form.publicToken,
+        publicUrl: publicUrl,
+        publishedAt: form.publishedAt,
+        responseCount: form.responseCount,
+      },
+    });
+  } catch (err) {
+    console.error('Publish error:', err);
+    return res.status(500).json({ message: 'Failed to publish form' });
+  }
+});
+
+/**
+ * POST /api/forms/:formId/unpublish
+ * Unpublish a form and revoke sharing link
+ * Requires authentication
+ */
+app.post('/api/forms/:formId/unpublish', authenticateToken, async (req, res) => {
+  try {
+    const { formId } = req.params;
+
+    const form = await Form.findOne({
+      _id: formId,
+      userId: req.userId,
+    });
+
+    if (!form) {
+      return res.status(404).json({ message: 'Form not found' });
+    }
+
+    form.status = 'draft';
+    form.publicToken = null;
+    form.publishedAt = null;
+    await form.save();
+
+    return res.json({
+      message: 'Form unpublished successfully',
+      form: {
+        _id: form._id,
+        status: form.status,
+        title: form.title,
+      },
+    });
+  } catch (err) {
+    console.error('Unpublish error:', err);
+    return res.status(500).json({ message: 'Failed to unpublish form' });
+  }
+});
+
+/**
+ * GET /api/forms/public/:publicToken
+ * Fetch a published form by public token (NO AUTHENTICATION REQUIRED)
+ * Returns only necessary fields for form display
+ */
+app.get('/api/forms/public/:publicToken', async (req, res) => {
+  try {
+    const { publicToken } = req.params;
+
+    // Validate token format
+    if (!isValidToken(publicToken)) {
+      return res.status(400).json({ message: 'Invalid token format' });
+    }
+
+    const form = await Form.findOne({
+      publicToken: publicToken,
+      status: 'published',
+    }).select('-userId -settings -__v');
+
+    if (!form) {
+      return res.status(404).json({
+        message: 'Form not found or is no longer available',
+      });
+    }
+
+    return res.json({
+      form: {
+        _id: form._id,
+        title: form.title,
+        description: form.description,
+        fields: form.fields,
+        template: form.template,
+      },
+    });
+  } catch (err) {
+    console.error('Get public form error:', err);
+    return res.status(500).json({ message: 'Failed to fetch form' });
+  }
+});
+
+/**
+ * POST /api/forms/public/:publicToken/submit
+ * Submit a response to a published form (NO AUTHENTICATION REQUIRED)
+ * Validates and stores form responses
+ */
+app.post('/api/forms/public/:publicToken/submit', async (req, res) => {
+  try {
+    const { publicToken } = req.params;
+    const { responses, submittedBy } = req.body;
+
+    // Validate token format
+    if (!isValidToken(publicToken)) {
+      return res.status(400).json({ message: 'Invalid token format' });
+    }
+
+    // Find published form
+    const form = await Form.findOne({
+      publicToken: publicToken,
+      status: 'published',
+    });
+
+    if (!form) {
+      return res.status(404).json({
+        message: 'Form not found or is no longer available',
+      });
+    }
+
+    // Validate responses
+    if (!Array.isArray(responses) || responses.length === 0) {
+      return res.status(400).json({
+        message: 'Invalid responses format',
+      });
+    }
+
+    // Create form response document
+    const formResponse = new FormResponse({
+      formId: form._id,
+      responses: responses,
+      submittedBy: submittedBy || 'anonymous',
+      ipAddress: req.ip || req.connection.remoteAddress,
+      userAgent: req.get('user-agent'),
+    });
+
+    await formResponse.save();
+
+    // Increment response count
+    form.responseCount += 1;
+    await form.save();
+
+    return res.status(201).json({
+      message: 'Response submitted successfully',
+      response: {
+        _id: formResponse._id,
+        submittedAt: formResponse.submittedAt,
+      },
+    });
+  } catch (err) {
+    console.error('Submit response error:', err);
+    return res.status(500).json({ message: 'Failed to submit form response' });
+  }
+});
+
+/**
+ * GET /api/forms/:formId/responses
+ * Get all responses for a specific form
+ * Requires authentication and form ownership
+ */
+app.get('/api/forms/:formId/responses', authenticateToken, async (req, res) => {
+  try {
+    const { formId } = req.params;
+    const { limit = 50, skip = 0 } = req.query;
+
+    // Verify form exists and user owns it
+    const form = await Form.findOne({
+      _id: formId,
+      userId: req.userId,
+    });
+
+    if (!form) {
+      return res.status(404).json({ message: 'Form not found' });
+    }
+
+    // Fetch responses
+    const responses = await FormResponse.find({ formId: formId })
+      .sort({ submittedAt: -1 })
+      .limit(parseInt(limit))
+      .skip(parseInt(skip));
+
+    const totalCount = await FormResponse.countDocuments({ formId: formId });
+
+    return res.json({
+      form: {
+        _id: form._id,
+        title: form.title,
+        responseCount: form.responseCount,
+      },
+      responses: responses,
+      pagination: {
+        total: totalCount,
+        limit: parseInt(limit),
+        skip: parseInt(skip),
+        hasMore: parseInt(skip) + parseInt(limit) < totalCount,
+      },
+    });
+  } catch (err) {
+    console.error('Get responses error:', err);
+    return res.status(500).json({ message: 'Failed to fetch responses' });
+  }
+});
+
+/**
+ * GET /api/forms/:formId/responses/:responseId
+ * Get a specific response
+ * Requires authentication and form ownership
+ */
+app.get('/api/forms/:formId/responses/:responseId', authenticateToken, async (req, res) => {
+  try {
+    const { formId, responseId } = req.params;
+
+    // Verify form ownership
+    const form = await Form.findOne({
+      _id: formId,
+      userId: req.userId,
+    });
+
+    if (!form) {
+      return res.status(404).json({ message: 'Form not found' });
+    }
+
+    // Fetch specific response
+    const response = await FormResponse.findOne({
+      _id: responseId,
+      formId: formId,
+    });
+
+    if (!response) {
+      return res.status(404).json({ message: 'Response not found' });
+    }
+
+    return res.json({ response: response });
+  } catch (err) {
+    console.error('Get response error:', err);
+    return res.status(500).json({ message: 'Failed to fetch response' });
+  }
+});
+

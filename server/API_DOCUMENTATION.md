@@ -332,7 +332,288 @@ The token is verified on each protected request. If token is invalid or expired,
 
 ---
 
-## Error Handling
+## Form Publishing & Sharing Endpoints
+
+### 1. Publish Form
+**Endpoint:** `POST /forms/:formId/publish`
+
+**Description:** Publish a form and generate a unique public sharing link
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Content-Type: application/json
+```
+
+**URL Parameters:**
+- `formId` (required) - Form ID (MongoDB ObjectId)
+
+**Request Body:** (None required)
+
+**Response (200 OK):**
+```json
+{
+  "message": "Form published successfully",
+  "form": {
+    "_id": "507f1f77bcf86cd799439011",
+    "status": "published",
+    "publicToken": "a1b2c3d4e5f6",
+    "publicUrl": "http://localhost:3000/form/a1b2c3d4e5f6",
+    "publishedAt": "2026-02-05T10:30:00Z",
+    "responseCount": 0
+  }
+}
+```
+
+**Error Responses:**
+- `404 Not Found` - Form not found or user doesn't own it
+- `500 Internal Server Error` - Failed to generate token
+
+---
+
+### 2. Unpublish Form
+**Endpoint:** `POST /forms/:formId/unpublish`
+
+**Description:** Unpublish a form and revoke the public sharing link
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Content-Type: application/json
+```
+
+**URL Parameters:**
+- `formId` (required) - Form ID (MongoDB ObjectId)
+
+**Request Body:** (None required)
+
+**Response (200 OK):**
+```json
+{
+  "message": "Form unpublished successfully",
+  "form": {
+    "_id": "507f1f77bcf86cd799439011",
+    "status": "draft",
+    "title": "Customer Feedback"
+  }
+}
+```
+
+**Error Responses:**
+- `404 Not Found` - Form not found or user doesn't own it
+- `500 Internal Server Error` - Failed to unpublish form
+
+---
+
+### 3. Get Published Form (Public)
+**Endpoint:** `GET /forms/public/:publicToken`
+
+**Description:** Retrieve a published form by public token (NO AUTHENTICATION REQUIRED)
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**URL Parameters:**
+- `publicToken` (required) - Public sharing token (12-character hex string)
+
+**Response (200 OK):**
+```json
+{
+  "form": {
+    "_id": "507f1f77bcf86cd799439011",
+    "title": "Customer Feedback Form",
+    "description": "Please share your feedback",
+    "fields": [
+      {
+        "id": "field_1",
+        "type": "text",
+        "label": "Full Name",
+        "required": true
+      },
+      {
+        "id": "field_2",
+        "type": "email",
+        "label": "Email",
+        "required": true
+      }
+    ],
+    "template": "default"
+  }
+}
+```
+
+**Error Responses:**
+- `400 Bad Request` - Invalid token format
+- `404 Not Found` - Form not found or no longer published
+- `500 Internal Server Error` - Server error
+
+---
+
+### 4. Submit Form Response (Public)
+**Endpoint:** `POST /forms/public/:publicToken/submit`
+
+**Description:** Submit responses to a published form (NO AUTHENTICATION REQUIRED)
+
+**Headers:**
+```
+Content-Type: application/json
+```
+
+**URL Parameters:**
+- `publicToken` (required) - Public sharing token
+
+**Request Body:**
+```json
+{
+  "responses": [
+    {
+      "fieldId": "field_1",
+      "fieldLabel": "Full Name",
+      "fieldType": "text",
+      "value": "John Doe"
+    },
+    {
+      "fieldId": "field_2",
+      "fieldLabel": "Email",
+      "fieldType": "email",
+      "value": "john@example.com"
+    },
+    {
+      "fieldId": "field_3",
+      "fieldLabel": "Feedback",
+      "fieldType": "textarea",
+      "value": "Great experience!"
+    }
+  ],
+  "submittedBy": "john@example.com"
+}
+```
+
+**Response (201 Created):**
+```json
+{
+  "message": "Response submitted successfully",
+  "response": {
+    "_id": "507f1f77bcf86cd799439012",
+    "submittedAt": "2026-02-05T10:35:00Z"
+  }
+}
+```
+
+**Error Responses:**
+- `400 Bad Request` - Invalid token format or invalid responses
+- `404 Not Found` - Form not found or no longer published
+- `500 Internal Server Error` - Server error
+
+---
+
+### 5. Get Form Responses (Admin)
+**Endpoint:** `GET /forms/:formId/responses`
+
+**Description:** Retrieve all responses for a specific form (admin only)
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Content-Type: application/json
+```
+
+**URL Parameters:**
+- `formId` (required) - Form ID (MongoDB ObjectId)
+
+**Query Parameters:**
+- `limit` (optional, default: 50) - Maximum responses to return
+- `skip` (optional, default: 0) - Number of responses to skip (for pagination)
+
+**Response (200 OK):**
+```json
+{
+  "form": {
+    "_id": "507f1f77bcf86cd799439011",
+    "title": "Customer Feedback Form",
+    "responseCount": 2
+  },
+  "responses": [
+    {
+      "_id": "507f1f77bcf86cd799439012",
+      "formId": "507f1f77bcf86cd799439011",
+      "responses": [
+        {
+          "fieldId": "field_1",
+          "fieldLabel": "Full Name",
+          "fieldType": "text",
+          "value": "John Doe"
+        }
+      ],
+      "submittedBy": "john@example.com",
+      "submittedAt": "2026-02-05T10:35:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 2,
+    "limit": 50,
+    "skip": 0,
+    "hasMore": false
+  }
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized` - No token or invalid token
+- `404 Not Found` - Form not found or user doesn't own it
+- `500 Internal Server Error` - Server error
+
+---
+
+### 6. Get Specific Response (Admin)
+**Endpoint:** `GET /forms/:formId/responses/:responseId`
+
+**Description:** Retrieve a specific form response by ID (admin only)
+
+**Headers:**
+```
+Authorization: Bearer {token}
+Content-Type: application/json
+```
+
+**URL Parameters:**
+- `formId` (required) - Form ID
+- `responseId` (required) - Response ID
+
+**Response (200 OK):**
+```json
+{
+  "response": {
+    "_id": "507f1f77bcf86cd799439012",
+    "formId": "507f1f77bcf86cd799439011",
+    "responses": [
+      {
+        "fieldId": "field_1",
+        "fieldLabel": "Full Name",
+        "fieldType": "text",
+        "value": "John Doe"
+      },
+      {
+        "fieldId": "field_2",
+        "fieldLabel": "Email",
+        "fieldType": "email",
+        "value": "john@example.com"
+      }
+    ],
+    "submittedBy": "john@example.com",
+    "ipAddress": "192.168.1.1",
+    "userAgent": "Mozilla/5.0...",
+    "submittedAt": "2026-02-05T10:35:00Z"
+  }
+}
+```
+
+**Error Responses:**
+- `401 Unauthorized` - No token or invalid token
+- `404 Not Found` - Form or response not found
+- `500 Internal Server Error` - Server error
 
 All error responses follow this format:
 ```json
@@ -456,10 +737,33 @@ CORS_ORIGIN=http://localhost:5173
   userId: ObjectId (reference to User),
   fields: Array,
   settings: Object,
+  status: String (enum: 'draft', 'published', default: 'draft'),
+  publicToken: String (unique, nullable, for sharing),
+  publishedAt: Date,
+  responseCount: Number (default: 0),
   createdAt: Date,
   updatedAt: Date
 }
 ```
+
+### FormResponse Model
+```javascript
+{
+  _id: ObjectId,
+  formId: ObjectId (reference to Form, required),
+  responses: [
+    {
+      fieldId: String,
+      fieldLabel: String,
+      fieldType: String,
+      value: Mixed (String, Number, Boolean, Array, etc.)
+    }
+  ],
+  submittedBy: String (default: 'anonymous'),
+  ipAddress: String (nullable),
+  userAgent: String (nullable),
+  submittedAt: Date (default: now)
+}
 
 ---
 
@@ -498,16 +802,23 @@ Currently not implemented. Consider adding rate limiting middleware for producti
 
 ## Future Enhancements
 
+- [x] Form submission storage
+- [x] Form publishing with public links
+- [ ] Form response export (CSV/Excel)
+- [ ] Form analytics and statistics
 - [ ] Email verification on signup
 - [ ] Password reset functionality
 - [ ] Refresh token mechanism
 - [ ] Rate limiting
-- [ ] Form submission storage
-- [ ] Form analytics
 - [ ] Collaborative editing
 - [ ] Form versioning
+- [ ] Webhook notifications on form submission
+- [ ] Multi-language support
+- [ ] Advanced conditional logic for fields
+- [ ] Payment/Donation form integration
+- [ ] File upload fields
 
 ---
 
-**Last Updated:** February 3, 2026
-**API Version:** 1.0
+**Last Updated:** February 5, 2026
+**API Version:** 2.0

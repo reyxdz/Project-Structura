@@ -29,6 +29,26 @@ const formSchema = new mongoose.Schema({
         type: Object,
         default: {},
     },
+    // Publishing & sharing fields
+    status: {
+        type: String,
+        enum: ['draft', 'published'],
+        default: 'draft',
+    },
+    publicToken: {
+        type: String,
+        unique: true,
+        sparse: true, // allows null values for draft forms
+    },
+    publishedAt: {
+        type: Date,
+        default: null,
+    },
+    responseCount: {
+        type: Number,
+        default: 0,
+    },
+    // Metadata
     createdAt: {
         type: Date,
         default: Date.now,
@@ -38,6 +58,12 @@ const formSchema = new mongoose.Schema({
         default: Date.now,
     },
 });
+
+// Index on publicToken for faster lookups
+formSchema.index({ publicToken: 1 });
+
+// Index on userId for faster user form queries
+formSchema.index({ userId: 1 });
 
 // Update the updatedAt field before saving
 formSchema.pre('save', function (next) {
