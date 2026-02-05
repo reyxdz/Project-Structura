@@ -497,3 +497,24 @@ app.get('/api/forms/:formId/responses/:responseId', verifyToken, async (req, res
   }
 });
 
+// SPA Fallback: Serve React app for all non-API routes
+app.use((req, res) => {
+  const isDev = process.env.NODE_ENV !== 'production';
+  
+  if (isDev) {
+    // In development, redirect to frontend dev server
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const originalPath = req.originalUrl;
+    return res.redirect(303, `${frontendUrl}${originalPath}`);
+  }
+  
+  // In production, serve the built React app (if available)
+  const path = require('path');
+  const indexPath = path.join(__dirname, '../react-project-structura/dist/index.html');
+  try {
+    return res.sendFile(indexPath);
+  } catch (err) {
+    return res.status(404).json({ message: 'Not found' });
+  }
+});
+
