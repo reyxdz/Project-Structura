@@ -151,11 +151,19 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
 
             {/* Main Content */}
             <main className="dashboard-main">
-                {/* Welcome Section */}
-                <section className="welcome-section">
-                    <div className="welcome-content">
-                        <h2>Welcome back!</h2>
-                        <p>Create and manage your forms with ease</p>
+                {/* Dashboard Statistics */}
+                <section className="dashboard-stats">
+                    <div className="stat-card">
+                        <div className="stat-number">{forms.filter(f => f.status === 'published').length}</div>
+                        <div className="stat-label">Active Forms</div>
+                    </div>
+                    <div className="stat-card">
+                        <div className="stat-number">{forms.filter(f => f.status !== 'published' && f.status !== 'archived').length}</div>
+                        <div className="stat-label">Inactive Forms</div>
+                    </div>
+                    <div className="stat-card">
+                        <div className="stat-number">{forms.reduce((total, f) => total + (f.responseCount || 0), 0)}</div>
+                        <div className="stat-label">Total Responses</div>
                     </div>
                 </section>
 
