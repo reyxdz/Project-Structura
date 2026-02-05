@@ -151,22 +151,6 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
 
             {/* Main Content */}
             <main className="dashboard-main">
-                {/* Dashboard Statistics */}
-                <section className="dashboard-stats">
-                    <div className="stat-card">
-                        <div className="stat-number">{forms.filter(f => f.status === 'published').length}</div>
-                        <div className="stat-label">Active Forms</div>
-                    </div>
-                    <div className="stat-card">
-                        <div className="stat-number">{forms.filter(f => f.status !== 'published' && f.status !== 'archived').length}</div>
-                        <div className="stat-label">Inactive Forms</div>
-                    </div>
-                    <div className="stat-card">
-                        <div className="stat-number">{forms.reduce((total, f) => total + (f.responseCount || 0), 0)}</div>
-                        <div className="stat-label">Total Responses</div>
-                    </div>
-                </section>
-
                 {/* Error Message */}
                 {error && (
                     <div className="error-banner">
