@@ -145,7 +145,7 @@ app.get('/api/forms/:id', verifyToken, async (req, res) => {
 // POST /api/forms - Create a new form
 app.post('/api/forms', verifyToken, async (req, res) => {
   try {
-    const { title, description, fields } = req.body;
+    const { title, description, fields, template } = req.body;
 
     if (!title || !title.trim()) {
       return res.status(400).json({ message: 'Form title is required' });
@@ -155,6 +155,7 @@ app.post('/api/forms', verifyToken, async (req, res) => {
       title: title.trim(),
       description: description || '',
       fields: fields || [],
+      template: template || 'default',
       userId: req.userId,
     });
 
@@ -169,7 +170,7 @@ app.post('/api/forms', verifyToken, async (req, res) => {
 // PUT /api/forms/:id - Update a form
 app.put('/api/forms/:id', verifyToken, async (req, res) => {
   try {
-    const { title, description, fields, settings } = req.body;
+    const { title, description, fields, settings, template } = req.body;
 
     const form = await Form.findOne({
       _id: req.params.id,
@@ -182,6 +183,7 @@ app.put('/api/forms/:id', verifyToken, async (req, res) => {
     if (description !== undefined) form.description = description;
     if (fields !== undefined) form.fields = fields;
     if (settings !== undefined) form.settings = settings;
+    if (template !== undefined) form.template = template;
 
     await form.save();
     return res.json({ form });

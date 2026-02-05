@@ -1,6 +1,7 @@
 /* Retro Paper Template - Nostalgic, Tactile, Intellectual */
 
 .form-template-retro-paper {
+    /* Form Preview Variables */
     --form-bg: #F4F1EA;
     --form-input-bg: #FAF9F6;
     --form-input-border: 1px solid #D4CEC3;
@@ -10,28 +11,57 @@
     --form-primary-btn: #2563EB;
     --form-primary-btn-hover: #1D4ED8;
     --form-secondary-btn: #D4CEC3;
+    --field-item-bg: #FAF9F6;
+    --field-item-border: 1px solid #D4CEC3;
+    --field-item-border-radius: 2px;
+    --field-item-padding: 12px;
+    --field-item-text: #2D2D2D;
+    --field-item-hover-bg: #FFFFFF;
+    --field-item-hover-border: #2563EB;
+    --field-item-selected-bg: rgba(37, 99, 235, 0.1);
+    --field-item-selected-border: #2563EB;
+    --field-item-selected-border-width: 2px;
+    
+    /* Form Builder UI Variables */
+    --builder-bg: #E8E4DC;
+    --builder-header-bg: #FAF9F6;
+    --builder-header-text: #2D2D2D;
+    --builder-header-border: 1px solid #D4CEC3;
+    --builder-sidebar-bg: #FAF9F6;
+    --builder-sidebar-text: #2D2D2D;
+    --builder-sidebar-border: 1px solid #D4CEC3;
+    --canvas-border-color: #D4CEC3;
+    --builder-sidebar-hover-bg: #FFFFFF;
+    --builder-sidebar-hover-text: #2563EB;
+    --builder-btn-primary: #2563EB;
+    --builder-btn-primary-hover: #1D4ED8;
+    --builder-btn-primary-text: #FFFFFF;
+    --builder-btn-secondary: #E5E5E5;
+    --builder-btn-secondary-hover: #D4CEC3;
+    --builder-btn-secondary-text: #2D2D2D;
+    --builder-floating-btn-bg: #FAF9F6;
+    --builder-floating-btn-hover: #2563EB;
+    --builder-floating-btn-text: #FFFFFF;
+    --builder-overlay-bg: rgba(0, 0, 0, 0.5);
+    --builder-scrollbar-thumb: #8B8680;
+    --builder-scrollbar-track: transparent;
+    --field-icon-color: #2563EB;
+    --field-icon-hue: 220deg;
+    
+    /* Modal Variables */
+    --modal-header-bg: #F5DEB3;
+    --modal-header-text: #2C1810;
+    --modal-body-bg: #FFF8DC;
+    --modal-body-text: #3D2817;
+    --modal-footer-bg: #F5DEB3;
 }
 
 .form-template-retro-paper {
     background: var(--form-bg);
-    padding: 40px;
-    font-family: 'Georgia', serif;
-}
-
-.form-template-retro-paper .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 20px;
 }
 
 .form-template-retro-paper .form-field-label {
     color: var(--form-label);
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: capitalize;
-    letter-spacing: 0px;
-    font-family: 'Georgia', serif;
 }
 
 .form-template-retro-paper input,
@@ -40,12 +70,6 @@
     background: var(--form-input-bg);
     color: var(--form-input-text);
     border: var(--form-input-border);
-    border-radius: 2px;
-    padding: 10px 12px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    font-family: 'Georgia', serif;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .form-template-retro-paper input::placeholder,
@@ -58,29 +82,17 @@
 .form-template-retro-paper select:focus {
     outline: none;
     border-color: var(--form-primary-btn);
-    box-shadow: inset 0 2px 4px rgba(37, 99, 235, 0.1);
 }
 
 .form-template-retro-paper button[type="submit"],
 .form-template-retro-paper .form-submit-btn {
     background: var(--form-primary-btn);
     color: #FFFFFF;
-    padding: 12px 28px;
     border: none;
-    border-radius: 2px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-family: 'Georgia', serif;
-    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
 }
 
 .form-template-retro-paper button[type="submit"]:hover,
 .form-template-retro-paper .form-submit-btn:hover {
     background: var(--form-primary-btn-hover);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
+

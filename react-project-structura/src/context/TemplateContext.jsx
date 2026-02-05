@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-const TemplateContext = createContext();
+import React, { useState, useEffect } from 'react';
+import { TemplateContext } from './TemplateContextProvider';
 
 export function TemplateProvider({ children }) {
     const [selectedTemplate, setSelectedTemplate] = useState(() => {
@@ -17,12 +16,4 @@ export function TemplateProvider({ children }) {
             {children}
         </TemplateContext.Provider>
     );
-}
-
-export function useTemplate() {
-    const context = useContext(TemplateContext);
-    if (!context) {
-        throw new Error('useTemplate must be used within TemplateProvider');
-    }
-    return context;
 }

@@ -1,36 +1,69 @@
 /* Deep Executive Template - Dark Mode, Premium & Sophisticated */
 
 .form-template-deep-executive {
+    /* Form Preview Variables */
     --form-bg: #0F172A;
     --form-input-bg: #1E293B;
     --form-input-border: #475569;
-    --form-input-text: #F8FAFC;
-    --form-label: #F8FAFC;
-    --form-placeholder: #94A3B8;
+    --form-input-text: #E2E8F0;
+    --form-label: #E2E8F0;
+    --form-placeholder: #CBD5E1;
     --form-primary-btn: #6366F1;
     --form-primary-btn-hover: #4F46E5;
     --form-secondary-btn: #334155;
     --form-border: 1px solid #334155;
     --form-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+    --field-item-bg: #1E293B;
+    --field-item-border: 1px solid #334155;
+    --field-item-border-radius: 8px;
+    --field-item-padding: 12px;
+    --field-item-text: #F8FAFC;
+    --field-item-hover-bg: #334155;
+    --field-item-hover-border: #6366F1;
+    --field-item-selected-bg: rgba(99, 102, 241, 0.2);
+    --field-item-selected-border: #6366F1;
+    --field-item-selected-border-width: 2px;
+    
+    /* Form Builder UI Variables */
+    --builder-bg: #0F172A;
+    --builder-header-bg: #1E293B;
+    --builder-header-text: #F8FAFC;
+    --builder-header-border: 1px solid #334155;
+    --builder-sidebar-bg: #1E293B;
+    --builder-sidebar-text: #F8FAFC;
+    --builder-sidebar-border: 1px solid #334155;
+    --canvas-border-color: #475569;
+    --builder-sidebar-hover-bg: #334155;
+    --builder-sidebar-hover-text: #6366F1;
+    --builder-btn-primary: #6366F1;
+    --builder-btn-primary-hover: #4F46E5;
+    --builder-btn-primary-text: #FFFFFF;
+    --builder-btn-secondary: #334155;
+    --builder-btn-secondary-hover: #475569;
+    --builder-btn-secondary-text: #F8FAFC;
+    --builder-floating-btn-bg: #1E293B;
+    --builder-floating-btn-hover: #6366F1;
+    --builder-floating-btn-text: #FFFFFF;
+    --builder-overlay-bg: rgba(0, 0, 0, 0.7);
+    --builder-scrollbar-thumb: #475569;
+    --builder-scrollbar-track: transparent;
+    --field-icon-color: #6366F1;
+    --field-icon-hue: 240deg;
+    
+    /* Modal Variables */
+    --modal-header-bg: #1E293B;
+    --modal-header-text: #F8FAFC;
+    --modal-body-bg: #0F172A;
+    --modal-body-text: #E2E8F0;
+    --modal-footer-bg: #1E293B;
 }
 
 .form-template-deep-executive {
     background: var(--form-bg);
 }
 
-.form-template-deep-executive .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 16px;
-}
-
 .form-template-deep-executive .form-field-label {
     color: var(--form-label);
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .form-template-deep-executive input,
@@ -39,10 +72,6 @@
     background: var(--form-input-bg);
     color: var(--form-input-text);
     border: var(--form-border);
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 14px;
-    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
 }
 
 .form-template-deep-executive input::placeholder,
@@ -55,27 +84,15 @@
 .form-template-deep-executive select:focus {
     outline: none;
     border-color: var(--form-primary-btn);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 .form-template-deep-executive button[type="submit"],
 .form-template-deep-executive .form-submit-btn {
     background: linear-gradient(135deg, #6366F1, #3B82F6);
     color: white;
-    padding: 12px 28px;
     border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.2, 1);
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: var(--form-shadow);
 }
 
 .form-template-deep-executive button[type="submit"]:hover,
 .form-template-deep-executive .form-submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.25);
 }

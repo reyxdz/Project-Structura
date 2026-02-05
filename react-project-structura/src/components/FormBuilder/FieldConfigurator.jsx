@@ -17,9 +17,12 @@ export default function FieldConfigurator() {
     const updateField = useFormStore((state) => state.updateField);
     const removeField = useFormStore((state) => state.removeField);
     const duplicateField = useFormStore((state) => state.duplicateField);
+    const updateNestedField = useFormStore((state) => state.updateNestedField);
+    const removeNestedField = useFormStore((state) => state.removeNestedField);
     const [showValidationPanel, setShowValidationPanel] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [newOptionValue, setNewOptionValue] = useState('');
+    const [selectedNestedFieldId, setSelectedNestedFieldId] = useState(null);
 
     const selectedField = form.fields.find((f) => f.id === selectedFieldId);
 

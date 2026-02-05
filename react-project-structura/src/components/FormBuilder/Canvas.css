@@ -1,7 +1,7 @@
 .canvas {
-  background-color: white;
+  background-color: var(--builder-bg, white);
   border-radius: 8px;
-  border: 2px dashed #ccc;
+  border: 2px dashed var(--canvas-border-color, #ccc);
   min-height: 400px;
   padding: 20px;
   width: 100%;
@@ -54,23 +54,23 @@
 }
 
 .field-item {
-  background-color: #f9f9f9;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 12px;
+  background-color: var(--field-item-bg, #f9f9f9);
+  border: var(--field-item-border, 1px solid #e0e0e0);
+  border-radius: var(--field-item-border-radius, 4px);
+  padding: var(--field-item-padding, 12px);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .field-item:hover {
-  background-color: #f0f0f0;
-  border-color: #0D47A1;
+  background-color: var(--field-item-hover-bg, #f0f0f0);
+  border-color: var(--field-item-hover-border, #0D47A1);
 }
 
 .field-item.selected {
-  background-color: #e3f2fd;
-  border-color: #0D47A1;
-  border-width: 2px;
+  background-color: var(--field-item-selected-bg, #e3f2fd);
+  border-color: var(--field-item-selected-border, #0D47A1);
+  border-width: var(--field-item-selected-border-width, 2px);
 }
 
 .field-item-header {
@@ -84,7 +84,7 @@
 
 .field-label {
   font-weight: 500;
-  color: #333;
+  color: var(--field-item-text, #333);
   word-break: break-word;
 }
 
@@ -156,3 +156,4 @@
     padding: 1px 6px;
   }
 }
+

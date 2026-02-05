@@ -1,0 +1,87 @@
+/* Default Theme - Light & Clean */
+
+:root,
+.form-template-default {
+    /* Form Preview Variables */
+    --form-bg: #FDFBF7;
+    --form-input-bg: #F5F3F0;
+    --form-input-border: 2px solid #9D6E5D;
+    --form-input-text: #363E33;
+    --form-label: #363E33;
+    --form-placeholder: #8B7765;
+    --form-primary-btn: #9D4B39;
+    --form-primary-btn-hover: #7D3A28;
+    --form-secondary-btn: #D1D5DB;
+    --field-item-bg: #FFFFFF;
+    --field-item-border: 1px solid #D1D5DB;
+    --field-item-border-radius: 8px;
+    --field-item-padding: 12px;
+    --field-item-text: #374151;
+    --field-item-hover-bg: #F5F3F0;
+    --field-item-hover-border: #0D47A1;
+    --field-item-selected-bg: rgba(13, 71, 161, 0.1);
+    --field-item-selected-border: #0D47A1;
+    --field-item-selected-border-width: 2px;
+    
+    /* Form Builder UI Variables */
+    --builder-bg: #f5f5f5;
+    --builder-header-bg: white;
+    --builder-header-text: #333;
+    --builder-header-border: 1px solid #ddd;
+    --builder-sidebar-bg: white;
+    --builder-sidebar-text: #333;
+    --builder-sidebar-border: 1px solid #ddd;
+    --canvas-border-color: #ccc;
+    --builder-sidebar-hover-bg: #f9f9f9;
+    --builder-sidebar-hover-text: #666;
+    --builder-btn-primary: #0D47A1;
+    --builder-btn-primary-hover: #1976d2;
+    --builder-btn-primary-text: white;
+    --builder-btn-secondary: #f0f0f0;
+    --builder-btn-secondary-hover: #e0e0e0;
+    --builder-btn-secondary-text: #333;
+    --builder-floating-btn-bg: #2c3e50;
+    --builder-floating-btn-hover: #0D47A1;
+    --builder-floating-btn-text: white;
+    --builder-overlay-bg: rgba(0, 0, 0, 0.5);
+    --builder-scrollbar-thumb: #c0c0c0;
+    --builder-scrollbar-track: transparent;
+    --field-icon-color: #0D47A1;
+    --field-icon-hue: 221deg;
+    
+    /* Modal Variables */
+    --modal-header-bg: #f9f9f9;
+    --modal-header-text: #333;
+    --modal-body-bg: white;
+    --modal-body-text: #666;
+    --modal-footer-bg: #f9f9f9;
+}
+
+/* Theme-specific field icon colors */
+.form-template-default .field-icon {
+    filter: brightness(0) saturate(100%) invert(22%) sepia(94%) saturate(1488%) hue-rotate(214deg) brightness(98%) contrast(97%);
+}
+
+.form-template-retro-paper .field-icon {
+    filter: brightness(0) saturate(100%) invert(26%) sepia(72%) saturate(1169%) hue-rotate(211deg) brightness(101%) contrast(95%);
+}
+
+.form-template-nordic-minimalist .field-icon {
+    filter: brightness(0) saturate(100%) invert(39%) sepia(54%) saturate(579%) hue-rotate(122deg) brightness(95%) contrast(92%);
+}
+
+.form-template-glassmorphism .field-icon {
+    filter: brightness(0) saturate(100%) invert(100%);
+}
+
+.form-template-deep-executive .field-icon {
+    filter: brightness(0) saturate(100%) invert(55%) sepia(66%) saturate(557%) hue-rotate(224deg) brightness(99%) contrast(96%);
+}
+
+.form-template-cyber-punch .field-icon {
+    filter: brightness(0) saturate(100%) invert(72%) sepia(71%) saturate(1091%) hue-rotate(325deg) brightness(97%) contrast(96%);
+}
+
+.form-template-botanical .field-icon {
+    filter: brightness(0) saturate(100%) invert(45%) sepia(21%) saturate(653%) hue-rotate(12deg) brightness(99%) contrast(98%);
+}

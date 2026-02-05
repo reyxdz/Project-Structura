@@ -13,6 +13,7 @@ const initialFormState = {
     id: uuidv4(),
     name: 'Untitled Form',
     description: '',
+    template: 'default',
     fields: [],
     metadata: {
         createdAt: new Date().toISOString(),
@@ -56,6 +57,17 @@ export const useFormStore = create((set, get) => ({
             },
         })),
 
+    setFormTemplate: (template) =>
+        set((state) => ({
+            form: {
+                ...state.form,
+                template,
+                metadata: {
+                    ...state.form.metadata,
+                    updatedAt: new Date().toISOString(),
+                },
+            },
+        })),
 
     // Field actions
     addField: (type, position) => {

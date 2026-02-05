@@ -128,7 +128,7 @@ export default function Canvas() {
             onDragStart = {handleDragStart}
             onDragEnd = {handleDragEnd}
         >
-            <div className = "canvas" onDragOver = {handleCanvasDragOver} onDrop = {handleCanvasDrop} onDragLeave = {handleCanvasDragLeave} onClick = {handleCanvasClick} ref = {canvasRef}>
+            <div className = {`canvas form-template-${form.template || 'default'}`} onDragOver = {handleCanvasDragOver} onDrop = {handleCanvasDrop} onDragLeave = {handleCanvasDragLeave} onClick = {handleCanvasClick} ref = {canvasRef}>
                 <div className = "canvas-content">
                     {form.fields.length === 0 ? (
                         <div className = "canvas-empty-state">

@@ -1,38 +1,70 @@
 /* Glassmorphism Template - Frosted, Futuristic, High-End */
 
 .form-template-glassmorphism {
+    /* Form Preview Variables */
     --form-bg: transparent;
-    --form-input-bg: rgba(255, 255, 255, 0.1);
-    --form-input-border: 1px solid rgba(255, 255, 255, 0.2);
+    --form-input-bg: rgba(255, 255, 255, 0.18);
+    --form-input-border: 1px solid rgba(255, 255, 255, 0.3);
     --form-input-text: #FFFFFF;
     --form-label: #FFFFFF;
-    --form-placeholder: rgba(255, 255, 255, 0.7);
+    --form-placeholder: #F1F5F9;
     --form-primary-btn: #FFFFFF;
     --form-primary-btn-hover: rgba(255, 255, 255, 0.9);
     --form-secondary-btn: rgba(255, 255, 255, 0.15);
+    --field-item-bg: rgba(255, 255, 255, 0.1);
+    --field-item-border: 1px solid rgba(255, 255, 255, 0.2);
+    --field-item-border-radius: 8px;
+    --field-item-padding: 12px;
+    --field-item-text: #FFFFFF;
+    --field-item-hover-bg: rgba(255, 255, 255, 0.15);
+    --field-item-hover-border: rgba(255, 255, 255, 0.3);
+    --field-item-selected-bg: rgba(255, 255, 255, 0.2);
+    --field-item-selected-border: #FFFFFF;
+    --field-item-selected-border-width: 2px;
+    
+    /* Form Builder UI Variables */
+    --builder-bg: rgba(15, 23, 42, 0.95);
+    --builder-header-bg: rgba(30, 41, 59, 0.9);
+    --builder-header-text: #FFFFFF;
+    --builder-header-border: 1px solid rgba(255, 255, 255, 0.1);
+    --builder-sidebar-bg: rgba(30, 41, 59, 0.9);
+    --builder-sidebar-text: #FFFFFF;
+    --builder-sidebar-border: 1px solid rgba(255, 255, 255, 0.1);
+    --canvas-border-color: rgba(255, 255, 255, 0.2);
+    --builder-sidebar-hover-bg: rgba(255, 255, 255, 0.1);
+    --builder-sidebar-hover-text: #FFFFFF;
+    --builder-btn-primary: #FFFFFF;
+    --builder-btn-primary-hover: rgba(255, 255, 255, 0.9);
+    --builder-btn-primary-text: #1E293B;
+    --builder-btn-secondary: rgba(255, 255, 255, 0.1);
+    --builder-btn-secondary-hover: rgba(255, 255, 255, 0.2);
+    --builder-btn-secondary-text: #FFFFFF;
+    --builder-floating-btn-bg: rgba(30, 41, 59, 0.9);
+    --builder-floating-btn-hover: #FFFFFF;
+    --builder-floating-btn-text: #1E293B;
+    --builder-overlay-bg: rgba(0, 0, 0, 0.6);
+    --builder-scrollbar-thumb: rgba(255, 255, 255, 0.3);
+    --builder-scrollbar-track: transparent;
+    --field-icon-color: #FFFFFF;
+    --field-icon-hue: 0deg;
+    
+    /* Modal Variables */
+    --modal-header-bg: rgba(30, 41, 59, 0.9);
+    --modal-header-text: #FFFFFF;
+    --modal-body-bg: rgba(15, 23, 42, 0.95);
+    --modal-body-text: #F1F5F9;
+    --modal-footer-bg: rgba(30, 41, 59, 0.9);
 }
 
 .form-template-glassmorphism {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
-    padding: 40px;
     border-radius: 20px;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.form-template-glassmorphism .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 20px;
-}
-
 .form-template-glassmorphism .form-field-label {
     color: var(--form-label);
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: capitalize;
-    letter-spacing: 0px;
 }
 
 .form-template-glassmorphism input,
@@ -41,11 +73,6 @@
     background: var(--form-input-bg);
     color: var(--form-input-text);
     border: var(--form-input-border);
-    border-radius: 8px;
-    padding: 12px 14px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(10px);
 }
 
 .form-template-glassmorphism input::placeholder,
@@ -59,28 +86,17 @@
     outline: none;
     border-color: rgba(255, 255, 255, 0.4);
     background: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
 }
 
 .form-template-glassmorphism button[type="submit"],
 .form-template-glassmorphism .form-submit-btn {
     background: var(--form-primary-btn);
     color: #333333;
-    padding: 12px 28px;
     border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.2);
 }
 
 .form-template-glassmorphism button[type="submit"]:hover,
 .form-template-glassmorphism .form-submit-btn:hover {
     background: var(--form-primary-btn-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.3);
 }
+

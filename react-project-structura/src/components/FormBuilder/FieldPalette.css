@@ -1,22 +1,22 @@
 .field-palette h3 {
   margin: 0 0 16px 0;
   font-size: 16px;
-  color: #333;
+  color: var(--builder-sidebar-text, #333);
 }
 
 .field-divider {
     margin: 16px 0 8px 0;
     padding: 8px 0;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    background-color: #f9f9f9;
+    border-top: 1px solid var(--builder-sidebar-border, #ccc);
+    border-bottom: 1px solid var(--builder-sidebar-border, #ccc);
+    background-color: var(--builder-sidebar-hover-bg, #f9f9f9);
     text-align: center;
 }
 
 .field-divider span {
     font-size: 11px;
     font-weight: 700;
-    color: #666;
+    color: var(--builder-sidebar-text, #666);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     display: inline-block;
@@ -30,7 +30,7 @@
 .field-group h4 {
   margin: 0 0 8px 0;
   font-size: 12px;
-  color: #666;
+  color: var(--builder-sidebar-text, #666);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -42,13 +42,13 @@
 }
 
 .field-button {
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
+  background-color: var(--builder-btn-secondary, #f0f0f0);
+  border: 1px solid var(--builder-sidebar-border, #ddd);
   border-radius: 4px;
   padding: 8px 12px;
   cursor: move;
   font-size: 13px;
-  color: #333;
+  color: var(--builder-sidebar-text, #333);
   transition: all 0.2s ease;
   text-align: left;
   user-select: none;
@@ -66,9 +66,9 @@
 }
 
 .field-button:hover {
-  background-color: #0D47A1;
-  color: white;
-  border-color: #0D47A1;
+  background-color: var(--builder-btn-primary, #0D47A1);
+  color: var(--builder-btn-primary-text, white);
+  border-color: var(--builder-btn-primary, #0D47A1);
   box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
 }
 
@@ -85,13 +85,13 @@
   color: #999;
   cursor: not-allowed;
   opacity: 0.6;
-  border-color: #ccc;
+  border-color: var(--builder-sidebar-border, #ccc);
 }
 
 .field-button.disabled:hover {
   background-color: #e8e8e8;
   color: #999;
-  border-color: #ccc;
+  border-color: var(--builder-sidebar-border, #ccc);
   box-shadow: none;
 }
 
@@ -147,4 +147,3 @@
     height: 16px;
   }
 }
-

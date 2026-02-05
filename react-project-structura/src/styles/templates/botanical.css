@@ -1,6 +1,7 @@
 /* Earthy Botanical Template - Organic, Calming, Trustworthy */
 
 .form-template-botanical {
+    /* Form Preview Variables */
     --form-bg: #FDFBF7;
     --form-input-bg: #F5F3F0;
     --form-input-border: 2px solid #9D6E5D;
@@ -10,26 +11,58 @@
     --form-primary-btn: #9D4B39;
     --form-primary-btn-hover: #7D3A28;
     --form-secondary-btn: #D1D5DB;
+    --field-item-bg: #FFFFFF;
+    --field-item-border: 1px solid #D1D5DB;
+    --field-item-border-radius: 8px;
+    --field-item-padding: 12px;
+    --field-item-text: #374151;
+    --field-item-hover-bg: #F5F3F0;
+    --field-item-hover-border: #9D6E5D;
+    --field-item-selected-bg: rgba(157, 75, 57, 0.1);
+    --field-item-selected-border: #9D4B39;
+    --field-item-selected-border-width: 2px;
+    
+    /* Form Builder UI Variables */
+    --builder-bg: #F5F3F0;
+    --builder-header-bg: #FFFFFF;
+    --builder-header-text: #363E33;
+    --builder-header-border: 1px solid #D1D5DB;
+    --builder-sidebar-bg: #FFFFFF;
+    --builder-sidebar-text: #363E33;
+    --builder-sidebar-border: 1px solid #D1D5DB;
+    --canvas-border-color: #D1D5DB;
+    --builder-sidebar-hover-bg: #F5F3F0;
+    --builder-sidebar-hover-text: #9D6E5D;
+    --builder-btn-primary: #9D4B39;
+    --builder-btn-primary-hover: #7D3A28;
+    --builder-btn-primary-text: #FFFFFF;
+    --builder-btn-secondary: #E5E7EB;
+    --builder-btn-secondary-hover: #D1D5DB;
+    --builder-btn-secondary-text: #374151;
+    --builder-floating-btn-bg: #FFFFFF;
+    --builder-floating-btn-hover: #9D4B39;
+    --builder-floating-btn-text: #FFFFFF;
+    --builder-overlay-bg: rgba(0, 0, 0, 0.5);
+    --builder-scrollbar-thumb: #9D6E5D;
+    --builder-scrollbar-track: transparent;
+    --field-icon-color: #9D4B39;
+    --field-icon-hue: 10deg;
+    
+    /* Modal Variables */
+    --modal-header-bg: #F5F3F0;
+    --modal-header-text: #363E33;
+    --modal-body-bg: #FFFFFF;
+    --modal-body-text: #363E33;
+    --modal-footer-bg: #F5F3F0;
 }
 
 .form-template-botanical {
     background: var(--form-bg);
-    padding: 40px;
-}
-
-.form-template-botanical .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 20px;
+    padding: 0;
 }
 
 .form-template-botanical .form-field-label {
     color: var(--form-label);
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: capitalize;
-    letter-spacing: 0px;
 }
 
 .form-template-botanical input,
@@ -38,10 +71,6 @@
     background: var(--form-input-bg);
     color: var(--form-input-text);
     border: var(--form-input-border);
-    border-radius: 12px;
-    padding: 12px 14px;
-    font-size: 14px;
-    transition: all 0.3s ease;
 }
 
 .form-template-botanical input::placeholder,
@@ -55,28 +84,16 @@
     outline: none;
     border-color: var(--form-primary-btn);
     background: #FFFFFF;
-    box-shadow: 0 4px 12px rgba(157, 75, 57, 0.1);
 }
 
 .form-template-botanical button[type="submit"],
 .form-template-botanical .form-submit-btn {
     background: var(--form-primary-btn);
     color: #FFFFFF;
-    padding: 12px 28px;
     border: none;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 8px rgba(157, 75, 57, 0.15);
 }
 
 .form-template-botanical button[type="submit"]:hover,
 .form-template-botanical .form-submit-btn:hover {
     background: var(--form-primary-btn-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(157, 75, 57, 0.25);
 }

@@ -1,35 +1,67 @@
 /* Cyber-Punch Template - High Energy, Edgy, Neon */
 
 .form-template-cyber-punch {
+    /* Form Preview Variables */
     --form-bg: #000000;
-    --form-input-bg: transparent;
+    --form-input-bg: rgba(20, 20, 20, 0.85);
     --form-input-border: 2px solid #BEF264;
     --form-input-text: #FFFFFF;
     --form-label: #BEF264;
-    --form-placeholder: #A3E635;
+    --form-placeholder: #CCF888;
     --form-primary-btn: #F472B6;
     --form-primary-btn-hover: #EC4899;
     --form-secondary-btn: #BEF264;
+    --field-item-bg: #1a1a1a;
+    --field-item-border: 1px solid #BEF264;
+    --field-item-border-radius: 4px;
+    --field-item-padding: 12px;
+    --field-item-text: #FFFFFF;
+    --field-item-hover-bg: #2a2a2a;
+    --field-item-hover-border: #F472B6;
+    --field-item-selected-bg: rgba(244, 114, 182, 0.2);
+    --field-item-selected-border: #F472B6;
+    --field-item-selected-border-width: 2px;
+    
+    /* Form Builder UI Variables */
+    --builder-bg: #0a0a0a;
+    --builder-header-bg: #111111;
+    --builder-header-text: #BEF264;
+    --builder-header-border: 1px solid #333;
+    --builder-sidebar-bg: #111111;
+    --builder-sidebar-text: #FFFFFF;
+    --builder-sidebar-border: 1px solid #333;
+    --canvas-border-color: #444444;
+    --builder-sidebar-hover-bg: #1a1a1a;
+    --builder-sidebar-hover-text: #BEF264;
+    --builder-btn-primary: #F472B6;
+    --builder-btn-primary-hover: #EC4899;
+    --builder-btn-primary-text: #000000;
+    --builder-btn-secondary: #333333;
+    --builder-btn-secondary-hover: #444444;
+    --builder-btn-secondary-text: #FFFFFF;
+    --builder-floating-btn-bg: #1a1a1a;
+    --builder-floating-btn-hover: #F472B6;
+    --builder-floating-btn-text: #FFFFFF;
+    --builder-overlay-bg: rgba(0, 0, 0, 0.7);
+    --builder-scrollbar-thumb: #BEF264;
+    --builder-scrollbar-track: transparent;
+    --field-icon-color: #BEF264;
+    --field-icon-hue: 90deg;
+    
+    /* Modal Variables */
+    --modal-header-bg: #1a1a1a;
+    --modal-header-text: #BEF264;
+    --modal-body-bg: #111111;
+    --modal-body-text: #FFFFFF;
+    --modal-footer-bg: #1a1a1a;
 }
 
 .form-template-cyber-punch {
     background: var(--form-bg);
-    padding: 40px;
-}
-
-.form-template-cyber-punch .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 24px;
 }
 
 .form-template-cyber-punch .form-field-label {
     color: var(--form-label);
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .form-template-cyber-punch input,
@@ -39,10 +71,6 @@
     color: var(--form-input-text);
     border: none;
     border-bottom: 2px solid #BEF264;
-    border-radius: 0;
-    padding: 12px 0;
-    font-size: 14px;
-    transition: all 0.3s ease;
 }
 
 .form-template-cyber-punch input::placeholder,
@@ -55,28 +83,16 @@
 .form-template-cyber-punch select:focus {
     outline: none;
     border-bottom-color: #F472B6;
-    box-shadow: 0 2px 20px rgba(244, 114, 182, 0.4);
 }
 
 .form-template-cyber-punch button[type="submit"],
 .form-template-cyber-punch .form-submit-btn {
     background: var(--form-primary-btn);
     color: #000000;
-    padding: 14px 40px;
     border: none;
-    border-radius: 0;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    box-shadow: 0 0 30px rgba(244, 114, 182, 0.5);
 }
 
 .form-template-cyber-punch button[type="submit"]:hover,
 .form-template-cyber-punch .form-submit-btn:hover {
     background: var(--form-primary-btn-hover);
-    transform: scale(1.05);
-    box-shadow: 0 0 40px rgba(244, 114, 182, 0.7);
 }

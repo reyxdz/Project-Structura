@@ -4,52 +4,92 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--builder-overlay-bg, rgba(0, 0, 0, 0.5));
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
 }
 
 .modal-container {
-  background-color: white;
+  background-color: var(--modal-header-bg, white);
   border-radius: 8px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
   max-width: 400px;
   min-width: 300px;
   overflow: hidden;
-  animation: slideUp 0.3s ease-out;
+  animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes slideUp {
+/* Theme-specific overrides for modal container */
+.modal-container.form-template-default {
+  background-color: #f9f9f9 !important;
+}
+
+.modal-container.form-template-deep-executive {
+  background-color: #1E293B !important;
+}
+
+.modal-container.form-template-nordic-minimalist {
+  background-color: #F3F4F6 !important;
+}
+
+.modal-container.form-template-cyber-punch {
+  background-color: #1a1a1a !important;
+}
+
+.modal-container.form-template-botanical {
+  background-color: #F5F3F0 !important;
+}
+
+.modal-container.form-template-glassmorphism {
+  background-color: rgba(30, 41, 59, 0.9) !important;
+}
+
+.modal-container.form-template-retro-paper {
+  background-color: #F5DEB3 !important;
+}
+
+@keyframes fadeIn {
   from {
-    transform: translateY(20px);
     opacity: 0;
   }
   to {
-    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
     opacity: 1;
   }
 }
 
 .modal-header {
   padding: 20px;
-  border-bottom: 1px solid #eee;
-  background-color: #f9f9f9;
+  border-bottom: 1px solid var(--builder-sidebar-border, #eee);
+  background-color: var(--modal-header-bg, #f9f9f9);
 }
 
 .modal-header h2 {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
-  color: #333;
+  color: var(--modal-header-text, #333);
 }
 
 .modal-body {
   padding: 20px;
-  color: #666;
+  color: var(--modal-body-text, #666);
   font-size: 14px;
   line-height: 1.5;
+  background-color: var(--modal-body-bg, white);
 }
 
 .modal-body p {
@@ -58,11 +98,11 @@
 
 .modal-footer {
   padding: 20px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--builder-sidebar-border, #eee);
   display: flex;
   gap: 12px;
   justify-content: flex-end;
-  background-color: #f9f9f9;
+  background-color: var(--modal-footer-bg, #f9f9f9);
 }
 
 .modal-footer .btn {

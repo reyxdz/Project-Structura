@@ -7,14 +7,14 @@ const TEMPLATES_WITH_PREVIEWS = [
         id: 'default',
         name: 'Default',
         description: 'Standard form appearance',
-        color: '#6366F1',
-        accentColor: '#4F46E5',
+        color: '#0D47A1',
+        accentColor: '#0D47A1',
         preview: {
             bgColor: '#ffffff',
             inputBg: '#f1f5f9',
             inputBorder: '#e2e8f0',
             textColor: '#1e293b',
-            buttonBg: '#6366F1'
+            buttonBg: '#0D47A1'
         }
     },
     {
@@ -104,7 +104,7 @@ const TEMPLATES_WITH_PREVIEWS = [
     }
 ];
 
-export default function TemplateShowcase({ onSelectTemplate, isCreating, onCreateForm }) {
+export default function TemplateShowcase({ isCreating, onCreateForm }) {
     const [hoveredTemplate, setHoveredTemplate] = useState(null);
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [selectedTemplate, setSelectedTemplate] = useState('default');

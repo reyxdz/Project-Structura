@@ -1,8 +1,8 @@
 .field-item {
-  background-color: #f9f9f9;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 12px;
+  background-color: var(--field-item-bg, #f9f9f9);
+  border: var(--field-item-border, 1px solid #e0e0e0);
+  border-radius: var(--field-item-border-radius, 4px);
+  padding: var(--field-item-padding, 12px);
   cursor: default;
   transition: all 0.2s ease;
   display: flex;
@@ -11,17 +11,17 @@
 }
 
 .field-item:hover {
-  background-color: #f0f0f0;
-  border-color: #ddd;
+  background-color: var(--field-item-hover-bg, #f0f0f0);
+  border-color: var(--field-item-hover-border, #ddd);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .field-item.selected {
-  background-color: #e3f2fd;
-  border-color: #0D47A1;
-  border-width: 2px;
+  background-color: var(--field-item-selected-bg, #e3f2fd);
+  border-color: var(--field-item-selected-border, #0D47A1);
+  border-width: var(--field-item-selected-border-width, 2px);
   cursor: grab;
-  padding: 11px;
+  padding: calc(var(--field-item-padding, 12px) - 1px);
 }
 
 .field-item.dragging {
@@ -30,7 +30,7 @@
 }
 
 .field-item.dragging.overlay {
-  background-color: #0D47A1;
+  background-color: var(--field-item-selected-border, #0D47A1);
   color: white;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
@@ -40,8 +40,8 @@
   align-items: center;
   justify-content: center;
   width: 40px;
-  background-color: #f5f5f5;
-  border-right: 1px solid #e0e0e0;
+  background-color: var(--field-item-bg, #f5f5f5);
+  border-right: var(--field-item-border, 1px solid #e0e0e0);
   flex-shrink: 0;
   cursor: grab;
 }
@@ -67,7 +67,7 @@
 
 .field-label {
   font-weight: 500;
-  color: #333;
+  color: var(--field-item-text, #333);
   flex: 1;
   word-break: break-word;
 }

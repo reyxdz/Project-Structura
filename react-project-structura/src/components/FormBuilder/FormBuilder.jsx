@@ -1,13 +1,21 @@
 // Main container component
 
+// Import all template CSS files
+import '../../styles/templates/default.css';
+import '../../styles/templates/deep-executive.css';
+import '../../styles/templates/nordic-minimalist.css';
+import '../../styles/templates/cyber-punch.css';
+import '../../styles/templates/botanical.css';
+import '../../styles/templates/glassmorphism.css';
+import '../../styles/templates/retro-paper.css';
+
 import React, { useState, useEffect } from 'react';
 import { useFormStore } from '../../stores/formStore';
-import { useTemplate } from '../../context/TemplateContext';
+import { useTemplate } from '../../context/useTemplate';
 import Canvas from './Canvas';
 import FieldPalette from './FieldPalette';
 import FieldConfigurator from './FieldConfigurator';
 import FormPreview from '../FormPreview/FormPreview';
-import TemplateSelector from '../../components/Common/TemplateSelector';
 import psLogo from '../../images/logo_v3.png';
 import './FormBuilder.css';
 
@@ -15,53 +23,80 @@ export default function FormBuilder({ onBackToDashboard }) {
     const form = useFormStore((state) => state.form);
     const selectedFieldId = useFormStore((state) => state.selectedFieldId);
     const loadForm = useFormStore((state) => state.loadForm);
+    const setFormTemplate = useFormStore((state) => state.setFormTemplate);
     const { setSelectedTemplate } = useTemplate();
     const [showPreview, setShowPreview] = useState(false);
     const [showFieldsPalette, setShowFieldsPalette] = useState(false);
     const [showConfigurator, setShowConfigurator] = useState(false);
 
-    // Load form from localStorage when entering builder
+    // Load form from API when entering builder
     useEffect(() => {
         const currentFormId = localStorage.getItem('currentFormId');
-        const savedFormState = localStorage.getItem(`formState_${currentFormId}`);
-        
-        // Load the template for this form
-        const formTemplate = localStorage.getItem(`formTemplate_${currentFormId}`);
-        if (formTemplate) {
-            setSelectedTemplate(formTemplate);
-        }
-        
-        if (savedFormState) {
-            try {
-                const formState = JSON.parse(savedFormState);
-                loadForm(formState);
-            } catch (e) {
-                console.error('Failed to load saved form state:', e);
-            }
-        }
-    }, [loadForm, setSelectedTemplate]);
+        if (!currentFormId) return;
 
-    // Save form state to localStorage whenever it changes
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+        const token = localStorage.getItem('token');
+
+        fetch(`${API_URL}/api/forms/${currentFormId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.form) {
+                    console.log('FormBuilder loaded form from API:', { formId: data.form._id, template: data.form.template });
+                    loadForm(data.form);
+                    // Set the template in both store and context
+                    if (data.form.template) {
+                        setFormTemplate(data.form.template);
+                        setSelectedTemplate(data.form.template);
+                        console.log('FormBuilder set template to:', data.form.template);
+                    }
+                }
+            })
+            .catch(err => console.error('Failed to load form:', err));
+    }, [loadForm, setFormTemplate, setSelectedTemplate]);
+
+    // Save form state to API whenever it changes
     useEffect(() => {
         const currentFormId = localStorage.getItem('currentFormId');
-        if (currentFormId && form) {
-            localStorage.setItem(`formState_${currentFormId}`, JSON.stringify(form));
-        }
+        if (!currentFormId || !form) return;
+
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+        const token = localStorage.getItem('token');
+
+        // Debounce the save to avoid too many API calls
+        const saveTimer = setTimeout(() => {
+            fetch(`${API_URL}/api/forms/${currentFormId}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    title: form.name,
+                    description: form.description,
+                    fields: form.fields,
+                    template: form.template,
+                }),
+            })
+                .catch(err => console.error('Failed to save form:', err));
+        }, 1000);
+
+        return () => clearTimeout(saveTimer);
     }, [form]);
 
-    // Save form state before navigating back
+    // Navigate back to dashboard
     function handleGoBack() {
-        const currentFormId = localStorage.getItem('currentFormId');
-        if (currentFormId && form) {
-            localStorage.setItem(`formState_${currentFormId}`, JSON.stringify(form));
-        }
         if (onBackToDashboard) {
             onBackToDashboard();
         }
     }
 
     return (
-        <div className="form-builder">
+        <div className={`form-builder form-template-${form.template || 'default'}`}>
             <header className="form-builder-header">
                 <div className="header-left">
                     <button 
@@ -74,6 +109,24 @@ export default function FormBuilder({ onBackToDashboard }) {
                     <img src={psLogo} alt="Logo" className="header-logo" />
                 </div>
                 <div className="header-actions">
+                    <select 
+                        className="template-selector"
+                        value={form.template || 'default'}
+                        onChange={(e) => {
+                            const newTemplate = e.target.value;
+                            setFormTemplate(newTemplate);
+                            setSelectedTemplate(newTemplate);
+                        }}
+                        title="Select form template"
+                    >
+                        <option value="default">Default</option>
+                        <option value="deep-executive">Deep Executive</option>
+                        <option value="nordic-minimalist">Nordic Minimalist</option>
+                        <option value="cyber-punch">Cyber Punch</option>
+                        <option value="botanical">Botanical</option>
+                        <option value="glassmorphism">Glassmorphism</option>
+                        <option value="retro-paper">Retro Paper</option>
+                    </select>
                     <button 
                         className="btn btn-primary" 
                         onClick={() => setShowPreview(!showPreview)}
@@ -130,12 +183,6 @@ export default function FormBuilder({ onBackToDashboard }) {
                         <Canvas />
                     )}
                 </main>
-
-                {showPreview && (
-                    <aside className="form-builder-sidebar right-sidebar">
-                        <TemplateSelector />
-                    </aside>
-                )}
 
                 {!showPreview && (
                     <>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTemplate } from '../../context/TemplateContext';
+import { useTemplate } from '../../context/useTemplate';
 import './TemplateSelector.css';
 
 const TEMPLATES = [

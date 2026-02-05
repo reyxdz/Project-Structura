@@ -4,17 +4,13 @@
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useFormStore } from '../../stores/formStore';
-import { useTemplate } from '../../context/TemplateContext';
+import { useTemplate } from '../../context/useTemplate';
 import { FIELD_TYPES } from '../../types/formTypes';
 import { shouldFieldBeVisible } from '../../utils/conditionalRules';
 import FormField from './FormField';
 import './FormPreview.css';
 
-// Import all template CSS files
-import '../../styles/templates/deep-executive.css';
-import '../../styles/templates/nordic-minimalist.css';
-import '../../styles/templates/cyber-punch.css';
-import '../../styles/templates/botanical.css';
+
 import '../../styles/templates/glassmorphism.css';
 import '../../styles/templates/retro-paper.css';
 
@@ -25,16 +21,19 @@ function FormPreview({ isEditMode = false }) {
     const form = useFormStore((state) => state.form);
     const previewData = useFormStore((state) => state.previewData);
     const setPreviewData = useFormStore((state) => state.setPreviewData);
-    const { selectedTemplate } = useTemplate();
-    // Log preview/store updates to help trace what triggers re-renders/remounts
+    const { selectedTemplate: contextTemplate } = useTemplate();
+    
+    // Use form.template as primary source, fall back to context
+    const selectedTemplate = form.template || contextTemplate || 'default';
+    
+    // Log template info for debugging
     React.useEffect(() => {
-        try {
-            console.log('FormPreview store update', { previewData, fieldsCount: form.fields?.length });
-        // eslint-disable-next-line no-unused-vars
-        } catch (e) {
-            // ignore
-        }
-    }, [previewData, form.fields]);
+        console.log('FormPreview template info:', { 
+            formTemplate: form.template, 
+            contextTemplate,
+            effectiveTemplate: selectedTemplate 
+        });
+    }, [form.template, contextTemplate, selectedTemplate]);
     const { handleSubmit } = useForm({
         mode: 'onBlur', // Changed from 'onChange' to 'onBlur' to reduce re-renders
     });

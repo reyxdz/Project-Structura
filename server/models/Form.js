@@ -20,6 +20,11 @@ const formSchema = new mongoose.Schema({
         type: Array,
         default: [],
     },
+    template: {
+        type: String,
+        default: 'default',
+        enum: ['default', 'deep-executive', 'nordic-minimalist', 'cyber-punch', 'botanical', 'glassmorphism', 'retro-paper'],
+    },
     settings: {
         type: Object,
         default: {},

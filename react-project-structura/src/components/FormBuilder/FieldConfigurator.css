@@ -1,7 +1,7 @@
 .field-configurator h3 {
   margin: 0 0 16px 0;
   font-size: 16px;
-  color: #333;
+  color: var(--builder-sidebar-text, #333);
 }
 
 .field-configurator {
@@ -23,18 +23,18 @@
 .config-section span {
   font-size: 12px;
   font-weight: 500;
-  color: #333;
+  color: var(--builder-sidebar-text, #333);
 }
 
 .config-section input[type="text"],
 .config-section textarea {
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--builder-sidebar-border, #ddd);
   border-radius: 4px;
   font-size: 13px;
   font-family: inherit;
-  background-color: #fafafa;
-  color: #333;
+  background-color: var(--builder-sidebar-bg, #fafafa);
+  color: var(--builder-sidebar-text, #333);
   width: 100%;
   box-sizing: border-box;
 }
@@ -42,12 +42,12 @@
 .config-section input[type="text"]:focus,
 .config-section textarea:focus {
   outline: none;
-  border-color: #0D47A1;
+  border-color: var(--builder-btn-primary, #0D47A1);
   box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
 }
 
 .config-section input[type="text"]:disabled {
-  background-color: #f5f5f5;
+  background-color: var(--builder-sidebar-hover-bg, #f5f5f5);
   color: #999;
 }
 
@@ -73,7 +73,7 @@
   gap: 8px;
   margin-top: 24px;
   padding-top: 16px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--builder-sidebar-border, #eee);
 }
 
 .config-actions button {
@@ -82,7 +82,7 @@
 
 .config-divider {
   height: 1px;
-  background-color: #eee;
+  background-color: var(--builder-sidebar-border, #eee);
   margin: 16px 0;
 }
 

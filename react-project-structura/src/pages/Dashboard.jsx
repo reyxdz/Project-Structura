@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import TemplateShowcase from '../components/Dashboard/TemplateShowcase';
 import './Dashboard.css';
 
@@ -10,12 +10,7 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
 
-    // Fetch user's forms on mount
-    useEffect(() => {
-        fetchForms();
-    }, []);
-
-    async function fetchForms() {
+    const fetchForms = useCallback(async () => {
         try {
             setIsLoading(true);
             const token = localStorage.getItem('token');
@@ -35,7 +30,12 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
         } finally {
             setIsLoading(false);
         }
-    }
+    }, [API_URL]);
+
+    // Fetch user's forms on mount
+    useEffect(() => {
+        fetchForms();
+    }, [fetchForms]);
 
     async function handleDeleteForm(formId) {
         if (!window.confirm('Are you sure you want to delete this form?')) return;
@@ -71,16 +71,15 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                     title: formData.name,
                     description: formData.description,
                     fields: [],
+                    template: formData.template,
                 }),
             });
 
             if (!response.ok) throw new Error('Failed to create form');
             const data = await response.json();
             
-            // Save selected template for this form
-            localStorage.setItem(`formTemplate_${data.form._id}`, formData.template);
+            // Save currentFormId to localStorage for the builder to read
             localStorage.setItem('currentFormId', data.form._id);
-            localStorage.setItem('selectedTemplate', formData.template);
             
             onOpenBuilder();
         } catch (err) {
@@ -100,7 +99,9 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
             localStorage.removeItem('auth');
             localStorage.removeItem('token');
             localStorage.removeItem('currentFormId');
-        } catch (e) {}
+        } catch {
+            // Ignore errors when clearing localStorage
+        }
         onLogout();
     }
 
@@ -237,17 +238,8 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                                     <div className="form-meta">
                                         <span className="form-fields">
                                             {(() => {
-                                                const savedState = localStorage.getItem(`formState_${form._id}`);
-                                                if (savedState) {
-                                                    try {
-                                                        const state = JSON.parse(savedState);
-                                                        const count = state.fields?.length || 0;
-                                                        return `${count} field${count !== 1 ? 's' : ''}`;
-                                                    } catch (e) {
-                                                        return `${form.fields?.length || 0} field${form.fields?.length !== 1 ? 's' : ''}`;
-                                                    }
-                                                }
-                                                return `${form.fields?.length || 0} field${form.fields?.length !== 1 ? 's' : ''}`;
+                                                const count = form.fields?.length || 0;
+                                                return `${count} field${count !== 1 ? 's' : ''}`;
                                             })()}
                                         </span>
                                         <span className="form-date">
