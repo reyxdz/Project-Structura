@@ -6,7 +6,14 @@ import { evaluateFormula, calculateAggregation, isEditableColumn, formatNumber }
 import html2pdf from 'html2pdf.js';
 import './FormField.css';
 
-export default function FormField({ field, error, isEditMode = false }) {
+export default function FormField({ 
+    field, 
+    error, 
+    isEditMode = false,
+    value = '',
+    onChange = null,
+    isPublic = false 
+}) {
     // Appointment field state
     const [appointmentState, setAppointmentState] = React.useState(() => ({
         selectedDate: null,
