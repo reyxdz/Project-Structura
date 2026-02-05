@@ -16,6 +16,8 @@ import Canvas from './Canvas';
 import FieldPalette from './FieldPalette';
 import FieldConfigurator from './FieldConfigurator';
 import FormPreview from '../FormPreview/FormPreview';
+import PublishModal from './PublishModal';
+import { publishForm } from '../../utils/formApi';
 import psLogo from '../../images/logo_v3.png';
 import './FormBuilder.css';
 
@@ -28,6 +30,10 @@ export default function FormBuilder({ onBackToDashboard }) {
     const [showPreview, setShowPreview] = useState(false);
     const [showFieldsPalette, setShowFieldsPalette] = useState(false);
     const [showConfigurator, setShowConfigurator] = useState(false);
+    const [showPublishModal, setShowPublishModal] = useState(false);
+    const [publishData, setPublishData] = useState(null);
+    const [publishLoading, setPublishLoading] = useState(false);
+    const [publishError, setPublishError] = useState(null);
 
     // Load form from API when entering builder
     useEffect(() => {
@@ -88,6 +94,27 @@ export default function FormBuilder({ onBackToDashboard }) {
         return () => clearTimeout(saveTimer);
     }, [form]);
 
+    const handlePublishClick = async () => {
+        if (!form || !form._id) {
+            setPublishError('Form ID not found. Please refresh and try again.');
+            return;
+        }
+
+        setPublishLoading(true);
+        setPublishError(null);
+
+        try {
+            const result = await publishForm(form._id);
+            setPublishData(result.form);
+            setShowPublishModal(true);
+        } catch (error) {
+            setPublishError(error.message || 'Failed to publish form. Please try again.');
+            console.error('Publish error:', error);
+        } finally {
+            setPublishLoading(false);
+        }
+    };
+
     // Navigate back to dashboard
     function handleGoBack() {
         if (onBackToDashboard) {
@@ -140,15 +167,31 @@ export default function FormBuilder({ onBackToDashboard }) {
                     </button>
                     <button 
                         className="btn btn-primary" 
-                        onClick={() => {
-                            // TODO: Implement publish functionality
-                            alert('Publish functionality to be implemented');
-                        }}
+                        onClick={handlePublishClick}
+                        disabled={publishLoading}
                     >
-                        Publish
+                        {publishLoading ? 'Publishing...' : 'Publish'}
                     </button>
                 </div>
             </header>
+
+            {publishError && (
+                <div className="publish-error-banner">
+                    <span>{publishError}</span>
+                    <button onClick={() => setPublishError(null)} className="close-banner">✕</button>
+                </div>
+            )}
+
+            <PublishModal
+                isOpen={showPublishModal}
+                onClose={() => setShowPublishModal(false)}
+                formId={form._id}
+                publishData={publishData}
+                onUnpublish={() => {
+                    setShowPublishModal(false);
+                    setPublishData(null);
+                }}
+            />
 
             <div className="form-builder-body">
                 {!showPreview && (
