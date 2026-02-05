@@ -133,10 +133,19 @@ export default function FormBuilder({ onBackToDashboard }) {
                         </svg>
                     </div>
                     <button 
-                        className="btn btn-primary" 
+                        className="btn btn-secondary" 
                         onClick={() => setShowPreview(!showPreview)}
                     >
                         {showPreview ? 'Edit' : 'Preview'}
+                    </button>
+                    <button 
+                        className="btn btn-primary" 
+                        onClick={() => {
+                            // TODO: Implement publish functionality
+                            alert('Publish functionality to be implemented');
+                        }}
+                    >
+                        Publish
                     </button>
                 </div>
             </header>
