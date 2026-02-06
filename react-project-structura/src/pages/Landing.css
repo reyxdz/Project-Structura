@@ -45,11 +45,32 @@ html[data-theme="light"] {
     z-index: 100;
 }
 
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-logo {
+    height: 40px;
+    width: auto;
+    filter: brightness(0) saturate(100%);
+}
+
+html[data-theme="dark"] .brand-logo {
+    filter: brightness(0) saturate(100%) invert(100%);
+}
+
+html[data-theme="light"] .brand-logo {
+    filter: brightness(0) saturate(100%);
+}
+
 .landing-header .brand {
     font-size: 1.25rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     color: var(--landing-text);
+    display: none;
 }
 
 .landing-header nav {
@@ -101,9 +122,9 @@ html[data-theme="light"] {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
-    padding: 4rem 3rem;
+    padding: 4rem 2rem;
     align-items: center;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     width: 100%;
 }

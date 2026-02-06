@@ -45,6 +45,20 @@
     gap: 12px;
 }
 
+.header-logo {
+    height: 40px;
+    width: auto;
+    filter: brightness(0) saturate(100%);
+}
+
+html[data-theme="dark"] .header-logo {
+    filter: brightness(0) saturate(100%) invert(100%);
+}
+
+html[data-theme="light"] .header-logo {
+    filter: brightness(0) saturate(100%);
+}
+
 .logo {
     font-size: 28px;
     font-weight: 700;
@@ -55,6 +69,7 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    display: none;
 }
 
 .subtitle {
@@ -63,6 +78,7 @@
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 500;
+    display: none;
 }
 
 .header-right {

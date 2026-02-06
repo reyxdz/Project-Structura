@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import TemplateShowcase from '../components/Dashboard/TemplateShowcase';
+import logo from '../images/logo_v2.png';
 import './Dashboard.css';
 
 function Dashboard({ authUser, userFirstName, onOpenBuilder, onLogout, theme, toggleTheme }) {
@@ -132,8 +133,7 @@ function Dashboard({ authUser, userFirstName, onOpenBuilder, onLogout, theme, to
             {/* Header */}
             <header className="dashboard-header">
                 <div className="header-left">
-                    <h1 className="logo">PROJECT STRUCTURA</h1>
-                    <span className="subtitle">Form Builder</span>
+                    <img src={logo} alt="Project Structura" className="header-logo" />
                 </div>
                 <div className="header-right">
                     <button 

@@ -1,11 +1,14 @@
 import React from 'react';
 import './Landing.css';
+import logo from '../images/logo_v2.png';
 
 export default function Landing({ onEnter, theme, toggleTheme }) {
   return (
     <div className="landing-root">
       <header className="landing-header">
-        <div className="brand">PROJECT STRUCTURA</div>
+        <div className="brand-container">
+          <img src={logo} alt="Project Structura" className="brand-logo" />
+        </div>
         <nav>
           <button className="btn-ghost" onClick={onEnter}>Open Builder</button>
           <button
