@@ -57,7 +57,7 @@ app.post('/api/auth/signup', async (req, res) => {
     await user.save();
 
     const token = generateToken(user);
-    return res.status(201).json({ email: user.email, token });
+    return res.status(201).json({ email: user.email, firstName: user.firstName, token });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Server error' });
@@ -76,7 +76,7 @@ app.post('/api/auth/signin', async (req, res) => {
     if (!ok) return res.status(401).json({ message: 'Invalid credentials' });
 
     const token = generateToken(user);
-    return res.status(200).json({ email: user.email, token });
+    return res.status(200).json({ email: user.email, firstName: user.firstName, token });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Server error' });

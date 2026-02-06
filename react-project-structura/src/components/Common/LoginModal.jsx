@@ -45,8 +45,8 @@ export default function LoginModal({ isOpen, onClose, onLogin, authUser }) {
         setError(data.message || 'Sign in failed');
         return;
       }
-      // call onLogin with email and token
-      onLogin({ email: data.email, token: data.token });
+      // call onLogin with email, firstName and token
+      onLogin({ email: data.email, firstName: data.firstName, token: data.token });
     } catch (err) {
       console.error(err);
       setError(err?.message || 'Network error');
@@ -76,7 +76,7 @@ export default function LoginModal({ isOpen, onClose, onLogin, authUser }) {
         setError(data.message || 'Sign up failed');
         return;
       }
-      onLogin({ email: data.email, token: data.token });
+      onLogin({ email: data.email, firstName: data.firstName, token: data.token });
     } catch (err) {
       console.error(err);
       setError(err?.message || 'Network error');

@@ -15,6 +15,11 @@ function App() {
             return localStorage.getItem('auth') || null;
         } catch (e) { return null }
     });
+    const [userFirstName, setUserFirstName] = useState(() => {
+        try {
+            return localStorage.getItem('firstName') || null;
+        } catch (e) { return null }
+    });
     const [currentPage, setCurrentPage] = useState(() => {
         try {
             const auth = localStorage.getItem('auth');
@@ -67,18 +72,21 @@ function App() {
         setShowLogin(true);
     }
 
-    function handleLogin({ email, token }) {
+    function handleLogin({ email, firstName, token }) {
         try { 
             localStorage.setItem('auth', email);
+            localStorage.setItem('firstName', firstName);
             localStorage.setItem('token', token);
         } catch (e) {}
         setAuthUser(email);
+        setUserFirstName(firstName);
         setShowLogin(false);
         setCurrentPage('dashboard');
     }
 
     function handleLogout() {
         setAuthUser(null);
+        setUserFirstName(null);
         setCurrentPage('landing');
     }
 
@@ -104,6 +112,7 @@ function App() {
                 {currentPage === 'dashboard' && authUser && (
                     <Dashboard
                         authUser={authUser}
+                        userFirstName={userFirstName}
                         onOpenBuilder={handleOpenBuilder}
                         onLogout={handleLogout}
                         theme={theme}

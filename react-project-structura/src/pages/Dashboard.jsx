@@ -2,13 +2,35 @@ import { useState, useEffect, useCallback } from 'react';
 import TemplateShowcase from '../components/Dashboard/TemplateShowcase';
 import './Dashboard.css';
 
-function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
+function Dashboard({ authUser, userFirstName, onOpenBuilder, onLogout, theme, toggleTheme }) {
     const [forms, setForms] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const [isCreating, setIsCreating] = useState(false);
+    const [firstName, setFirstName] = useState(userFirstName);
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+
+    // Fetch user's first name from server
+    useEffect(() => {
+        async function fetchUserInfo() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch(`${API_URL}/api/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    setFirstName(data.firstName);
+                }
+            } catch (err) {
+                console.error('Failed to fetch user info:', err);
+            }
+        }
+        fetchUserInfo();
+    }, [API_URL]);
 
     const fetchForms = useCallback(async () => {
         try {
@@ -151,6 +173,12 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
 
             {/* Main Content */}
             <main className="dashboard-main">
+                {/* Welcome Section */}
+                <section className="welcome-section">
+                    <h2 className="welcome-title">Welcome back, {firstName || 'there'}!</h2>
+                    <p className="welcome-subtitle">What would you like to do today?</p>
+                </section>
+
                 {/* Statistics Section */}
                 <section className="stats-section">
                     <div className="stats-grid">
@@ -227,12 +255,12 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                     />
                 </section>
 
-                {/* Recent Forms */}
+                {/* Active Forms Section */}
                 <section className="recent-forms-section">
                     <div className="section-header">
-                        <h3>Your Forms</h3>
-                        {forms.length > 0 && (
-                            <span className="form-count">{forms.length} form{forms.length !== 1 ? 's' : ''}</span>
+                        <h3>Active Forms</h3>
+                        {forms.filter(f => f.status === 'published').length > 0 && (
+                            <span className="form-count">{forms.filter(f => f.status === 'published').length} form{forms.filter(f => f.status === 'published').length !== 1 ? 's' : ''}</span>
                         )}
                     </div>
 
@@ -241,15 +269,15 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                             <div className="spinner"></div>
                             <p>Loading your forms...</p>
                         </div>
-                    ) : forms.length === 0 ? (
+                    ) : forms.filter(f => f.status === 'published').length === 0 ? (
                         <div className="empty-state">
                             <div className="empty-icon">📋</div>
-                            <h4>No forms yet</h4>
-                            <p>Create your first form to get started</p>
+                            <h4>No active forms</h4>
+                            <p>Publish a form to make it active</p>
                         </div>
                     ) : (
                         <div className="forms-grid">
-                            {forms.map((form) => (
+                            {forms.filter(f => f.status === 'published').map((form) => (
                                 <div 
                                     key={form._id}
                                     className="form-card"
@@ -290,7 +318,81 @@ function Dashboard({ authUser, onOpenBuilder, onLogout, theme, toggleTheme }) {
                                         </span>
                                     </div>
                                     <button 
-                                        className="btn-open"
+                                        className="btn-open-form"
+                                        onClick={() => handleOpenForm(form._id)}
+                                    >
+                                        Open Form
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </section>
+
+                {/* Inactive Forms Section */}
+                <section className="recent-forms-section">
+                    <div className="section-header">
+                        <h3>Inactive Forms</h3>
+                        {forms.filter(f => !f.status || f.status === 'draft').length > 0 && (
+                            <span className="form-count">{forms.filter(f => !f.status || f.status === 'draft').length} form{forms.filter(f => !f.status || f.status === 'draft').length !== 1 ? 's' : ''}</span>
+                        )}
+                    </div>
+
+                    {isLoading ? (
+                        <div className="loading">
+                            <div className="spinner"></div>
+                            <p>Loading your forms...</p>
+                        </div>
+                    ) : forms.filter(f => !f.status || f.status === 'draft').length === 0 ? (
+                        <div className="empty-state">
+                            <div className="empty-icon">📋</div>
+                            <h4>No inactive forms</h4>
+                            <p>All your forms are active</p>
+                        </div>
+                    ) : (
+                        <div className="forms-grid">
+                            {forms.filter(f => !f.status || f.status === 'draft').map((form) => (
+                                <div 
+                                    key={form._id}
+                                    className="form-card"
+                                >
+                                    <div className="form-card-header">
+                                        <div className="form-header-left">
+                                            <h4 className="form-title">{form.title}</h4>
+                                            {form.description && (
+                                                <p className="form-description">{form.description}</p>
+                                            )}
+                                        </div>
+                                        <div className="form-actions-menu">
+                                            <button 
+                                                className="btn-action-text edit"
+                                                title="Edit form"
+                                                onClick={() => handleOpenForm(form._id)}
+                                            >
+                                                Edit
+                                            </button>
+                                            <button 
+                                                className="btn-action-text delete"
+                                                title="Delete form"
+                                                onClick={() => handleDeleteForm(form._id)}
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="form-meta">
+                                        <span className="form-fields">
+                                            {(() => {
+                                                const count = form.fields?.length || 0;
+                                                return `${count} field${count !== 1 ? 's' : ''}`;
+                                            })()}
+                                        </span>
+                                        <span className="form-date">
+                                            {new Date(form.createdAt).toLocaleDateString()}
+                                        </span>
+                                    </div>
+                                    <button 
+                                        className="btn-open-form"
                                         onClick={() => handleOpenForm(form._id)}
                                     >
                                         Open Form
