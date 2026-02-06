@@ -321,7 +321,7 @@ function Dashboard({ authUser, userFirstName, onOpenBuilder, onLogout, theme, to
                                         className="btn-open-form"
                                         onClick={() => handleOpenForm(form._id)}
                                     >
-                                        Open Form
+                                        Responses
                                     </button>
                                 </div>
                             ))}
