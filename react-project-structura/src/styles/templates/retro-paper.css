@@ -41,8 +41,7 @@
     --builder-btn-secondary-text: #2D2D2D;
     --builder-floating-btn-bg: #FAF9F6;
     --builder-floating-btn-hover: #2563EB;
-    --builder-floating-btn-text: #FFFFFF;
-    --builder-overlay-bg: rgba(0, 0, 0, 0.5);
+    --builder-floating-btn-text: #FFFFFF;    --builder-logo-color: #2563EB;    --builder-overlay-bg: rgba(0, 0, 0, 0.5);
     --builder-scrollbar-thumb: #8B8680;
     --builder-scrollbar-track: transparent;
     --field-icon-color: #2563EB;

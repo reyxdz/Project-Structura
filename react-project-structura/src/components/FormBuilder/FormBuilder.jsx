@@ -18,7 +18,6 @@ import FieldConfigurator from './FieldConfigurator';
 import FormPreview from '../FormPreview/FormPreview';
 import PublishModal from './PublishModal';
 import { publishForm } from '../../utils/formApi';
-import psLogo from '../../images/logo_v2.png';
 import './FormBuilder.css';
 
 export default function FormBuilder({ onBackToDashboard }) {
@@ -126,13 +125,14 @@ export default function FormBuilder({ onBackToDashboard }) {
         <div className={`form-builder form-template-${form.template || 'default'}`}>
             <header className="form-builder-header">
                 <div className="header-left">
-                    <img 
-                        src={psLogo} 
-                        alt="Logo" 
-                        className="header-logo"
+                    <button 
+                        className="text-logo"
                         onClick={handleGoBack}
                         title="Back to Dashboard"
-                    />
+                    >
+                        <div className="text-logo-small">PROJECT</div>
+                        <div className="text-logo-large">STRUCTURA</div>
+                    </button>
                 </div>
                 <div className="header-actions">
                     <div className="template-selector-wrapper">

@@ -24,6 +24,41 @@
   min-width: 0;
 }
 
+.text-logo {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  transition: all 0.3s ease;
+}
+
+.text-logo:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.text-logo-small {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--builder-logo-color, #0D47A1);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.text-logo-large {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--builder-logo-color, #0D47A1);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
 .btn-back {
   padding: 8px 16px;
   background: linear-gradient(135deg, var(--builder-btn-primary, #0D47A1), var(--builder-btn-primary-hover, #1976d2));
@@ -52,6 +87,7 @@
   cursor: pointer;
   filter: brightness(0) saturate(100%);
   transition: filter 0.3s ease;
+  display: none;
 }
 
 /* Dynamic logo color based on template */
