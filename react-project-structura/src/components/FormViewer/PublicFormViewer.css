@@ -132,7 +132,7 @@
 .field-wrapper textarea,
 .field-wrapper select {
   padding: 12px;
-  border: 2px solid var(--form-input-border, 2px solid #9D6E5D);
+  border: 2px solid var(--form-input-border, #9D6E5D);
   border-radius: 6px;
   font-family: inherit;
   font-size: 14px;

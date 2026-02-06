@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import TemplateShowcase from '../components/Dashboard/TemplateShowcase';
+import FormResponses from './FormResponses';
 import logo from '../images/logo_v2.png';
 import './Dashboard.css';
 
@@ -8,6 +9,8 @@ function Dashboard({ authUser, userFirstName, onOpenBuilder, onLogout, theme, to
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const [isCreating, setIsCreating] = useState(false);
+    const [showResponses, setShowResponses] = useState(false);
+    const [selectedFormForResponses, setSelectedFormForResponses] = useState(null);
     const [firstName, setFirstName] = useState(userFirstName);
 
     const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000';
@@ -117,6 +120,16 @@ function Dashboard({ authUser, userFirstName, onOpenBuilder, onLogout, theme, to
         onOpenBuilder();
     }
 
+    function handleOpenResponses(form) {
+        setSelectedFormForResponses(form);
+        setShowResponses(true);
+    }
+
+    function handleBackFromResponses() {
+        setShowResponses(false);
+        setSelectedFormForResponses(null);
+    }
+
     function handleLogout() {
         try {
             localStorage.removeItem('auth');
@@ -172,6 +185,15 @@ function Dashboard({ authUser, userFirstName, onOpenBuilder, onLogout, theme, to
             </header>
 
             {/* Main Content */}
+            {showResponses && selectedFormForResponses ? (
+                <FormResponses 
+                    formId={selectedFormForResponses._id}
+                    formTitle={selectedFormForResponses.title}
+                    theme={theme}
+                    toggleTheme={toggleTheme}
+                    onBack={handleBackFromResponses}
+                />
+            ) : (
             <main className="dashboard-main">
                 {/* Welcome Section */}
                 <section className="welcome-section">
@@ -319,7 +341,7 @@ function Dashboard({ authUser, userFirstName, onOpenBuilder, onLogout, theme, to
                                     </div>
                                     <button 
                                         className="btn-open-form"
-                                        onClick={() => handleOpenForm(form._id)}
+                                        onClick={() => handleOpenResponses(form)}
                                     >
                                         Responses
                                     </button>
@@ -403,6 +425,7 @@ function Dashboard({ authUser, userFirstName, onOpenBuilder, onLogout, theme, to
                     )}
                 </section>
             </main>
+            )}
         </div>
     );
 }

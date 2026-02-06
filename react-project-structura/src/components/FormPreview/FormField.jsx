@@ -764,6 +764,19 @@ export default function FormField({
     if (field.type === FIELD_TYPES.FULL_NAME) {
         const firstNameLabel = field.metadata?.firstNameLabel || 'First Name';
         const lastNameLabel = field.metadata?.lastNameLabel || 'Last Name';
+        
+        const handleFirstNameChange = (e) => {
+            const fullValue = value || {};
+            onChange && onChange({ ...fullValue, first: e.target.value });
+        };
+        
+        const handleLastNameChange = (e) => {
+            const fullValue = value || {};
+            onChange && onChange({ ...fullValue, last: e.target.value });
+        };
+        
+        const fullNameValue = value && typeof value === 'object' ? value : {};
+        
         return (
             <div className="full-name-field">
                 <label htmlFor={field.id}>
@@ -772,11 +785,11 @@ export default function FormField({
                 </label>
                 <div className="full-name-inputs-preview">
                     <div className="full-name-preview-group">
-                        <input id={field.id} name={`${field.id}.first`} type="text" placeholder="" />
+                        <input id={field.id} name={`${field.id}.first`} type="text" placeholder="" value={fullNameValue.first || ''} onChange={handleFirstNameChange} />
                         <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{firstNameLabel}</p>
                     </div>
                     <div className="full-name-preview-group">
-                        <input id={`${field.id}-last`} name={`${field.id}.last`} type="text" placeholder="" />
+                        <input id={`${field.id}-last`} name={`${field.id}.last`} type="text" placeholder="" value={fullNameValue.last || ''} onChange={handleLastNameChange} />
                         <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{lastNameLabel}</p>
                     </div>
                 </div>
@@ -798,6 +811,8 @@ export default function FormField({
                     name={field.id}
                     type="email"
                     placeholder={field.placeholder || ''}
+                    value={value || ''}
+                    onChange={(e) => onChange && onChange(e.target.value)}
                     aria-label={field.label || field.id}
                 />
                 {emailSublabel && (
@@ -814,6 +829,13 @@ export default function FormField({
         const city = field.metadata?.city || 'City';
         const stateProvince = field.metadata?.stateProvince || 'State / Province';
         const postalZipCode = field.metadata?.postalZipCode || 'Postal / Zip Code';
+        
+        const addressValue = value && typeof value === 'object' ? value : {};
+        
+        const handleAddressChange = (field, fieldValue) => {
+            onChange && onChange({ ...addressValue, [field]: fieldValue });
+        };
+        
         return (
             <div className="address-field">
                 <label htmlFor={field.id}>
@@ -822,29 +844,29 @@ export default function FormField({
                 </label>
                 <div className="address-inputs-preview">
                     <div className="address-input-group-preview">
-                        <input id={field.id} name={`${field.id}.street1`} type="text" placeholder="" />
+                        <input id={field.id} name={`${field.id}.street1`} type="text" placeholder="" value={addressValue.street1 || ''} onChange={(e) => handleAddressChange(field.id, { ...addressValue, street1: e.target.value })} />
                         <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{streetAddress1}</p>
                     </div>
                     <div className="address-input-group-preview">
-                        <input id={`${field.id}-street2`} name={`${field.id}.street2`} type="text" placeholder="" />
+                        <input id={`${field.id}-street2`} name={`${field.id}.street2`} type="text" placeholder="" value={addressValue.street2 || ''} onChange={(e) => handleAddressChange(field.id, { ...addressValue, street2: e.target.value })} />
                         <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{streetAddress2}</p>
                     </div>
                     <div className="address-row-preview">
                         <div className="address-col-preview">
                             <div className="address-input-group-preview">
-                                <input id={`${field.id}-city`} name={`${field.id}.city`} type="text" placeholder="" />
+                                <input id={`${field.id}-city`} name={`${field.id}.city`} type="text" placeholder="" value={addressValue.city || ''} onChange={(e) => handleAddressChange(field.id, { ...addressValue, city: e.target.value })} />
                                 <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{city}</p>
                             </div>
                         </div>
                         <div className="address-col-preview">
                             <div className="address-input-group-preview">
-                                <input id={`${field.id}-state`} name={`${field.id}.state`} type="text" placeholder="" />
+                                <input id={`${field.id}-state`} name={`${field.id}.state`} type="text" placeholder="" value={addressValue.state || ''} onChange={(e) => handleAddressChange(field.id, { ...addressValue, state: e.target.value })} />
                                 <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{stateProvince}</p>
                             </div>
                         </div>
                     </div>
                     <div className="address-input-group-preview">
-                        <input id={`${field.id}-postal`} name={`${field.id}.postal`} type="text" placeholder="" />
+                        <input id={`${field.id}-postal`} name={`${field.id}.postal`} type="text" placeholder="" value={addressValue.postal || ''} onChange={(e) => handleAddressChange(field.id, { ...addressValue, postal: e.target.value })} />
                         <p style={{fontSize: '12px', color: '#757575', margin: '4px 0 0 0', lineHeight: '1.4'}}>{postalZipCode}</p>
                     </div>
                 </div>
@@ -861,7 +883,7 @@ export default function FormField({
                     {field.label}
                     {field.required && <span className="required-asterisk">*</span>}
                 </label>
-                <input id={field.id} name={field.id} type="tel" placeholder={field.placeholder || ''} aria-label={field.label || field.id} />
+                <input id={field.id} name={field.id} type="tel" placeholder={field.placeholder || ''} value={value || ''} onChange={(e) => onChange && onChange(e.target.value)} aria-label={field.label || field.id} />
                 {phoneSublabel && (
                     <p style={{fontSize: '12px', color: '#757575', margin: '6px 0 0 0', lineHeight: '1.4'}}>{phoneSublabel}</p>
                 )}
@@ -950,6 +972,7 @@ export default function FormField({
                     setSelectedDate(date);
                     setDisplayMonth(date.getMonth());
                     setDisplayYear(date.getFullYear());
+                    onChange && onChange(formatted);
                 }
             }
         };
@@ -961,7 +984,9 @@ export default function FormField({
         const handleDateSelect = (day) => {
             const date = new Date(displayYear, displayMonth, day);
             setSelectedDate(date);
-            dateInputRef.current.value = formatDate(date);
+            const formattedDate = formatDate(date);
+            dateInputRef.current.value = formattedDate;
+            onChange && onChange(formattedDate);
             setShowCalendar(false);
         };
 
@@ -1038,6 +1063,7 @@ export default function FormField({
                             name={field.id}
                             type="text" 
                             placeholder={placeholder}
+                            value={value || ''}
                             onChange={handleInputChange}
                             maxLength="10"
                             aria-label={field.label || field.id}
@@ -1528,7 +1554,8 @@ export default function FormField({
                                 id={field.id}
                                 type="text"
                                 placeholder={field.placeholder}
-                                defaultValue={field.value || ''}
+                                value={value || ''}
+                                onChange={(e) => onChange && onChange(e.target.value)}
                                 className={error ? 'input-error' : ''}
                             />
                         );
@@ -1541,7 +1568,8 @@ export default function FormField({
                                     id={field.id}
                                     type="text"
                                     placeholder={field.placeholder}
-                                    defaultValue={field.value || ''}
+                                    value={value || ''}
+                                    onChange={(e) => onChange && onChange(e.target.value)}
                                     className={error ? 'input-error' : ''}
                                 />
                                 {sublabel && (
@@ -1569,7 +1597,8 @@ export default function FormField({
                                     id={field.id}
                                     type="number"
                                     placeholder={field.placeholder}
-                                    defaultValue={field.value || ''}
+                                    value={value || ''}
+                                    onChange={(e) => onChange && onChange(e.target.value)}
                                     className={error ? 'input-error' : ''}
                                     min={minValue || undefined}
                                     max={maxValue || undefined}
@@ -1593,7 +1622,8 @@ export default function FormField({
                             <textarea 
                                 id={field.id}
                                 placeholder={field.placeholder}
-                                defaultValue={field.value || ''}
+                                value={value || ''}
+                                onChange={(e) => onChange && onChange(e.target.value)}
                                 rows="4"
                                 className={error ? 'input-error' : ''}
                             />
@@ -1606,7 +1636,8 @@ export default function FormField({
                                 <textarea 
                                     id={field.id}
                                     placeholder={field.placeholder}
-                                    defaultValue={field.value || ''}
+                                    value={value || ''}
+                                    onChange={(e) => onChange && onChange(e.target.value)}
                                     rows="4"
                                     className={error ? 'input-error' : ''}
                                 />
@@ -1872,7 +1903,8 @@ export default function FormField({
                                 <input 
                                     type="checkbox"
                                     id={field.id}
-                                    defaultChecked={field.value || false}
+                                    checked={value || false}
+                                    onChange={(e) => onChange && onChange(e.target.checked)}
                                 />
                                 <label htmlFor={field.id}>
                                     {field.label}
@@ -1892,7 +1924,8 @@ export default function FormField({
                                             id={`${field.id}-${idx}`}
                                             name={field.id}
                                             value={option.value || option.label || option}
-                                            defaultChecked={field.value === (option.value || option.label || option)}
+                                            checked={value === (option.value || option.label || option)}
+                                            onChange={(e) => onChange && onChange(e.target.value)}
                                         />
                                         <label htmlFor={`${field.id}-${idx}`}>
                                             {option.label || option}
@@ -1906,7 +1939,8 @@ export default function FormField({
                         return (
                             <select
                                 id={field.id}
-                                defaultValue={field.value || ''}
+                                value={value || ''}
+                                onChange={(e) => onChange && onChange(e.target.value)}
                                 className={error ? 'input-error' : ''}
                             >
                                 <option value="">Select an option...</option>
@@ -1924,7 +1958,8 @@ export default function FormField({
                             <div className="dropdown-field-wrapper">
                                 <select
                                     id={field.id}
-                                    defaultValue={field.value || ''}
+                                    value={value || ''}
+                                    onChange={(e) => onChange && onChange(e.target.value)}
                                     className={error ? 'input-error' : ''}
                                 >
                                     <option value="">Please Select</option>
@@ -1942,6 +1977,17 @@ export default function FormField({
                     }
 
                     case FIELD_TYPES.MULTIPLE_CHOICE: {
+                        const handleMultipleChoiceChange = (optionValue, isChecked) => {
+                            const currentArray = Array.isArray(value) ? value : [];
+                            let newArray;
+                            if (isChecked) {
+                                newArray = [...currentArray, optionValue];
+                            } else {
+                                newArray = currentArray.filter(item => item !== optionValue);
+                            }
+                            onChange && onChange(newArray);
+                        };
+
                         return (
                             <div className="checkbox-field">
                                 {field.options?.map((option, idx) => (
@@ -1950,7 +1996,8 @@ export default function FormField({
                                             type="checkbox"
                                             id={`${field.id}-${idx}`}
                                             value={option.label || option}
-                                            defaultChecked={Array.isArray(field.value) && field.value.includes(option.label || option)}
+                                            checked={Array.isArray(value) && value.includes(option.label || option)}
+                                            onChange={(e) => handleMultipleChoiceChange(option.label || option, e.target.checked)}
                                         />
                                         <label htmlFor={`${field.id}-${idx}`}>
                                             {option.label || option}

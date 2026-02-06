@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getPublicForm, submitFormResponse } from '../../utils/formApi';
+import { FIELD_TYPES } from '../../types/formTypes';
 import FormField from '../FormPreview/FormField';
 import LoadingScreen from '../LoadingScreen';
 
@@ -24,7 +25,6 @@ export default function PublicFormViewer({ publicToken, onSuccess } = {}) {
     const [form, setForm] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [submitting, setSubmitting] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [formValues, setFormValues] = useState({});
     const [validationErrors, setValidationErrors] = useState({});
@@ -41,7 +41,15 @@ export default function PublicFormViewer({ publicToken, onSuccess } = {}) {
                 // Initialize form values
                 const initialValues = {};
                 formData.fields?.forEach(field => {
-                    initialValues[field.id] = '';
+                    if (field.type === FIELD_TYPES.FULL_NAME) {
+                        initialValues[field.id] = { first: '', last: '' };
+                    } else if (field.type === FIELD_TYPES.ADDRESS) {
+                        initialValues[field.id] = { street1: '', street2: '', city: '', state: '', postal: '' };
+                    } else if (field.type === FIELD_TYPES.MULTIPLE_CHOICE) {
+                        initialValues[field.id] = [];
+                    } else {
+                        initialValues[field.id] = '';
+                    }
                 });
                 setFormValues(initialValues);
             } catch (err) {
@@ -62,6 +70,7 @@ export default function PublicFormViewer({ publicToken, onSuccess } = {}) {
     }, [publicToken]);
 
     const handleFieldChange = (fieldId, value) => {
+        console.log('handleFieldChange called:', { fieldId, value });
         setFormValues(prev => ({
             ...prev,
             [fieldId]: value,
@@ -128,8 +137,6 @@ export default function PublicFormViewer({ publicToken, onSuccess } = {}) {
             return;
         }
 
-        setSubmitting(true);
-
         try {
             // Build responses array
             const responses = form.fields?.map(field => ({
@@ -138,6 +145,9 @@ export default function PublicFormViewer({ publicToken, onSuccess } = {}) {
                 fieldType: field.type,
                 value: formValues[field.id],
             })) || [];
+
+            console.log('Form Values before submission:', formValues);
+            console.log('Responses array being sent:', responses);
 
             await submitFormResponse(publicToken, responses);
             
@@ -159,8 +169,6 @@ export default function PublicFormViewer({ publicToken, onSuccess } = {}) {
         } catch (err) {
             console.error('Submit error:', err);
             setError(err.message || 'Failed to submit form. Please try again.');
-        } finally {
-            setSubmitting(false);
         }
     };
 
@@ -210,14 +218,6 @@ export default function PublicFormViewer({ publicToken, onSuccess } = {}) {
     return (
         <div className={`public-form-page form-template-${form?.template || 'default'}`}>
             <div className="public-form-container">
-                {/* Header */}
-                <div className="public-form-header">
-                    <h1>{form?.title}</h1>
-                    {form?.description && (
-                        <p className="form-description">{form.description}</p>
-                    )}
-                </div>
-
                 {/* Error message */}
                 {error && (
                     <div className="form-error-message">
@@ -245,17 +245,6 @@ export default function PublicFormViewer({ publicToken, onSuccess } = {}) {
                     ) : (
                         <p className="no-fields">No fields in this form</p>
                     )}
-
-                    {/* Submit Button */}
-                    <div className="form-footer">
-                        <button
-                            type="submit"
-                            className="btn btn-primary submit-btn"
-                            disabled={submitting}
-                        >
-                            {submitting ? 'Submitting...' : 'Submit'}
-                        </button>
-                    </div>
                 </form>
 
                 {/* Footer */}

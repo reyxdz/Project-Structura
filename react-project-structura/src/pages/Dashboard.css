@@ -268,8 +268,6 @@ html[data-theme="light"] .header-logo {
     font-weight: 700;
     color: #ffffff;
 }
-    color: #f1f5f9;
-}
 
 /* ==================== Error Banner ==================== */
 .error-banner {
@@ -284,7 +282,6 @@ html[data-theme="light"] .header-logo {
     color: #ef4444;
     font-size: 13px;
     border: 1px solid rgba(239, 68, 68, 0.2);
-}
 }
 
 .close-error {
@@ -643,6 +640,7 @@ html[data-theme="light"] .header-logo {
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
