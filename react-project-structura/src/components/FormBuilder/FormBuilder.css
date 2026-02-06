@@ -37,6 +37,7 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
+  display: none;
 }
 
 .btn-back:hover {
@@ -48,37 +49,38 @@
   height: 28px;
   width: auto;
   object-fit: contain;
+  cursor: pointer;
   filter: brightness(0) saturate(100%);
   transition: filter 0.3s ease;
 }
 
 /* Dynamic logo color based on template */
 .form-template-default .header-logo {
-  filter: invert(18%) sepia(100%) hue-rotate(206deg) saturate(2000%) brightness(95%) contrast(105%);
+  filter: invert(14%) sepia(88%) saturate(1823%) hue-rotate(207deg) brightness(98%) contrast(102%);
 }
 
 .form-template-deep-executive .header-logo {
-  filter: invert(52%) sepia(74%) hue-rotate(209deg) saturate(1400%) brightness(98%) contrast(106%);
+  filter: invert(36%) sepia(82%) saturate(1256%) hue-rotate(231deg) brightness(104%) contrast(106%);
 }
 
 .form-template-nordic-minimalist .header-logo {
-  filter: invert(32%) sepia(52%) hue-rotate(139deg) saturate(650%) brightness(105%) contrast(105%);
+  filter: invert(28%) sepia(55%) saturate(1045%) hue-rotate(133deg) brightness(103%) contrast(108%);
 }
 
 .form-template-cyber-punch .header-logo {
-  filter: invert(64%) sepia(36%) hue-rotate(262deg) saturate(500%) brightness(100%) contrast(106%);
+  filter: invert(67%) sepia(89%) saturate(435%) hue-rotate(265deg) brightness(98%) contrast(104%);
 }
 
 .form-template-botanical .header-logo {
-  filter: invert(30%) sepia(42%) hue-rotate(12deg) saturate(700%) brightness(100%) contrast(105%);
+  filter: invert(26%) sepia(47%) saturate(1098%) hue-rotate(7deg) brightness(101%) contrast(103%);
 }
 
 .form-template-glassmorphism .header-logo {
-  filter: invert(100%);
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%);
 }
 
 .form-template-retro-paper .header-logo {
-  filter: invert(24%) sepia(60%) hue-rotate(195deg) saturate(1300%) brightness(100%) contrast(105%);
+  filter: invert(15%) sepia(75%) saturate(1643%) hue-rotate(199deg) brightness(99%) contrast(104%);
 }
 
 .form-builder-header h1 {
