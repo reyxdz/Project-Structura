@@ -93,6 +93,20 @@
     border: none;
 }
 
+/* Logo color for deep-executive theme #6366F1 */
+.form-template-deep-executive .header-logo {
+    filter: brightness(0) saturate(100%) invert(55%) sepia(66%) saturate(557%) hue-rotate(224deg) brightness(99%) contrast(96%);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.form-template-deep-executive .header-logo:hover {
+    opacity: 1;
+}
+
 .form-template-deep-executive button[type="submit"]:hover,
 .form-template-deep-executive .form-submit-btn:hover {
+}
+.form-template-deep-executive .header-logo {
+    --builder-logo-color: #6366F1;
 }

@@ -48,8 +48,37 @@
   height: 28px;
   width: auto;
   object-fit: contain;
-  margin-top: 4px;
-  margin-left: 2px;
+  filter: brightness(0) saturate(100%);
+  transition: filter 0.3s ease;
+}
+
+/* Dynamic logo color based on template */
+.form-template-default .header-logo {
+  filter: invert(18%) sepia(100%) hue-rotate(206deg) saturate(2000%) brightness(95%) contrast(105%);
+}
+
+.form-template-deep-executive .header-logo {
+  filter: invert(52%) sepia(74%) hue-rotate(209deg) saturate(1400%) brightness(98%) contrast(106%);
+}
+
+.form-template-nordic-minimalist .header-logo {
+  filter: invert(32%) sepia(52%) hue-rotate(139deg) saturate(650%) brightness(105%) contrast(105%);
+}
+
+.form-template-cyber-punch .header-logo {
+  filter: invert(64%) sepia(36%) hue-rotate(262deg) saturate(500%) brightness(100%) contrast(106%);
+}
+
+.form-template-botanical .header-logo {
+  filter: invert(30%) sepia(42%) hue-rotate(12deg) saturate(700%) brightness(100%) contrast(105%);
+}
+
+.form-template-glassmorphism .header-logo {
+  filter: invert(100%);
+}
+
+.form-template-retro-paper .header-logo {
+  filter: invert(24%) sepia(60%) hue-rotate(195deg) saturate(1300%) brightness(100%) contrast(105%);
 }
 
 .form-builder-header h1 {

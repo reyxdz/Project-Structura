@@ -92,6 +92,15 @@
     border: none;
 }
 
+/* Logo color for nordic-minimalist theme #065F46 */
+.form-template-nordic-minimalist .header-logo {
+    --builder-logo-color: #065F46;
+}
+
+.form-template-nordic-minimalist .header-logo:hover {
+    opacity: 1;
+}
+
 .form-template-nordic-minimalist button[type="submit"]:hover,
 .form-template-nordic-minimalist .form-submit-btn:hover {
     background: var(--form-primary-btn-hover);

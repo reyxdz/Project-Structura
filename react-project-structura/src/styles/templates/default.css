@@ -85,3 +85,17 @@
 .form-template-botanical .field-icon {
     filter: brightness(0) saturate(100%) invert(45%) sepia(21%) saturate(653%) hue-rotate(12deg) brightness(99%) contrast(98%);
 }
+
+.form-template-default .header-logo {
+    --builder-logo-color: #0D47A1;
+}
+/* Logo color for each template */
+.form-template-default .header-logo {
+    filter: brightness(0) saturate(100%) invert(22%) sepia(94%) saturate(1488%) hue-rotate(214deg) brightness(98%) contrast(97%);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.form-template-default .header-logo:hover {
+    opacity: 1;
+}

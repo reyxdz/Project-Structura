@@ -96,3 +96,17 @@
 .form-template-cyber-punch .form-submit-btn:hover {
     background: var(--form-primary-btn-hover);
 }
+
+/* Logo color for cyber-punch theme #F472B6 */
+.form-template-cyber-punch .header-logo {
+    filter: brightness(0) saturate(100%) invert(72%) sepia(71%) saturate(1091%) hue-rotate(325deg) brightness(97%) contrast(96%);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.form-template-cyber-punch .header-logo:hover {
+    opacity: 1;
+}
+.form-template-cyber-punch .header-logo {
+    --builder-logo-color: #F472B6;
+}

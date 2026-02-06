@@ -93,6 +93,17 @@
     border: none;
 }
 
+/* Logo color for botanical theme #9D4B39 */
+.form-template-botanical .header-logo {
+    filter: brightness(0) saturate(100%) invert(45%) sepia(21%) saturate(653%) hue-rotate(12deg) brightness(99%) contrast(98%);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.form-template-botanical .header-logo:hover {
+    opacity: 1;
+}
+
 .form-template-botanical button[type="submit"]:hover,
 .form-template-botanical .form-submit-btn:hover {
     background: var(--form-primary-btn-hover);

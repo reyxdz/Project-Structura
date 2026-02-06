@@ -95,6 +95,11 @@
     border: none;
 }
 
+/* Logo color for glassmorphism theme #FFFFFF */
+.form-template-glassmorphism .header-logo {
+    --builder-logo-color: #FFFFFF;
+}
+
 .form-template-glassmorphism button[type="submit"]:hover,
 .form-template-glassmorphism .form-submit-btn:hover {
     background: var(--form-primary-btn-hover);

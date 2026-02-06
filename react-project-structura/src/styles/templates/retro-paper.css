@@ -91,8 +91,22 @@
     border: none;
 }
 
+/* Logo color for retro-paper theme #2563EB */
+.form-template-retro-paper .header-logo {
+    filter: brightness(0) saturate(100%) invert(26%) sepia(72%) saturate(1169%) hue-rotate(211deg) brightness(101%) contrast(95%);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.form-template-retro-paper .header-logo:hover {
+    opacity: 1;
+}
+
 .form-template-retro-paper button[type="submit"]:hover,
 .form-template-retro-paper .form-submit-btn:hover {
     background: var(--form-primary-btn-hover);
 }
 
+.form-template-retro-paper .header-logo {
+    --builder-logo-color: #2563EB;
+}
